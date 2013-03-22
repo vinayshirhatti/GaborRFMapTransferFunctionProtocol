@@ -1,0 +1,49 @@
+//
+//  GRFFixonState.m
+//  Experiment
+//
+//  Copyright (c) 2006. All rights reserved.
+//
+
+#import "GRFFixonState.h"
+
+@implementation GRFFixonState
+
+- (void)stateAction {
+
+    [stimuli setFixSpot:YES];
+	[[task dataDoc] putEvent:@"fixOn"];
+    [[task synthDataDevice] setEyeTargetOn:NSMakePoint(0, 0)];
+	expireTime = [LLSystemUtil timeFromNow:[[task defaults] integerForKey:GRFAcquireMSKey]];
+	if ([[task defaults] boolForKey:GRFDoSoundsKey]) {
+		[[NSSound soundNamed:kFixOnSound] play];
+	}
+}
+
+- (NSString *)name {
+
+    return @"GRFFixon";
+}
+
+- (LLState *)nextState {
+
+	if ([task mode] == kTaskIdle) {
+		eotCode = kMyEOTQuit;
+		return [[task stateSystem] stateNamed:@"Endtrial"];;
+	}
+	if (![[task defaults] boolForKey:GRFFixateKey]) { 
+		return [[task stateSystem] stateNamed:@"GRFFixate"];
+    }
+	else if ([fixWindow inWindowDeg:[task currentEyeDeg]])  {
+		return [[task stateSystem] stateNamed:@"GRFFixGrace"];
+    }
+	if ([LLSystemUtil timeIsPast:expireTime]) {
+		eotCode = kMyEOTIgnored;
+		return [[task stateSystem] stateNamed:@"Endtrial"];;
+	}
+	else {
+		return nil;
+    }
+}
+
+@end
