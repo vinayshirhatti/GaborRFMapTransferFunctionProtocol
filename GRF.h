@@ -156,8 +156,8 @@ extern NSString *GRFBlockLimitKey;
 extern NSString *GRFBreakPunishMSKey;
 extern NSString *GRFCatchTrialPCKey;
 extern NSString *GRFCatchTrialMaxPCKey;
-extern NSString *GRFCueMSKey;
-extern NSString *GRFChageScaleKey;
+//extern NSString *GRFCueMSKey;
+extern NSString *GRFChangeScaleKey;
 extern NSString *GRFDoSoundsKey;
 extern NSString *GRFFixateKey;
 extern NSString *GRFFixateMSKey;
@@ -171,16 +171,17 @@ extern NSString *GRFInvalidRewardFactorKey;
 extern NSString *GRFMaxTargetMSKey;
 extern NSString *GRFMinTargetMSKey;
 extern NSString *GRFMeanTargetMSKey;
-extern NSString *GRFNontargetContrastPCKey;
-//extern NSString *GRFNumInstructTrialsKey;
-extern NSString *GRFRespSpotSizeDegKey;
+//extern NSString *GRFNontargetContrastPCKey;
+//extern NSString *GRFRespSpotSizeDegKey;
 extern NSString *GRFRespTimeMSKey;
 extern NSString *GRFRespWindowWidthDegKey;
 extern NSString *GRFRewardMSKey;
+extern NSString *GRFMinRewardMSKey;
 extern NSString *GRFRewardScheduleKey;
 extern NSString *GRFSaccadeTimeMSKey;
 extern NSString *GRFStimDistributionKey;
 extern NSString *GRFStimRepsPerBlockKey;
+extern NSString *GRFTaskStatus;
 extern NSString *GRFTooFastMSKey;
 
 // Stimulus settings dialog
@@ -192,14 +193,14 @@ extern NSString *GRFStimDurationMSKey;
 extern NSString *GRFMapStimDurationMSKey;
 extern NSString *GRFMappingBlocksKey;
 extern NSString *GRFStimJitterPCKey;
-extern NSString *GRFChangeScaleKey;
+//extern NSString *GRFChangeScaleKey; - already defined above
 extern NSString *GRFOrientationChangesKey;
 extern NSString *GRFMaxDirChangeDegKey;
 extern NSString *GRFMinDirChangeDegKey;
 extern NSString *GRFChangeRemainKey;
 extern NSString *GRFChangeArrayKey;
 
-extern NSString *GRFMapStimContrastPCKey;
+//extern NSString *GRFMapStimContrastPCKey;
 extern NSString *GRFMapStimRadiusSigmaRatioKey;
 
 extern NSString *GRFKdlPhiDegKey;

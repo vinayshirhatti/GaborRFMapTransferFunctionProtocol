@@ -21,9 +21,10 @@
 
 - (long)blocksDone;
 - (void)dumpStimList:(NSMutableArray *)list listIndex:(long)listIndex;
+- (float)contrastValueFromIndex:(long)index count:(long)count min:(float)min max:(float)max;
 - (float)linearValueWithIndex:(long)index count:(long)count min:(float)min max:(float)max;
 - (float)logValueWithIndex:(long)index count:(long)count min:(float)min max:(float)max;
-- (void)makeMapStimList:(NSMutableArray *)list index:(long)index lastFrame:(long)lastFrame;
+- (void)makeMapStimList:(NSMutableArray *)list index:(long)index lastFrame:(long)lastFrame pTrial:(TrialDesc *)pTrial;
 - (MappingBlockStatus)mappingBlockStatus;
 - (MapSettings)mapSettings;
 - (void)newBlock;

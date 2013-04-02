@@ -110,11 +110,10 @@ NSString *stimulusMonitorID = @"GaborRFMap Stimulus";
 	[gabor setDisplays:[[task stimWindow] displays] displayIndex:[[task stimWindow] displayIndex]];
     if (bindTemporalFreq) {
         [gabor removeKeysFromBinding:[NSArray arrayWithObjects:LLGaborDirectionDegKey, 
-                    LLGaborTemporalPhaseDegKey, LLGaborContrastKey, LLGaborSpatialPhaseDegKey, nil]];
+                    LLGaborTemporalPhaseDegKey, LLGaborSpatialPhaseDegKey, nil]];
     }
     else {
-        [gabor removeKeysFromBinding:[NSArray arrayWithObjects:LLGaborDirectionDegKey, LLGaborTemporalPhaseDegKey,
-                    LLGaborContrastKey, LLGaborSpatialPhaseDegKey, LLGaborTemporalFreqHzKey, nil]];
+        [gabor removeKeysFromBinding:[NSArray arrayWithObjects:LLGaborDirectionDegKey, LLGaborTemporalPhaseDegKey,LLGaborSpatialPhaseDegKey, LLGaborTemporalFreqHzKey, nil]];
     }
 	[gabor bindValuesToKeysWithPrefix:[NSString stringWithFormat:@"GRF%ld", counter++]];
 	return gabor;
@@ -171,7 +170,7 @@ by mapStimTable.
 		stimDesc.gaborIndex = kTaskGabor;
 		stimDesc.sequenceIndex = stim;
 		stimDesc.stimType = kValidStim;
-		stimDesc.contrastPC = 100.0;
+		stimDesc.contrastPC = 100.0*[taskGabor contrast];
 		stimDesc.azimuthDeg = [taskGabor azimuthDeg];
 		stimDesc.elevationDeg = [taskGabor elevationDeg];
 		stimDesc.sigmaDeg = [taskGabor sigmaDeg];
@@ -223,9 +222,9 @@ by mapStimTable.
 	
 // The task stim list is done, now we need to get the mapping stim lists
 
+    [[(GaborRFMap*)task mapStimTable0] makeMapStimList:mapStimList0 index:0 lastFrame:lastStimOffFrame pTrial:pTrial];
+	[[(GaborRFMap*)task mapStimTable1] makeMapStimList:mapStimList1 index:1 lastFrame:lastStimOffFrame pTrial:pTrial];
 
-  [[(GaborRFMap*)task mapStimTable0] makeMapStimList:mapStimList0 index:0 lastFrame:lastStimOffFrame];
-  [[(GaborRFMap*)task mapStimTable1] makeMapStimList:mapStimList1 index:1 lastFrame:lastStimOffFrame];
 }
 	
 - (void)loadGabor:(LLGabor *)gabor withStimDesc:(StimDesc *)pSD;
@@ -306,7 +305,8 @@ by mapStimTable.
 			if (trialFrame >= stimDescs[index].stimOnFrame && trialFrame < stimDescs[index].stimOffFrame) {
 				theGabor = [gabors objectAtIndex:index];
 				[theGabor directSetFrame:[NSNumber numberWithLong:gaborFrames[index]]];	// advance for temporal modulation
-				[theGabor draw];
+                if (stimDescs[index].stimType != kNullStim)
+                    [theGabor draw];
 				gaborFrames[index]++;
 			}
 		}
@@ -419,7 +419,7 @@ by mapStimTable.
 	}
 	block = [taskStimList subarrayWithRange:NSMakeRange(start, count)];
 	for (index = 0; index < count; index++) {
-		[taskStimList replaceObjectAtIndex:(start + index) withObject:[block objectAtIndex:index]];
+		[taskStimList replaceObjectAtIndex:(start + index) withObject:[block objectAtIndex:indices[index]]];
 	}
 }
 

@@ -45,6 +45,36 @@ static long GRFMapStimTableCounter = 0;
 	return self;
 }
 
+- (float)contrastValueFromIndex:(long)index count:(long)count min:(float)min max:(float)max;
+{
+	short c, stimLevels;
+	float stimValue, level, stimFactor;
+	
+	stimLevels = count;
+	stimFactor = 0.5;
+	switch (stimLevels) {
+		case 1:								// Just the 100% stimulus
+			stimValue = max;
+			break;
+		case 2:								// Just 100% and 0% stimuli
+			stimValue = (index == 0) ? min : max;
+			break;
+		default:							// Other values as well
+			if (index == 0) {
+				stimValue = min;
+			}
+			else {
+				level = max;
+				for (c = stimLevels - 1; c > index; c--) {
+					level *= stimFactor;
+				}
+				stimValue = level;
+			}
+	}
+	return(stimValue);
+}
+
+
 - (float)linearValueWithIndex:(long)index count:(long)count min:(float)min max:(float)max;
 {
 	return (count < 2) ? min : (min + ((max - min) / (count - 1)) * index);
@@ -78,7 +108,7 @@ so that there will never be anything except targets and padding stimuli (e.g., w
 maxTargetS and a long stimLeadMS).
 */
 
-- (void)makeMapStimList:(NSMutableArray *)list index:(long)index lastFrame:(long)lastFrame
+- (void)makeMapStimList:(NSMutableArray *)list index:(long)index lastFrame:(long)lastFrame pTrial:(TrialDesc *)pTrial
 {
 	long stim, frame, mapDurFrames, interDurFrames;
 	float frameRateHz;
@@ -187,7 +217,13 @@ maxTargetS and a long stimLeadMS).
 		stimDesc.sequenceIndex = stim;
 		stimDesc.stimOnFrame = frame;
 		stimDesc.stimOffFrame = frame + mapDurFrames;
-		stimDesc.stimType = kValidStim;
+        
+        if (pTrial->instructTrial) {
+			stimDesc.stimType = kNullStim;
+		}
+		else {
+            stimDesc.stimType = kValidStim;
+		}
 		
 		stimDesc.azimuthIndex = azimuthIndex;
 		stimDesc.elevationIndex = elevationIndex;
@@ -203,7 +239,7 @@ maxTargetS and a long stimLeadMS).
 		stimDesc.spatialFreqCPD = [self logValueWithIndex:spatialFreqIndex count:spatialFreqCount min:spatialFreqCPDMin max:spatialFreqCPDMax];
 		stimDesc.directionDeg = [self linearValueWithIndex:directionDegIndex count:directionDegCount min:directionDegMin max:directionDegMax];
 		
-		stimDesc.contrastPC = contrastPCMin + ((contrastPCMax - contrastPCMin) / (contrastCount-1)) * contrastIndex;
+		stimDesc.contrastPC = [self contrastValueFromIndex:contrastIndex count:contrastCount min:contrastPCMin max:contrastPCMax];
 		
 		//[[task defaults] floatForKey:@"GRFMapStimContrastPC"];
 		
