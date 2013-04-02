@@ -213,6 +213,8 @@
 	<integer>100</integer>
 	<key>GRFContrasts</key>
 	<integer>8</integer>
+	<key>GRFConvertToGrating</key>
+	<false/>
 	<key>GRFCueMS</key>
 	<integer>250</integer>
 	<key>GRFOrientationChanges</key>
@@ -257,6 +259,18 @@
 	<integer>0</integer>
 	<key>GRFFixJitterPC</key>
 	<integer>0</integer>
+	<key>GRFHideLeft</key>
+	<false/>
+	<key>GRFHideLeftDigital</key>
+	<false/>
+	<key>GRFHideRight</key>
+	<false/>
+	<key>GRFHideRightDigital</key>
+	<false/>
+	<key>GRFHideTaskGaborKey</key>
+	<false/>
+	<key>GRFIncludeCatchTrialsinDoneList</key>
+	<false/>
 	<key>GRFInstructionTrials</key>
 	<integer>1</integer>
 	<key>GRFIntertrialMS</key>

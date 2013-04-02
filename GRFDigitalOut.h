@@ -17,5 +17,5 @@
 }
 
 - (BOOL)outputEvent:(long)event withData:(long)data;
-
+- (BOOL)outputEventName:(NSString *)eventName withData:(long)data;
 @end

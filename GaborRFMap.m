@@ -71,6 +71,15 @@ NSString *GRFStimTableCountsKey = @"GRFStimTableCounts";
 //NSString *GRFMapStimContrastPCKey = @"GRFMapStimContrastPC";
 NSString *GRFMapStimRadiusSigmaRatioKey = @"GRFMapStimRadiusSigmaRatio";
 
+NSString *GRFHideLeftKey = @"GRFHideLeft";
+NSString *GRFHideRightKey = @"GRFHideRight";
+NSString *GRFHideLeftDigitalKey = @"GRFHideLeftDigital";
+NSString *GRFHideRightDigitalKey = @"GRFHideRightDigital";
+NSString *GRFConvertToGratingKey = @"GRFConvertToGrating";
+
+NSString *GRFHideTaskGaborKey = @"GRFHideTaskGabor";
+NSString *GRFIncludeCatchTrialsinDoneListKey = @"GRFIncludeCatchTrialsinDoneList";
+
 // Visual Stimulus Parameters 
 
 NSString *GRFSpatialPhaseDegKey = @"GRFSpatialPhaseDeg";
@@ -89,7 +98,7 @@ NSString *keyPaths[] = {@"values.GRFBlockLimit", @"values.GRFRespTimeMS",
 					@"values.GRFMinDirChangeDeg", @"values.GRFMaxDirChangeDeg", @"values.GRFStimRepsPerBlock",
 					@"values.GRFMinTargetMS", @"values.GRFMaxTargetMS", @"values.GRFChangeArray",
 					@"values.GRFChangeScale", @"values.GRFMeanTargetMS", @"values.GRFFixateMS",
-					@"GRFMapStimRadiusSigmaRatio",
+					@"values.GRFMapStimRadiusSigmaRatio",@"values.GRFHideTaskGabor",@"values.GRFHideLeft",@"values.GRFHideRight",
 					nil};
 
 LLScheduleController	*scheduler = nil;
@@ -760,6 +769,16 @@ LLTaskPlugIn		*task = nil;
 		longValue = [defaults integerForKey:GRFOrientationChangesKey];
 		[dataDoc putEvent:@"stimRepsPerBlock" withData:&longValue];
 	}
+    else if ([key isEqualTo:GRFHideTaskGaborKey]) {
+        [[task defaults] setBool:YES forKey:GRFIncludeCatchTrialsinDoneListKey];
+        [[task defaults] setInteger:100 forKey:GRFCatchTrialPCKey];
+    }
+    else if ([key isEqualTo:GRFHideLeftKey]) {
+        [[task defaults] setBool:YES forKey:GRFHideLeftDigitalKey];
+    }
+    else if ([key isEqualTo:GRFHideRightKey]) {
+        [[task defaults] setBool:YES forKey:GRFHideRightDigitalKey];
+    }
 	/*
     else if ([key isEqualTo:GRFMapStimContrastPCKey])	{
 		[stimuli clearStimLists:&trial];

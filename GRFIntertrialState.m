@@ -133,7 +133,7 @@
 	switch ([[task defaults] integerForKey:GRFStimDistributionKey]) {
 	case kUniform:
 		targetIndex = round(((minTargetMS + (rand() % (maxTargetMS - minTargetMS +1))) / 1000.0) * meanRateHz);
-		if (!trial.instructTrial && (rand() % 1000) < (catchTrialPC * 10.0)) {
+		if (!trial.instructTrial && (rand() % 1000) <= (catchTrialPC * 10.0)) {
 			isCatchTrial = YES;
 		}
 		break;

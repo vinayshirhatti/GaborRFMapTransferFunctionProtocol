@@ -215,6 +215,15 @@ extern NSString *GRFChangeKey;
 extern NSString *GRFInvalidRepsKey;
 extern NSString *GRFValidRepsKey;
 
+extern NSString *GRFHideLeftKey;
+extern NSString *GRFHideRightKey;
+extern NSString *GRFHideLeftDigitalKey;
+extern NSString *GRFHideRightDigitalKey;
+extern NSString *GRFConvertToGratingKey;
+
+extern NSString *GRFHideTaskGaborKey;
+extern NSString *GRFIncludeCatchTrialsinDoneListKey;
+
 long		argRand;
 
 #import "GRFStimuli.h"

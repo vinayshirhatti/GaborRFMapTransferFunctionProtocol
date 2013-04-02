@@ -117,7 +117,8 @@ maxTargetS and a long stimLeadMS).
 	BOOL localList[kMaxMapValues][kMaxMapValues][kMaxMapValues][kMaxMapValues][kMaxMapValues][kMaxMapValues];
 	float azimuthDegMin, azimuthDegMax, elevationDegMin, elevationDegMax, sigmaDegMin, sigmaDegMax, spatialFreqCPDMin, 
                 spatialFreqCPDMax, directionDegMin, directionDegMax, radiusSigmaRatio, contrastPCMin, contrastPCMax;
-	
+	BOOL hideStimulus, convertToGrating;
+    
 	NSArray *stimTableDefaults = [[task defaults] arrayForKey:@"GRFStimTables"];
 	NSDictionary *minDefaults = [stimTableDefaults objectAtIndex:0];
 	NSDictionary *maxDefaults = [stimTableDefaults objectAtIndex:1];
@@ -140,6 +141,8 @@ maxTargetS and a long stimLeadMS).
             spatialFreqCPDMax = [[maxDefaults objectForKey:@"spatialFreqCPD0"] floatValue];
             directionDegMax = [[maxDefaults objectForKey:@"orientationDeg0"] floatValue];
             contrastPCMax = [[maxDefaults objectForKey:@"contrastPC0"] floatValue];
+            
+            hideStimulus = [[task defaults] boolForKey:GRFHideLeftKey];
             break;
         case 1:
             azimuthDegMin = [[minDefaults objectForKey:@"azimuthDeg1"] floatValue];
@@ -155,8 +158,12 @@ maxTargetS and a long stimLeadMS).
             sigmaDegMax = [[maxDefaults objectForKey:@"sigmaDeg1"] floatValue];
             directionDegMax = [[maxDefaults objectForKey:@"orientationDeg1"] floatValue];
             contrastPCMax = [[maxDefaults objectForKey:@"contrastPC1"] floatValue];
+            
+            hideStimulus = [[task defaults] boolForKey:GRFHideRightKey];
             break;
 	}
+    
+    convertToGrating = [[task defaults] boolForKey:GRFConvertToGratingKey];
 	
 	memcpy(&localList, &doneList, sizeof(doneList));
 	localFreshCount = stimRemainingInBlock;
@@ -222,7 +229,10 @@ maxTargetS and a long stimLeadMS).
 			stimDesc.stimType = kNullStim;
 		}
 		else {
-            stimDesc.stimType = kValidStim;
+            if (hideStimulus==TRUE)
+				stimDesc.stimType = kNullStim;
+			else
+				stimDesc.stimType = kValidStim;
 		}
 		
 		stimDesc.azimuthIndex = azimuthIndex;
@@ -234,9 +244,17 @@ maxTargetS and a long stimLeadMS).
 		
 		stimDesc.azimuthDeg = [self linearValueWithIndex:azimuthIndex count:azimuthCount min:azimuthDegMin max:azimuthDegMax];
 		stimDesc.elevationDeg = [self linearValueWithIndex:elevationIndex count:elevationCount min:elevationDegMin max:elevationDegMax];
-		stimDesc.sigmaDeg = [self linearValueWithIndex:sigmaIndex count:sigmaCount min:sigmaDegMin max:sigmaDegMax];
-		stimDesc.radiusDeg = stimDesc.sigmaDeg * radiusSigmaRatio;
-		stimDesc.spatialFreqCPD = [self logValueWithIndex:spatialFreqIndex count:spatialFreqCount min:spatialFreqCPDMin max:spatialFreqCPDMax];
+        
+		if (convertToGrating) { // Sigma very high
+			stimDesc.sigmaDeg = 100000;
+			stimDesc.radiusDeg = [self linearValueWithIndex:sigmaIndex count:sigmaCount min:sigmaDegMin max:sigmaDegMax] * radiusSigmaRatio;
+		}
+		else {
+			stimDesc.sigmaDeg = [self linearValueWithIndex:sigmaIndex count:sigmaCount min:sigmaDegMin max:sigmaDegMax];
+			stimDesc.radiusDeg = stimDesc.sigmaDeg * radiusSigmaRatio;
+		}
+        
+        stimDesc.spatialFreqCPD = [self logValueWithIndex:spatialFreqIndex count:spatialFreqCount min:spatialFreqCPDMin max:spatialFreqCPDMax];
 		stimDesc.directionDeg = [self linearValueWithIndex:directionDegIndex count:directionDegCount min:directionDegMin max:directionDegMax];
 		
 		stimDesc.contrastPC = [self contrastValueFromIndex:contrastIndex count:contrastCount min:contrastPCMin max:contrastPCMax];

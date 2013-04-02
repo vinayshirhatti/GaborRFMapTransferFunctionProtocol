@@ -208,6 +208,10 @@ by mapStimTable.
 			nextStimOnFrame = stimDesc.stimOffFrame + MAX(0, interDurFrames);
 		}
 
+// Set to null if HideTaskGaborKey is set
+        if ([[task defaults] boolForKey:GRFHideTaskGaborKey])
+            stimDesc.stimType = kNullStim;
+        
 // Put the stimulus descriptor into the list
 
 		[taskStimList addObject:[NSValue valueWithBytes:&stimDesc objCType:@encode(StimDesc)]];
@@ -288,7 +292,7 @@ by mapStimTable.
 
 // Set up the gabors
 
-	[gabors makeObjectsPerformSelector:@selector(store)];
+//	[gabors makeObjectsPerformSelector:@selector(store)];
 	for (index = 0; index < kGabors; index++) {
 		stimIndices[index] = 0;
 		gaborFrames[index] = 0;
@@ -303,10 +307,11 @@ by mapStimTable.
 		glClear(GL_COLOR_BUFFER_BIT);
 		for (index = 0; index < kGabors; index++) {
 			if (trialFrame >= stimDescs[index].stimOnFrame && trialFrame < stimDescs[index].stimOffFrame) {
-				theGabor = [gabors objectAtIndex:index];
-				[theGabor directSetFrame:[NSNumber numberWithLong:gaborFrames[index]]];	// advance for temporal modulation
-                if (stimDescs[index].stimType != kNullStim)
+				if (stimDescs[index].stimType != kNullStim) {
+                    theGabor = [gabors objectAtIndex:index];
+                    [theGabor directSetFrame:[NSNumber numberWithLong:gaborFrames[index]]];	// advance for temporal modulation
                     [theGabor draw];
+                }
 				gaborFrames[index]++;
 			}
 		}
@@ -331,6 +336,7 @@ by mapStimTable.
 			if (trialFrame == stimOffFrames[index]) {
 				[[task dataDoc] putEvent:@"stimulusOffTime"]; 
 				[[task dataDoc] putEvent:@"stimulusOff" withData:&index];
+                [digitalOut outputEventName:@"stimulusOff" withData:0x0000];
 				if (++stimIndices[index] >= [[stimLists objectAtIndex:index] count]) {	// no more entries in list
 					listDone = YES;
 				}
@@ -343,6 +349,43 @@ by mapStimTable.
 				[[task dataDoc] putEvent:@"stimulusOn" withData:&index]; 
 				[[task dataDoc] putEvent:@"stimulus" withData:pSD];
                 [digitalOut outputEvent:0x00Fe withData:stimCounter++];
+                
+				// put the digital events
+				if (index == kTaskGabor) {
+					[digitalOut outputEventName:@"taskGabor" withData:(long)(pSD->stimType)];
+				}
+				else {
+					if (pSD->stimType != kNullStim) {
+						if (index == kMapGabor0)
+							[digitalOut outputEventName:@"mapping0" withData:(long)(pSD->stimType)];
+						if (index == kMapGabor1)
+							[digitalOut outputEventName:@"mapping1" withData:(long)(pSD->stimType)];
+					}
+				}
+				
+				// Other prperties of the Gabor
+				if (index == kMapGabor0 && pSD->stimType != kNullStim && !([[task defaults] boolForKey:GRFHideLeftDigitalKey])) {
+					//NSLog(@"Sending left digital codes...");
+					[digitalOut outputEventName:@"contrast" withData:(long)(100*(pSD->contrastPC))];
+					[digitalOut outputEventName:@"azimuth" withData:(long)(100*(pSD->azimuthDeg))];
+					[digitalOut outputEventName:@"elevation" withData:(long)(100*(pSD->elevationDeg))];
+					[digitalOut outputEventName:@"orientation" withData:(long)((pSD->directionDeg))];
+					[digitalOut outputEventName:@"spatialFrequency" withData:(long)(100*(pSD->spatialFreqCPD))];
+					[digitalOut outputEventName:@"radius" withData:(long)(100*(pSD->radiusDeg))];
+					[digitalOut outputEventName:@"sigma" withData:(long)(100*(pSD->sigmaDeg))];
+				}
+				
+				if (index == kMapGabor1 && pSD->stimType != kNullStim && !([[task defaults] boolForKey:GRFHideRightDigitalKey])) {
+					//NSLog(@"Sending right digital codes...");
+					[digitalOut outputEventName:@"contrast" withData:(long)(100*(pSD->contrastPC))];
+					[digitalOut outputEventName:@"azimuth" withData:(long)(100*(pSD->azimuthDeg))];
+					[digitalOut outputEventName:@"elevation" withData:(long)(100*(pSD->elevationDeg))];
+					[digitalOut outputEventName:@"orientation" withData:(long)((pSD->directionDeg))];
+					[digitalOut outputEventName:@"spatialFrequency" withData:(long)(100*(pSD->spatialFreqCPD))];
+					[digitalOut outputEventName:@"radius" withData:(long)(100*(pSD->radiusDeg))];
+					[digitalOut outputEventName:@"sigma" withData:(long)(100*(pSD->sigmaDeg))];
+				}
+                
 				if (pSD->stimType == kTargetStim) {
 					targetPresented = YES;
 					targetOnFrame = trialFrame;
@@ -376,7 +419,7 @@ by mapStimTable.
 	
 // The temporal counterphase might have changed some settings.  We restore these here.
 
-	[gabors makeObjectsPerformSelector:@selector(restore)];
+//	[gabors makeObjectsPerformSelector:@selector(restore)];
 	stimulusOn = abortStimuli = NO;
 	[stimLists release];
     [threadPool release];

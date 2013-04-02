@@ -7,6 +7,7 @@
 #import "GaborRFMap.h"
 #import "GRFEndtrialState.h"
 #import "UtilityFunctions.h"
+#import "GRFDigitalOut.h"
 
 #define kMinRewardMS	10
 #define kMinTrials		4
@@ -51,6 +52,7 @@
 			if ([[task defaults] boolForKey:GRFDoSoundsKey]) {
 				[[NSSound soundNamed:kNotCorrectSound] play];
 			}
+            /* Do not update anything
 			if (trialCertify == 0) {
 				if (trial.instructTrial) {
 					blockStatus.instructDone++;
@@ -58,7 +60,7 @@
 				else {
 					blockStatus.validRepsDone[trial.orientationChangeIndex]++;
 				}
-			}
+			} */
 		}
 		break;
 	case kEOTCorrect:
@@ -66,12 +68,14 @@
 		if (trial.instructTrial) {
 			blockStatus.instructDone++;
 		}
-		else {
-			blockStatus.validRepsDone[trial.orientationChangeIndex]++;
-		}
-		[[(GaborRFMap *)task mapStimTable0] tallyStimList:nil upToFrame:[stimuli targetOnFrame]];
-		[[(GaborRFMap *)task mapStimTable1] tallyStimList:nil upToFrame:[stimuli targetOnFrame]];
-		mappingBlockStatus =  [[(GaborRFMap *)task mapStimTable0] mappingBlockStatus];
+		else  {
+            if ((!trial.catchTrial) || ([[task defaults] boolForKey:GRFIncludeCatchTrialsinDoneListKey])) { // update if it is not a catch trial or if GRFIncludeCatchTrialsinDoneList is set to YES
+                blockStatus.validRepsDone[trial.orientationChangeIndex]++;
+                [[(GaborRFMap *)task mapStimTable0] tallyStimList:nil upToFrame:[stimuli targetOnFrame]];
+                [[(GaborRFMap *)task mapStimTable1] tallyStimList:nil upToFrame:[stimuli targetOnFrame]];
+                mappingBlockStatus =  [[(GaborRFMap *)task mapStimTable0] mappingBlockStatus];
+            }
+        }
 		//mappingBlockStatus.trialsDone = [[(GaborRFMap *)task mapStimTable0] trialDoneInBlock];
 		//mappingBlockStatus.blocksDone = [[(GaborRFMap *)task mapStimTable0] blocksDone];
 		//NSLog(@"endTrial: mappingBlock trials done %d blocksDone %d blockLimit %d",
@@ -90,7 +94,9 @@
 		break;
 	}	
 	[[task dataDoc] putEvent:@"trialCertify" withData:(void *)&trialCertify];
+    [digitalOut outputEventName:@"trialCertify" withData:(long)(trialCertify)];
 	[[task dataDoc] putEvent:@"trialEnd" withData:(void *)&eotCode];
+    [digitalOut outputEventName:@"trialEnd" withData:(long)(eotCode)];
 	[[task synthDataDevice] setSpikeRateHz:spikeRateFromStimValue(0.0) atTime:[LLSystemUtil getTimeS]];
     [[task synthDataDevice] setEyeTargetOff];
     [[task synthDataDevice] doLeverUp];

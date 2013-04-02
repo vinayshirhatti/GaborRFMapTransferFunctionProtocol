@@ -42,9 +42,12 @@
 	[[task dataController] readDataFromDevices];		// flush data buffers
 	[[task collectorTimer] fire];
 	[[task dataDoc] putEvent:@"trialStart" withData:&trial.targetIndex];
+    [digitalOut outputEventName:@"trialStart" withData:trial.targetIndex];
 	[[task dataDoc] putEvent:@"trialSync" withData:&startCounter];
 	[digitalOut outputEvent:0x00FF withData:startCounter++];
 	[[task dataDoc] putEvent:@"trial" withData:&trial];
+    [digitalOut outputEventName:@"instructTrial" withData:(long)trial.instructTrial];
+	[digitalOut outputEventName:@"catchTrial" withData:(long)trial.catchTrial];
 	lValue = 0;
 	[[task dataDoc] putEvent:@"sampleZero" withData:&lValue];	// for now, it has no practical functions
 	[[task dataDoc] putEvent:@"spikeZero" withData:&lValue];
