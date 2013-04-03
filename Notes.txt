@@ -5,17 +5,17 @@
 3. shuffleStimList is now modified to shuffle the stimList.
 4. Removed some unused keys.
 
-% Changes made (April 2, 2013)
+% Changes made (April 2, 2013)      Supratim Ray - commit 9cd457375427
 
 1. Include option to convert a gabor to a grating, hide task gabor (which then becomes a fixation task if percentage of catch trials is set to 100%) and either of the two mapping gabors, and an option to count stimuli in the done list for catch trial.
-2. Make changes so that kNullStim Gabors are not loaded at all.
-3. Put digital codes for each stimulus so that the entire mapping sequence (one side) can be reconstructed from the data stream directly. Digital codes can be presented for only one mapping stimulus.
+2. Put digital codes for each stimulus so that the entire mapping sequence (one side) can be reconstructed from the data stream directly. Digital codes can be presented for only one mapping stimulus.
 
+% Changes made (April 3, 2013)      Supratim Ray
 
+1. Bug: in GaborRFMap.nib, contrastPC0 was added to GRFStimTablesCounts (attributes inspector) instead of GRFStimTablesController. This has been changed. In addition, GRFStimTablesCount's attributes inspector showed GRFMappingBlocks and GRFTaskStatus. These have been removed. Making these changes still do not fix the issue of having computer errors when two gabors have different contrasts.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Desired changes (22/03/13) Supratim Ray
-
-
-
 
 4. Include option to change the temporal frequency of the mapping stimuli (7th parameter).
 5. At present doneList in GRFMapStimTable is maintained as a 6-D array with kMaxMapValues = 8 entires per dimension, which needs 8^6 bytes. If fewer number of entries are used per parameter (say numAzi=1), we are unnecessarily dealing with a large and sparse matrix. Instead, this list should be constructed dynamically (7-D array of size numAzi*numEle*numSigma*numSF*numOri*numCon*numTF). This will allow us to increase the number of possible entries (kMaxMapValues) as long as all the parameters are not large simultaneously.
