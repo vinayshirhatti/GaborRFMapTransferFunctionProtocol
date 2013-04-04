@@ -12,7 +12,7 @@
 {
 	long blocksDone;
 	long blockLimit;
-	BOOL doneList[kMaxMapValues][kMaxMapValues][kMaxMapValues][kMaxMapValues][kMaxMapValues][kMaxMapValues];
+	BOOL doneList[kMaxMapValues][kMaxMapValues][kMaxMapValues][kMaxMapValues][kMaxMapValues][kMaxMapValues][kMaxMapValues];
     long mapIndex;                  // index to instance of GRFMapStimTable
 	int stimRemainingInBlock;
 	int stimInBlock;

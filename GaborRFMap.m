@@ -79,11 +79,12 @@ NSString *GRFConvertToGratingKey = @"GRFConvertToGrating";
 
 NSString *GRFHideTaskGaborKey = @"GRFHideTaskGabor";
 NSString *GRFIncludeCatchTrialsinDoneListKey = @"GRFIncludeCatchTrialsinDoneList";
+NSString *GRFMapTemporalModulationKey = @"GRFMapTemporalModulation";
 
 // Visual Stimulus Parameters 
 
-NSString *GRFSpatialPhaseDegKey = @"GRFSpatialPhaseDeg";
-NSString *GRFTemporalFreqHzKey = @"GRFTemporalFreqHz";
+//NSString *GRFSpatialPhaseDegKey = @"GRFSpatialPhaseDeg";
+//NSString *GRFTemporalFreqHzKey = @"GRFTemporalFreqHz";
 
 // Keys for change array
 
@@ -142,13 +143,16 @@ LLDataDef stimDescDef[] = {
 	{@"float",	@"sigmaDeg", 1, offsetof(StimDesc, sigmaDeg)},
 	{@"float",	@"spatialFreqCPD", 1, offsetof(StimDesc, spatialFreqCPD)},
 	{@"float",	@"directionDeg", 1, offsetof(StimDesc, directionDeg)},
+    {@"float",	@"temporalFreqHz", 1, offsetof(StimDesc, temporalFreqHz)},
 	{@"long",	@"azimuthIndex", 1, offsetof(StimDesc, azimuthIndex)},
 	{@"long",	@"elevationIndex", 1, offsetof(StimDesc, elevationIndex)},
 	{@"long",	@"sigmaIndex", 1, offsetof(StimDesc, sigmaIndex)},
 	{@"long",	@"spatialFreqIndex", 1, offsetof(StimDesc, spatialFreqIndex)},
 	{@"long",	@"directionIndex", 1, offsetof(StimDesc, directionIndex)},
 	{@"long",	@"contrastIndex", 1, offsetof(StimDesc, contrastIndex)},
-	{nil}};
+	{@"long",	@"temporalFreqIndex", 1, offsetof(StimDesc, temporalFreqIndex)},
+    {@"long",	@"temporalModulation", 1, offsetof(StimDesc, temporalModulation)},
+    {nil}};
 
 LLDataDef trialDescDef[] = {
 	{@"boolean",@"instructTrial", 1, offsetof(TrialDesc, instructTrial)},
@@ -213,7 +217,8 @@ LLDataDef mapSettingsDef[] = {
 	{@"struct",	@"spatialFreqCPD", 1, offsetof(MapSettings, spatialFreqCPD), sizeof(MapParams), mapParamsDef},
 	{@"struct",	@"sigmaDeg", 1, offsetof(MapSettings, sigmaDeg), sizeof(MapParams), mapParamsDef},
 	{@"struct",	@"contrastPC", 1, offsetof(MapSettings, contrastPC), sizeof(MapParams), mapParamsDef},
-	{nil}};
+	{@"struct",	@"temporalFreqHz", 1, offsetof(MapSettings, temporalFreqHz), sizeof(MapParams), mapParamsDef},
+    {nil}};
 	
 DataAssignment eyeXDataAssignment = {@"eyeXData",	@"Synthetic", 0, 5.0};	
 DataAssignment eyeYDataAssignment = {@"eyeYData",	@"Synthetic", 1, 5.0};	

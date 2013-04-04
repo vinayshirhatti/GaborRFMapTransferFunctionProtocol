@@ -35,7 +35,7 @@ GRFStimuli.h
 - (LLGabor *)mappingGabor0;
 - (LLGabor *)mappingGabor1;
 - (LLGabor *)taskGabor;
-- (LLGabor *)initGabor:(BOOL)bindTemporalFreq;
+- (LLGabor *)initGabor;
 - (void)loadGabor:(LLGabor *)gabor withStimDesc:(StimDesc *)pSD;
 - (void)makeStimLists:(TrialDesc *)pTrial;
 - (void)clearStimLists:(TrialDesc *)pTrial;

@@ -92,7 +92,7 @@
 		[digitalOutDevice digitalOutputBits:(0x5241 | 0x8000)];
 	else if ([eventName isEqualTo:@"saccade"] || [eventName isEqualTo:@"SA"] )
 		[digitalOutDevice digitalOutputBits:(0x5341 | 0x8000)];
-	else if ([eventName isEqualTo:@"spatialFrequency"] || [eventName isEqualTo:@"SF"] )
+	else if ([eventName isEqualTo:@"spatialFreq"] || [eventName isEqualTo:@"SF"] )
 		[digitalOutDevice digitalOutputBits:(0x5346 | 0x8000)];
 	else if ([eventName isEqualTo:@"sigma"] || [eventName isEqualTo:@"SI"] )
 		[digitalOutDevice digitalOutputBits:(0x5349 | 0x8000)];
@@ -102,7 +102,7 @@
 		[digitalOutDevice digitalOutputBits:(0x5443 | 0x8000)];
 	else if ([eventName isEqualTo:@"trialEnd"] || [eventName isEqualTo:@"TE"] )
 		[digitalOutDevice digitalOutputBits:(0x5445 | 0x8000)];
-	else if ([eventName isEqualTo:@"temporalFrequency"] || [eventName isEqualTo:@"TF"] )
+	else if ([eventName isEqualTo:@"temporalFreq"] || [eventName isEqualTo:@"TF"] )
 		[digitalOutDevice digitalOutputBits:(0x5446 | 0x8000)];
 	else if ([eventName isEqualTo:@"taskGabor"] || [eventName isEqualTo:@"TG"] ) // New for GRF
 		[digitalOutDevice digitalOutputBits:(0x5447 | 0x8000)];

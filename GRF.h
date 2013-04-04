@@ -26,7 +26,7 @@ enum {kMyEOTCorrect = 0, kMyEOTMissed, kMyEOTEarlyToValid, kMyEOTEarlyToInvalid,
 				kMyEOTIgnored, kMyEOTQuit, kMyEOTTypes};
 
 #define	kMaxOriChanges	12
-#define kMaxMapValues   8
+#define kMaxMapValues   6
 
 typedef struct {
 	long	levels;				// number of active stimulus levels
@@ -48,12 +48,15 @@ typedef struct StimDesc {
 	float	radiusDeg;
 	float	spatialFreqCPD;
 	float	directionDeg;
+    float   temporalFreqHz;
 	long	azimuthIndex;
 	long	elevationIndex;
 	long	sigmaIndex;
 	long	spatialFreqIndex;
 	long	directionIndex;
 	long	contrastIndex;
+    long    temporalFreqIndex;
+    long   temporalModulation;
 } StimDesc;
 
 typedef struct TrialDesc {
@@ -100,6 +103,7 @@ typedef struct  MapSettings {
     MapParams    spatialFreqCPD;
     MapParams    sigmaDeg;
     MapParams    contrastPC;
+    MapParams    temporalFreqHz;
 } MapSettings;
 
 // put parameters set in the behavior controller
@@ -223,6 +227,7 @@ extern NSString *GRFConvertToGratingKey;
 
 extern NSString *GRFHideTaskGaborKey;
 extern NSString *GRFIncludeCatchTrialsinDoneListKey;
+extern NSString *GRFMapTemporalModulationKey;
 
 long		argRand;
 

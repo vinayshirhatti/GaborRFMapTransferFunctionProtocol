@@ -24,12 +24,12 @@ static long GRFMapStimTableCounter = 0;
 	long index;
 	
 	NSLog(@"Mapping Stim List %ld", listIndex);
-	NSLog(@"index type onFrame offFrame azi ele sig sf  ori");
+	NSLog(@"index type onFrame offFrame azi ele sig sf  ori  con tf");
 	for (index = 0; index < [list count]; index++) {
 		[[list objectAtIndex:index] getValue:&stimDesc];
-		NSLog(@"%4ld:\t%4d\t%4ld\t%4ld\t%4.1f\t%4.1f\t%4.1f\t%4.1f\t%4.1f\t%4.1f", index, stimDesc.stimType, 
+		NSLog(@"%4ld:\t%4d\t%4ld\t%4ld\t%4.1f\t%4.1f\t%4.1f\t%4.1f\t%4.1f\t%4.1f\t%4.1f", index, stimDesc.stimType,
 			stimDesc.stimOnFrame, stimDesc.stimOffFrame, stimDesc.azimuthDeg, stimDesc.elevationDeg,
-			stimDesc.sigmaDeg, stimDesc.spatialFreqCPD, stimDesc.directionDeg,stimDesc.contrastPC);
+			stimDesc.sigmaDeg, stimDesc.spatialFreqCPD, stimDesc.directionDeg,stimDesc.contrastPC,stimDesc.temporalFreqHz);
 	}
 	NSLog(@"\n");
 }
@@ -114,9 +114,8 @@ maxTargetS and a long stimLeadMS).
 	float frameRateHz;
 	StimDesc stimDesc;
 	int localFreshCount;
-	BOOL localList[kMaxMapValues][kMaxMapValues][kMaxMapValues][kMaxMapValues][kMaxMapValues][kMaxMapValues];
-	float azimuthDegMin, azimuthDegMax, elevationDegMin, elevationDegMax, sigmaDegMin, sigmaDegMax, spatialFreqCPDMin, 
-                spatialFreqCPDMax, directionDegMin, directionDegMax, radiusSigmaRatio, contrastPCMin, contrastPCMax;
+	BOOL localList[kMaxMapValues][kMaxMapValues][kMaxMapValues][kMaxMapValues][kMaxMapValues][kMaxMapValues][kMaxMapValues];
+	float azimuthDegMin, azimuthDegMax, elevationDegMin, elevationDegMax, sigmaDegMin, sigmaDegMax, spatialFreqCPDMin, spatialFreqCPDMax, directionDegMin, directionDegMax, radiusSigmaRatio, contrastPCMin, contrastPCMax, temporalFreqHzMin, temporalFreqHzMax;
 	BOOL hideStimulus, convertToGrating;
     
 	NSArray *stimTableDefaults = [[task defaults] arrayForKey:@"GRFStimTables"];
@@ -134,6 +133,7 @@ maxTargetS and a long stimLeadMS).
             sigmaDegMin = [[minDefaults objectForKey:@"sigmaDeg0"] floatValue];
             directionDegMin = [[minDefaults objectForKey:@"orientationDeg0"] floatValue];
             contrastPCMin = [[minDefaults objectForKey:@"contrastPC0"] floatValue];
+            temporalFreqHzMin = [[minDefaults objectForKey:@"temporalFreqHz0"] floatValue];
 
             azimuthDegMax = [[maxDefaults objectForKey:@"azimuthDeg0"] floatValue];
             elevationDegMax = [[maxDefaults objectForKey:@"elevationDeg0"] floatValue];
@@ -141,6 +141,7 @@ maxTargetS and a long stimLeadMS).
             spatialFreqCPDMax = [[maxDefaults objectForKey:@"spatialFreqCPD0"] floatValue];
             directionDegMax = [[maxDefaults objectForKey:@"orientationDeg0"] floatValue];
             contrastPCMax = [[maxDefaults objectForKey:@"contrastPC0"] floatValue];
+            temporalFreqHzMax = [[maxDefaults objectForKey:@"temporalFreqHz0"] floatValue];
             
             hideStimulus = [[task defaults] boolForKey:GRFHideLeftKey];
             break;
@@ -151,6 +152,7 @@ maxTargetS and a long stimLeadMS).
             sigmaDegMin = [[minDefaults objectForKey:@"sigmaDeg1"] floatValue];
             directionDegMin = [[minDefaults objectForKey:@"orientationDeg1"] floatValue];
             contrastPCMin = [[minDefaults objectForKey:@"contrastPC1"] floatValue];
+            temporalFreqHzMin = [[minDefaults objectForKey:@"temporalFreqHz1"] floatValue];
 
             azimuthDegMax = [[maxDefaults objectForKey:@"azimuthDeg1"] floatValue];
             elevationDegMax = [[maxDefaults objectForKey:@"elevationDeg1"] floatValue];
@@ -158,6 +160,7 @@ maxTargetS and a long stimLeadMS).
             sigmaDegMax = [[maxDefaults objectForKey:@"sigmaDeg1"] floatValue];
             directionDegMax = [[maxDefaults objectForKey:@"orientationDeg1"] floatValue];
             contrastPCMax = [[maxDefaults objectForKey:@"contrastPC1"] floatValue];
+            temporalFreqHzMax = [[maxDefaults objectForKey:@"temporalFreqHz1"] floatValue];
             
             hideStimulus = [[task defaults] boolForKey:GRFHideRightKey];
             break;
@@ -176,10 +179,10 @@ maxTargetS and a long stimLeadMS).
 	
 	for (stim = frame = 0; frame < lastFrame; stim++, frame += mapDurFrames + interDurFrames) {
 		
-		int azimuthIndex, elevationIndex, sigmaIndex, spatialFreqIndex, directionDegIndex, contrastIndex;
+		int azimuthIndex, elevationIndex, sigmaIndex, spatialFreqIndex, directionDegIndex, contrastIndex, temporalFreqIndex;
 		NSDictionary *countsDict = (NSDictionary *)[[[task defaults] arrayForKey:@"GRFStimTableCounts"] objectAtIndex:0];
-		int azimuthCount, elevationCount, sigmaCount, spatialFreqCount, directionDegCount, contrastCount;
-		int startAzimuthIndex, startElevationIndex, startSigmaIndex, startSpatialFreqIndex, startDirectionDegIndex, startContrastIndex;
+		int azimuthCount, elevationCount, sigmaCount, spatialFreqCount, directionDegCount, contrastCount, temporalFreqCount;
+		int startAzimuthIndex, startElevationIndex, startSigmaIndex, startSpatialFreqIndex, startDirectionDegIndex, startContrastIndex,startTemporalFreqIndex;
 		BOOL stimDone = YES;
 	
 		azimuthCount = [[countsDict objectForKey:@"azimuthCount"] intValue];
@@ -188,16 +191,18 @@ maxTargetS and a long stimLeadMS).
 		spatialFreqCount = [[countsDict objectForKey:@"spatialFreqCount"] intValue];
 		directionDegCount = [[countsDict objectForKey:@"orientationCount"] intValue];
 		contrastCount = [[countsDict objectForKey:@"contrastCount"] intValue];
-                
+        temporalFreqCount = [[countsDict objectForKey:@"temporalFreqCount"] intValue];
+        
 		startAzimuthIndex = azimuthIndex = rand() % azimuthCount;
 		startElevationIndex = elevationIndex = rand() % elevationCount;
 		startSigmaIndex = sigmaIndex = rand() % sigmaCount;
 		startSpatialFreqIndex = spatialFreqIndex = rand() % spatialFreqCount;
 		startDirectionDegIndex = directionDegIndex = rand() % directionDegCount;
 		startContrastIndex = contrastIndex = rand() % contrastCount;
+        startTemporalFreqIndex = temporalFreqIndex = rand() % temporalFreqCount;
 		
 		for (;;) {
-			stimDone=localList[azimuthIndex][elevationIndex][sigmaIndex][spatialFreqIndex][directionDegIndex][contrastIndex];
+			stimDone=localList[azimuthIndex][elevationIndex][sigmaIndex][spatialFreqIndex][directionDegIndex][contrastIndex][temporalFreqIndex];
 			if (!stimDone) {
 				break;
 			}
@@ -207,8 +212,10 @@ maxTargetS and a long stimLeadMS).
 						if ((spatialFreqIndex = ((spatialFreqIndex+1)%spatialFreqCount)) == startSpatialFreqIndex) {
 							if ((directionDegIndex = ((directionDegIndex+1)%directionDegCount)) == startDirectionDegIndex) {
 								if ((contrastIndex = ((contrastIndex+1)%contrastCount)) == startContrastIndex) {
-									NSLog(@"Failed to find empty entry: Expected %d", localFreshCount);
-									exit(0);
+                                    if ((temporalFreqIndex = ((temporalFreqIndex+1)%temporalFreqCount)) == startTemporalFreqIndex) {
+                                        NSLog(@"Failed to find empty entry: Expected %d", localFreshCount);
+                                        exit(0);
+                                    }
 								}
 							}
 						}
@@ -241,6 +248,7 @@ maxTargetS and a long stimLeadMS).
 		stimDesc.spatialFreqIndex = spatialFreqIndex;
 		stimDesc.directionIndex = directionDegIndex;
 		stimDesc.contrastIndex = contrastIndex;
+        stimDesc.temporalFreqIndex = temporalFreqIndex;
 		
 		stimDesc.azimuthDeg = [self linearValueWithIndex:azimuthIndex count:azimuthCount min:azimuthDegMin max:azimuthDegMax];
 		stimDesc.elevationDeg = [self linearValueWithIndex:elevationIndex count:elevationCount min:elevationDegMin max:elevationDegMax];
@@ -258,8 +266,9 @@ maxTargetS and a long stimLeadMS).
 		stimDesc.directionDeg = [self linearValueWithIndex:directionDegIndex count:directionDegCount min:directionDegMin max:directionDegMax];
 		
 		stimDesc.contrastPC = [self contrastValueFromIndex:contrastIndex count:contrastCount min:contrastPCMin max:contrastPCMax];
-		
-		//[[task defaults] floatForKey:@"GRFMapStimContrastPC"];
+		stimDesc.temporalFreqHz = [self logValueWithIndex:temporalFreqIndex count:temporalFreqCount min:temporalFreqHzMin max:temporalFreqHzMax];
+        
+        stimDesc.temporalModulation = [[task defaults] integerForKey:@"GRFMapTemporalModulation"];
 		
 		// Unused field
 		
@@ -267,7 +276,7 @@ maxTargetS and a long stimLeadMS).
 		
 		[list addObject:[NSValue valueWithBytes:&stimDesc objCType:@encode(StimDesc)]];
 		
-		localList[azimuthIndex][elevationIndex][sigmaIndex][spatialFreqIndex][directionDegIndex][contrastIndex] = TRUE;
+		localList[azimuthIndex][elevationIndex][sigmaIndex][spatialFreqIndex][directionDegIndex][contrastIndex][temporalFreqIndex] = TRUE;
 		//		NSLog(@"%d %d %d %d %d",stimDesc.azimuthIndex,stimDesc.elevationIndex,stimDesc.sigmaIndex,stimDesc.spatialFreqIndex,stimDesc.directionIndex);
 		if (--localFreshCount == 0) {
 			bzero(&localList,sizeof(doneList));
@@ -303,6 +312,7 @@ maxTargetS and a long stimLeadMS).
 	settings.spatialFreqCPD.n = [[countsDict objectForKey:@"spatialFreqCount"] intValue];
 	settings.directionDeg.n = [[countsDict objectForKey:@"orientationCount"] intValue];
 	settings.contrastPC.n = [[countsDict objectForKey:@"contrastCount"] intValue];
+    settings.temporalFreqHz.n = [[countsDict objectForKey:@"temporalFreqCount"] intValue];
  
   	valuesDict = (NSDictionary *)[[[task defaults] arrayForKey:@"GRFStimTables"] objectAtIndex:0];
     settings.azimuthDeg.minValue = [[valuesDict objectForKey:[NSString stringWithFormat:@"azimuthDeg%ld", mapIndex]] floatValue];
@@ -311,7 +321,8 @@ maxTargetS and a long stimLeadMS).
     settings.spatialFreqCPD.minValue = [[valuesDict objectForKey:[NSString stringWithFormat:@"spatialFreqCPD%ld", mapIndex]] floatValue];
     settings.directionDeg.minValue = [[valuesDict objectForKey:[NSString stringWithFormat:@"orientationDeg%ld", mapIndex]] floatValue];
     settings.contrastPC.minValue = [[valuesDict objectForKey:[NSString stringWithFormat:@"contrastPC%ld", mapIndex]] floatValue];
- 
+    settings.temporalFreqHz.minValue = [[valuesDict objectForKey:[NSString stringWithFormat:@"temporalFreqHz%ld", mapIndex]] floatValue];
+    
  	valuesDict = (NSDictionary *)[[[task defaults] arrayForKey:@"GRFStimTables"] objectAtIndex:1];
     settings.azimuthDeg.maxValue = [[valuesDict objectForKey:[NSString stringWithFormat:@"azimuthDeg%ld", mapIndex]] floatValue];
     settings.elevationDeg.maxValue = [[valuesDict objectForKey:[NSString stringWithFormat:@"elevationDeg%ld", mapIndex]] floatValue];
@@ -319,6 +330,7 @@ maxTargetS and a long stimLeadMS).
     settings.spatialFreqCPD.maxValue = [[valuesDict objectForKey:[NSString stringWithFormat:@"spatialFreqCPD%ld", mapIndex]] floatValue];
     settings.directionDeg.maxValue = [[valuesDict objectForKey:[NSString stringWithFormat:@"orientationDeg%ld", mapIndex]] floatValue];
     settings.contrastPC.maxValue = [[valuesDict objectForKey:[NSString stringWithFormat:@"contrastPC%ld", mapIndex]] floatValue];
+    settings.temporalFreqHz.maxValue = [[valuesDict objectForKey:[NSString stringWithFormat:@"temporalFreqHz%ld", mapIndex]] floatValue];
 
     return settings;
 }
@@ -353,7 +365,7 @@ maxTargetS and a long stimLeadMS).
 	}
 	
 	for (stim = 0; stim < count; stim++) {
-		short a=0, e=0, sf=0, sig=0, o=0, c=0;
+		short a=0, e=0, sf=0, sig=0, o=0, c=0, t=0;
 		NSValue *val = [l objectAtIndex:stim];
 		
 		[val getValue:&stimDesc];
@@ -363,8 +375,9 @@ maxTargetS and a long stimLeadMS).
 		sig=stimDesc.sigmaIndex;
 		o=stimDesc.directionIndex;
 		c=stimDesc.contrastIndex;
+        t=stimDesc.temporalFreqIndex;
 		
-		doneList[a][e][sig][sf][o][c] = TRUE;
+		doneList[a][e][sig][sf][o][c][t] = TRUE;
 		if (--stimRemainingInBlock == 0 ) {
 			[self newBlock];
 			blocksDone++;
@@ -376,7 +389,7 @@ maxTargetS and a long stimLeadMS).
 - (void)tallyStimList:(NSMutableArray *)list  upToFrame:(long)frameLimit;
 {
 	StimDesc stimDesc;
-	long a, e, sf, sig, o, stim, c;
+	long a, e, sf, sig, o, stim, c, t;
 	NSValue *val;
 	NSMutableArray *l;
 	
@@ -393,7 +406,8 @@ maxTargetS and a long stimLeadMS).
 		sig = stimDesc.sigmaIndex;
 		o = stimDesc.directionIndex;
 		c = stimDesc.contrastIndex;
-		doneList[a][e][sig][sf][o][c] = YES;
+        t=stimDesc.temporalFreqIndex;
+		doneList[a][e][sig][sf][o][c][t] = YES;
 		if (--stimRemainingInBlock == 0 ) {
 			[self newBlock];
 			blocksDone++;
@@ -414,7 +428,7 @@ maxTargetS and a long stimLeadMS).
 
 - (void)updateBlockParameters;
 {
-	long azimuthCount, elevationCount, sigmaCount, spatialFreqCount, directionCount, contrastCount;
+	long azimuthCount, elevationCount, sigmaCount, spatialFreqCount, directionCount, contrastCount, temporalFreqCount;
 	NSDictionary *countsDict = (NSDictionary *)[[[task defaults] arrayForKey:@"GRFStimTableCounts"] objectAtIndex:0];
 
 	azimuthCount = [[countsDict objectForKey:@"azimuthCount"] intValue];
@@ -423,8 +437,9 @@ maxTargetS and a long stimLeadMS).
 	spatialFreqCount = [[countsDict objectForKey:@"spatialFreqCount"] intValue];
 	directionCount = [[countsDict objectForKey:@"orientationCount"] intValue];
 	contrastCount = [[countsDict objectForKey:@"contrastCount"] intValue];
-	
-	stimInBlock = stimRemainingInBlock = azimuthCount * elevationCount * sigmaCount * spatialFreqCount * directionCount * contrastCount;
+	temporalFreqCount = [[countsDict objectForKey:@"temporalFreqCount"] intValue];
+    
+	stimInBlock = stimRemainingInBlock = azimuthCount * elevationCount * sigmaCount * spatialFreqCount * directionCount * contrastCount * temporalFreqCount;
 	blockLimit = [[task defaults] integerForKey:GRFMappingBlocksKey];
 }
 

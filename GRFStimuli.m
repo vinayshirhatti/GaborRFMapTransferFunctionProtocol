@@ -91,8 +91,8 @@ NSString *stimulusMonitorID = @"GaborRFMap Stimulus";
 	
 // Create and initialize the visual stimuli
 
-	gabors = [[NSArray arrayWithObjects:[self initGabor:YES],
-                            [self initGabor:NO], [self initGabor:NO], nil] retain];
+	gabors = [[NSArray arrayWithObjects:[self initGabor],
+                            [self initGabor], [self initGabor], nil] retain];
 	[[gabors objectAtIndex:kMapGabor0] setAchromatic:YES];
 	[[gabors objectAtIndex:kMapGabor1] setAchromatic:YES];
 	fixSpot = [[LLFixTarget alloc] init];
@@ -101,20 +101,17 @@ NSString *stimulusMonitorID = @"GaborRFMap Stimulus";
 	return self;
 }
 
-- (LLGabor *)initGabor:(BOOL)bindTemporalFreq;
+- (LLGabor *)initGabor;
 {
 	static long counter = 0;
 	LLGabor *gabor;
 	
 	gabor = [[LLGabor alloc] init];				// Create a gabor stimulus
 	[gabor setDisplays:[[task stimWindow] displays] displayIndex:[[task stimWindow] displayIndex]];
-    if (bindTemporalFreq) {
-        [gabor removeKeysFromBinding:[NSArray arrayWithObjects:LLGaborDirectionDegKey, 
+
+    [gabor removeKeysFromBinding:[NSArray arrayWithObjects:LLGaborDirectionDegKey,
                     LLGaborTemporalPhaseDegKey, LLGaborSpatialPhaseDegKey, nil]];
-    }
-    else {
-        [gabor removeKeysFromBinding:[NSArray arrayWithObjects:LLGaborDirectionDegKey, LLGaborTemporalPhaseDegKey,LLGaborSpatialPhaseDegKey, LLGaborTemporalFreqHzKey, nil]];
-    }
+
 	[gabor bindValuesToKeysWithPrefix:[NSString stringWithFormat:@"GRF%ld", counter++]];
 	return gabor;
 }
@@ -171,12 +168,14 @@ by mapStimTable.
 		stimDesc.sequenceIndex = stim;
 		stimDesc.stimType = kValidStim;
 		stimDesc.contrastPC = 100.0*[taskGabor contrast];
+        stimDesc.temporalFreqHz = [taskGabor temporalFreqHz];
 		stimDesc.azimuthDeg = [taskGabor azimuthDeg];
 		stimDesc.elevationDeg = [taskGabor elevationDeg];
 		stimDesc.sigmaDeg = [taskGabor sigmaDeg];
 		stimDesc.spatialFreqCPD = [taskGabor spatialFreqCPD];
 		stimDesc.directionDeg = [taskGabor directionDeg];
 		stimDesc.radiusDeg = [taskGabor radiusDeg];
+        stimDesc.temporalModulation = [taskGabor temporalModulation];
 	
 // If it's not a catch trial and we're in a target spot, set the target 
 
@@ -242,6 +241,8 @@ by mapStimTable.
 	[gabor directSetSpatialFreqCPD:pSD->spatialFreqCPD];
 	[gabor directSetDirectionDeg:pSD->directionDeg];
 	[gabor directSetContrast:pSD->contrastPC / 100.0];
+    [gabor directSetTemporalFreqHz:pSD->temporalFreqHz];
+    [gabor setTemporalModulation:pSD->temporalModulation];
 }
 
 - (void)clearStimLists:(TrialDesc *)pTrial
@@ -292,7 +293,7 @@ by mapStimTable.
 
 // Set up the gabors
 
-//	[gabors makeObjectsPerformSelector:@selector(store)];
+	[gabors makeObjectsPerformSelector:@selector(store)];
 	for (index = 0; index < kGabors; index++) {
 		stimIndices[index] = 0;
 		gaborFrames[index] = 0;
@@ -367,10 +368,11 @@ by mapStimTable.
 				if (index == kMapGabor0 && pSD->stimType != kNullStim && !([[task defaults] boolForKey:GRFHideLeftDigitalKey])) {
 					//NSLog(@"Sending left digital codes...");
 					[digitalOut outputEventName:@"contrast" withData:(long)(100*(pSD->contrastPC))];
+                    [digitalOut outputEventName:@"temporalFreq" withData:(long)(100*(pSD->temporalFreqHz))];
 					[digitalOut outputEventName:@"azimuth" withData:(long)(100*(pSD->azimuthDeg))];
 					[digitalOut outputEventName:@"elevation" withData:(long)(100*(pSD->elevationDeg))];
 					[digitalOut outputEventName:@"orientation" withData:(long)((pSD->directionDeg))];
-					[digitalOut outputEventName:@"spatialFrequency" withData:(long)(100*(pSD->spatialFreqCPD))];
+					[digitalOut outputEventName:@"spatialFreq" withData:(long)(100*(pSD->spatialFreqCPD))];
 					[digitalOut outputEventName:@"radius" withData:(long)(100*(pSD->radiusDeg))];
 					[digitalOut outputEventName:@"sigma" withData:(long)(100*(pSD->sigmaDeg))];
 				}
@@ -378,10 +380,11 @@ by mapStimTable.
 				if (index == kMapGabor1 && pSD->stimType != kNullStim && !([[task defaults] boolForKey:GRFHideRightDigitalKey])) {
 					//NSLog(@"Sending right digital codes...");
 					[digitalOut outputEventName:@"contrast" withData:(long)(100*(pSD->contrastPC))];
+                    [digitalOut outputEventName:@"temporalFreq" withData:(long)(100*(pSD->temporalFreqHz))];
 					[digitalOut outputEventName:@"azimuth" withData:(long)(100*(pSD->azimuthDeg))];
 					[digitalOut outputEventName:@"elevation" withData:(long)(100*(pSD->elevationDeg))];
 					[digitalOut outputEventName:@"orientation" withData:(long)((pSD->directionDeg))];
-					[digitalOut outputEventName:@"spatialFrequency" withData:(long)(100*(pSD->spatialFreqCPD))];
+					[digitalOut outputEventName:@"spatialFreq" withData:(long)(100*(pSD->spatialFreqCPD))];
 					[digitalOut outputEventName:@"radius" withData:(long)(100*(pSD->radiusDeg))];
 					[digitalOut outputEventName:@"sigma" withData:(long)(100*(pSD->sigmaDeg))];
 				}
@@ -419,7 +422,7 @@ by mapStimTable.
 	
 // The temporal counterphase might have changed some settings.  We restore these here.
 
-//	[gabors makeObjectsPerformSelector:@selector(restore)];
+	[gabors makeObjectsPerformSelector:@selector(restore)];
 	stimulusOn = abortStimuli = NO;
 	[stimLists release];
     [threadPool release];

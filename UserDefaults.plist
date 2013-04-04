@@ -43,6 +43,8 @@
 			<integer>3</integer>
 			<key>contrastCount</key>
 			<integer>3</integer>
+			<key>temporalFreqCount</key>
+			<integer>3</integer>
 		</dict>
 	</array>
 	<key>GRFStimTables</key>
@@ -51,57 +53,65 @@
 			<key>row</key>
 			<string>min</string>
 			<key>azimuthDeg0</key>
-			<real>1</real>
+			<integer>-5</integer>
 			<key>elevationDeg0</key>
-			<real>1</real>
+			<integer>-5</integer>
 			<key>spatialFreqCPD0</key>
 			<real>0.5</real>
 			<key>sigmaDeg0</key>
-			<real>0.5</real>
+			<real>0.2</real>
 			<key>orientationDeg0</key>
 			<real>0</real>
 			<key>contrastPC0</key>
+			<integer>25</integer>
+			<key>temporalFreqHz0</key>
 			<integer>0</integer>
 			<key>azimuthDeg1</key>
-			<real>1</real>
+			<integer>3</integer>
 			<key>elevationDeg1</key>
-			<real>1</real>
+			<integer>3</integer>
 			<key>spatialFreqCPD1</key>
 			<real>0.5</real>
 			<key>sigmaDeg1</key>
-			<real>0.5</real>
+			<real>0.2</real>
 			<key>orientationDeg1</key>
-			<real>0</real>
+			<integer>0</integer>
 			<key>contrastPC1</key>
+			<integer>0</integer>
+			<key>temporalFreqHz1</key>
 			<integer>0</integer>
 		</dict>
 		<dict>
 			<key>row</key>
 			<string>max</string>
 			<key>azimuthDeg0</key>
-			<real>3</real>
+			<integer>-3</integer>
 			<key>elevationDeg0</key>
-			<real>3</real>
+			<integer>-3</integer>
 			<key>spatialFreqCPD0</key>
 			<real>4</real>
 			<key>sigmaDeg0</key>
-			<real>2</real>
+			<integer>1</integer>
 			<key>orientationDeg0</key>
-			<real>240</real>
+			<integer>180</integer>
 			<key>contrastPC0</key>
 			<integer>100</integer>
+			<key>temporalFreqHz0</key>
+			<integer>5</integer>
 			<key>azimuthDeg1</key>
-			<real>3</real>
+			<integer>5</integer>
 			<key>elevationDeg1</key>
-			<real>3</real>
+			<integer>5</integer>
 			<key>spatialFreqCPD1</key>
 			<real>4</real>
 			<key>sigmaDeg1</key>
-			<real>2</real>
+			<integer>1</integer>
 			<key>orientationDeg1</key>
-			<real>240</real>
+			<integer>180</integer>
 			<key>contrastPC1</key>
 			<integer>100</integer>
+			<key>temporalFreqHz1</key>
+			<integer>5</integer>
 		</dict>
 	</array>
 	<key>GRFChangeArray</key>
@@ -285,6 +295,8 @@
 	<real>180</real>
 	<key>GRFKdlThetaDeg</key>
 	<real>90</real>
+	<key>GRFMapTemporalModulation</key>
+	<integer>1</integer>
 	<key>GRFMaxContrast</key>
 	<integer>100</integer>
 	<key>GRFMinTargetMS</key>
