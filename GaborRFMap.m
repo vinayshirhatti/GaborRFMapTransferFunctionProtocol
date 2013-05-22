@@ -76,6 +76,7 @@ NSString *GRFHideRightKey = @"GRFHideRight";
 NSString *GRFHideLeftDigitalKey = @"GRFHideLeftDigital";
 NSString *GRFHideRightDigitalKey = @"GRFHideRightDigital";
 NSString *GRFConvertToGratingKey = @"GRFConvertToGrating";
+NSString *GRFUseSingleITC18Key = @"GRFUseSingleITC18";
 
 NSString *GRFHideTaskGaborKey = @"GRFHideTaskGabor";
 NSString *GRFIncludeCatchTrialsinDoneListKey = @"GRFIncludeCatchTrialsinDoneList";
@@ -511,7 +512,8 @@ LLTaskPlugIn		*task = nil;
 	long minRewardMS, maxRewardMS;
 	long targetOnTimeMS;
 	float alpha, beta;
-	
+	BOOL useSingleITC18;
+    
 	NSSound *juiceSound;
 	
 	if ([sender respondsToSelector:@selector(juiceMS)]) {
@@ -536,8 +538,17 @@ LLTaskPlugIn		*task = nil;
 		juiceMS = alpha * targetOnTimeMS + beta;
 		juiceMS = abs(juiceMS);
 	}
-	[[task dataController] digitalOutputBitsOff:kRewardBit];
-	[scheduler schedule:@selector(doJuiceOff) toTarget:self withObject:nil delayMS:juiceMS];
+    
+    useSingleITC18 = [[task defaults] boolForKey:GRFUseSingleITC18Key];
+    
+    if (useSingleITC18) {
+        [[task dataController] digitalOutputBits:(0xffff-kRewardBit)];      // Works as long as kRewardBit is either 0x0001 or 0x0000
+    }
+    else {
+        [[task dataController] digitalOutputBitsOff:kRewardBit];
+    }
+	
+    [scheduler schedule:@selector(doJuiceOff) toTarget:self withObject:nil delayMS:juiceMS];
 	if ([[task defaults] boolForKey:GRFDoSoundsKey]) {
 		juiceSound = [NSSound soundNamed:@"Correct"];
 		if ([juiceSound isPlaying]) {   // won't play again if it's still playing
@@ -549,7 +560,15 @@ LLTaskPlugIn		*task = nil;
 
 - (void)doJuiceOff;
 {
-	[[task dataController] digitalOutputBitsOn:kRewardBit];
+    BOOL useSingleITC18;
+    useSingleITC18 = [[task defaults] boolForKey:GRFUseSingleITC18Key];
+    
+    if (useSingleITC18) {
+        [[task dataController] digitalOutputBits:(0xfffe | kRewardBit)];    // Works as long as kRewardBit is either 0x0001 or 0x0000
+    }
+    else {
+        [[task dataController] digitalOutputBitsOn:kRewardBit];
+    }
 }
 
 - (IBAction)doReset:(id)sender;

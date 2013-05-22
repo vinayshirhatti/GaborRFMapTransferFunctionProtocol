@@ -279,6 +279,7 @@ by mapStimTable.
 	NSAutoreleasePool *threadPool;
 	BOOL listDone = NO;
 	long stimCounter = 0;
+    BOOL useSingleITC18;
 	
     threadPool = [[NSAutoreleasePool alloc] init];		// create a threadPool for this thread
 	[LLSystemUtil setThreadPriorityPeriodMS:1.0 computationFraction:0.250 constraintFraction:1.0];
@@ -349,7 +350,11 @@ by mapStimTable.
 				[[task dataDoc] putEvent:@"stimulusOnTime"]; 
 				[[task dataDoc] putEvent:@"stimulusOn" withData:&index]; 
 				[[task dataDoc] putEvent:@"stimulus" withData:pSD];
-                [digitalOut outputEvent:0x00Fe withData:stimCounter++];
+
+                useSingleITC18 = [[task defaults] boolForKey:GRFUseSingleITC18Key];
+                if (!useSingleITC18) {
+                    [digitalOut outputEvent:0x00Fe withData:stimCounter++];
+                }
                 
 				// put the digital events
 				if (index == kTaskGabor) {
@@ -367,8 +372,8 @@ by mapStimTable.
 				// Other prperties of the Gabor
 				if (index == kMapGabor0 && pSD->stimType != kNullStim && !([[task defaults] boolForKey:GRFHideLeftDigitalKey])) {
 					//NSLog(@"Sending left digital codes...");
-					[digitalOut outputEventName:@"contrast" withData:(long)(100*(pSD->contrastPC))];
-                    [digitalOut outputEventName:@"temporalFreq" withData:(long)(100*(pSD->temporalFreqHz))];
+					[digitalOut outputEventName:@"contrast" withData:(long)(10*(pSD->contrastPC))];
+                    [digitalOut outputEventName:@"temporalFreq" withData:(long)(10*(pSD->temporalFreqHz))];
 					[digitalOut outputEventName:@"azimuth" withData:(long)(100*(pSD->azimuthDeg))];
 					[digitalOut outputEventName:@"elevation" withData:(long)(100*(pSD->elevationDeg))];
 					[digitalOut outputEventName:@"orientation" withData:(long)((pSD->directionDeg))];
@@ -379,8 +384,8 @@ by mapStimTable.
 				
 				if (index == kMapGabor1 && pSD->stimType != kNullStim && !([[task defaults] boolForKey:GRFHideRightDigitalKey])) {
 					//NSLog(@"Sending right digital codes...");
-					[digitalOut outputEventName:@"contrast" withData:(long)(100*(pSD->contrastPC))];
-                    [digitalOut outputEventName:@"temporalFreq" withData:(long)(100*(pSD->temporalFreqHz))];
+					[digitalOut outputEventName:@"contrast" withData:(long)(10*(pSD->contrastPC))];
+                    [digitalOut outputEventName:@"temporalFreq" withData:(long)(10*(pSD->temporalFreqHz))];
 					[digitalOut outputEventName:@"azimuth" withData:(long)(100*(pSD->azimuthDeg))];
 					[digitalOut outputEventName:@"elevation" withData:(long)(100*(pSD->elevationDeg))];
 					[digitalOut outputEventName:@"orientation" withData:(long)((pSD->directionDeg))];

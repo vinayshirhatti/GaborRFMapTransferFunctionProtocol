@@ -224,6 +224,7 @@ extern NSString *GRFHideRightKey;
 extern NSString *GRFHideLeftDigitalKey;
 extern NSString *GRFHideRightDigitalKey;
 extern NSString *GRFConvertToGratingKey;
+extern NSString *GRFUseSingleITC18Key;
 
 extern NSString *GRFHideTaskGaborKey;
 extern NSString *GRFIncludeCatchTrialsinDoneListKey;

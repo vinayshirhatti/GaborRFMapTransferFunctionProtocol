@@ -17,6 +17,7 @@
 	long lValue;
 	FixWindowData fixWindowData, respWindowData;
 	static long startCounter = 0;
+	BOOL useSingleITC18;
 	
 	eotCode = -1;
 	
@@ -44,8 +45,15 @@
 	[[task dataDoc] putEvent:@"trialStart" withData:&trial.targetIndex];
     [digitalOut outputEventName:@"trialStart" withData:trial.targetIndex];
 	[[task dataDoc] putEvent:@"trialSync" withData:&startCounter];
-	[digitalOut outputEvent:0x00FF withData:startCounter++];
-	[[task dataDoc] putEvent:@"trial" withData:&trial];
+    
+    useSingleITC18 = [[task defaults] boolForKey:GRFUseSingleITC18Key];
+    if (!useSingleITC18) {
+        [digitalOut outputEvent:0x00FF withData:startCounter++];
+    }
+    else {
+        startCounter++;
+	}
+    [[task dataDoc] putEvent:@"trial" withData:&trial];
     [digitalOut outputEventName:@"instructTrial" withData:(long)trial.instructTrial];
 	[digitalOut outputEventName:@"catchTrial" withData:(long)trial.catchTrial];
 	lValue = 0;
