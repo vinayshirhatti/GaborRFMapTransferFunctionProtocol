@@ -213,6 +213,7 @@ void updateBlockStatus(void)
 	blockStatus.changes = [[task defaults] integerForKey:GRFOrientationChangesKey];
 	blockStatus.instructTrials = [[task defaults] integerForKey:GRFInstructionTrialsKey];
 	blockStatus.blockLimit = [[task defaults] integerForKey:GRFBlockLimitKey];
+    mappingBlockStatus.blockLimit = [[task defaults] integerForKey:GRFMappingBlocksKey];
 	changeArray = [[task defaults] arrayForKey:GRFChangeArrayKey];
 	for (index = 0; index < blockStatus.changes; index++) {
 		entryDict = [changeArray objectAtIndex:index];
@@ -220,6 +221,8 @@ void updateBlockStatus(void)
 		blockStatus.validReps[index] = [[entryDict valueForKey:GRFValidRepsKey] longValue];
 		blockStatus.invalidReps[index] = [[entryDict valueForKey:GRFInvalidRepsKey] longValue];
 	}
+    
 }
+
 
 

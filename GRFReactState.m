@@ -7,9 +7,11 @@
 
 #import "GRFReactState.h"
 #import "UtilityFunctions.h"
+#import "GRFUtilities.h"
 
 #define kAlpha		2.5
 #define kBeta		2.0
+
 
 @implementation GRFReactState
 
@@ -37,7 +39,7 @@
 		return [[task stateSystem] stateNamed:@"Endtrial"];;
 	}
 	else {
-		if (![fixWindow inWindowDeg:[task currentEyeDeg]]) {   // started a saccade
+		if (![GRFUtilities inWindow:fixWindow]) {   // started a saccade
 //			[[task dataDoc] putEvent:@"saccadeLaunched"]; 
 			return [[task stateSystem] stateNamed:@"GRFSaccade"];
 		}

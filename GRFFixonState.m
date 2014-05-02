@@ -6,6 +6,7 @@
 //
 
 #import "GRFFixonState.h"
+#import "GRFUtilities.h"
 
 @implementation GRFFixonState
 
@@ -34,7 +35,7 @@
 	if (![[task defaults] boolForKey:GRFFixateKey]) { 
 		return [[task stateSystem] stateNamed:@"GRFFixate"];
     }
-	else if ([fixWindow inWindowDeg:[task currentEyeDeg]])  {
+	else if ([GRFUtilities inWindow:fixWindow])  {
 		return [[task stateSystem] stateNamed:@"GRFFixGrace"];
     }
 	if ([LLSystemUtil timeIsPast:expireTime]) {

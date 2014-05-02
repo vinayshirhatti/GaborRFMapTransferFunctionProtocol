@@ -6,6 +6,7 @@
 //
 
 #import "GRFBlockedState.h"
+#import "GRFUtilities.h"
 
 @implementation GRFBlockedState
 
@@ -23,7 +24,7 @@
 
 - (LLState *)nextState {
 
-	if (![[task defaults] boolForKey:GRFFixateKey] || ![fixWindow inWindowDeg:[task currentEyeDeg]]) {
+	if (![[task defaults] boolForKey:GRFFixateKey] || ![GRFUtilities inWindow:fixWindow]) {
 		return [[task stateSystem] stateNamed:@"GRFFixon"];
     }
 	if ([task mode] == kTaskIdle) {

@@ -6,6 +6,7 @@
 //
 
 #import "GRFFixGraceState.h"
+#import "GRFUtilities.h"
 
 
 @implementation GRFFixGraceState
@@ -31,7 +32,7 @@
 		return [[task stateSystem] stateNamed:@"Endtrial"];;
 	}
 	if ([LLSystemUtil timeIsPast:expireTime]) {
-		if ([fixWindow inWindowDeg:[task currentEyeDeg]])  {
+		if ([GRFUtilities inWindow:fixWindow])  {
 			return [[task stateSystem] stateNamed:@"GRFFixate"];
 		}
 		else {

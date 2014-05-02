@@ -24,6 +24,8 @@ GRFStimuli.h
 	NSMutableArray			*taskStimList;
 	BOOL					stimulusOn;
 	BOOL					targetPresented;
+    TrialDesc               trial;
+    LLFixTarget				*targetSpot;
 //	LLGabor 				*taskGabor;
 }
 

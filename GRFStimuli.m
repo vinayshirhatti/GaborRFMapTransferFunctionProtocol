@@ -34,6 +34,7 @@ NSString *stimulusMonitorID = @"GaborRFMap Stimulus";
 	[mapStimList0 release];
 	[mapStimList1 release];
 	[fixSpot release];
+    [targetSpot release];
     [gabors release];
 
     [super dealloc];
@@ -97,6 +98,9 @@ NSString *stimulusMonitorID = @"GaborRFMap Stimulus";
 	[[gabors objectAtIndex:kMapGabor1] setAchromatic:YES];
 	fixSpot = [[LLFixTarget alloc] init];
 	[fixSpot bindValuesToKeysWithPrefix:@"GRFFix"];
+    targetSpot = [[LLFixTarget alloc] init];
+	//[targetSpot bindValuesToKeysWithPrefix:@"GRFFix"];
+
 
 	return self;
 }
@@ -146,6 +150,7 @@ by mapStimTable.
 	StimDesc stimDesc;
 	LLGabor *taskGabor = [self taskGabor];
 	
+    trial = *pTrial;
 	[taskStimList removeAllObjects];
 	targetIndex = MIN(pTrial->targetIndex, pTrial->numStim);
 	
@@ -180,14 +185,16 @@ by mapStimTable.
 		stimDesc.radiusDeg = [taskGabor radiusDeg];
 	
 // If it's not a catch trial and we're in a target spot, set the target 
-
+        
 		if (!pTrial->catchTrial) {
 			if ((stimDesc.sequenceIndex == targetIndex) ||
-							(stimDesc.sequenceIndex > targetIndex &&
-							[[task defaults] boolForKey:GRFChangeRemainKey])) {
-				stimDesc.stimType = kTargetStim;
-				stimDesc.directionDeg += pTrial->orientationChangeDeg;
-			}
+                (stimDesc.sequenceIndex > targetIndex &&
+                 [[task defaults] boolForKey:GRFChangeRemainKey])) {
+                    stimDesc.stimType = kTargetStim;
+                    if (![[task defaults] boolForKey:GRFAlphaTargetDetectionTaskKey]) {
+                        stimDesc.directionDeg += pTrial->orientationChangeDeg;
+                    }
+                }
 		}
 
 // Load the information about the on and off frames
@@ -297,6 +304,17 @@ by mapStimTable.
 		[self loadGabor:[gabors objectAtIndex:index] withStimDesc:&stimDescs[index]];
 		stimOffFrames[index] = stimDescs[index].stimOffFrame;
 	}
+    
+    // Set up the targetSpot if needed
+    
+    if ([[task defaults] boolForKey:GRFAlphaTargetDetectionTaskKey]) {
+        [targetSpot setState:YES];
+        NSColor *targetColor = [[fixSpot foreColor]retain];
+        [targetSpot setForeColor:[targetColor colorWithAlphaComponent:[[task defaults] floatForKey:GRFTargetAlphaKey]]];
+        [targetSpot setOuterRadiusDeg:[[task defaults]floatForKey:GRFTargetRadiusKey]];
+        [targetSpot setShape:kLLCircle];
+        [targetColor release];
+    }
 	
 	targetOnFrame = -1;
 
@@ -304,10 +322,18 @@ by mapStimTable.
 		glClear(GL_COLOR_BUFFER_BIT);
 		for (index = 0; index < kGabors; index++) {
 			if (trialFrame >= stimDescs[index].stimOnFrame && trialFrame < stimDescs[index].stimOffFrame) {
-				theGabor = [gabors objectAtIndex:index];
-				[theGabor directSetFrame:[NSNumber numberWithLong:gaborFrames[index]]];	// advance for temporal modulation
-				[theGabor draw];
-				gaborFrames[index]++;
+                if (index == kTaskGabor || (index != kTaskGabor && !trial.instructTrial)) {
+                    theGabor = [gabors objectAtIndex:index];
+                    [theGabor directSetFrame:[NSNumber numberWithLong:gaborFrames[index]]];	// advance for temporal modulation
+                    [theGabor draw];
+                    
+                    if (!trial.catchTrial && index == kTaskGabor && stimDescs[index].stimType == kTargetStim) {
+                        [targetSpot setAzimuthDeg:stimDescs[index].azimuthDeg elevationDeg:stimDescs[index].elevationDeg];
+                        [targetSpot draw];
+                    }
+                    
+                    gaborFrames[index]++;
+                }
 			}
 		}
 		[fixSpot draw];
@@ -331,6 +357,7 @@ by mapStimTable.
 			if (trialFrame == stimOffFrames[index]) {
 				[[task dataDoc] putEvent:@"stimulusOffTime"]; 
 				[[task dataDoc] putEvent:@"stimulusOff" withData:&index];
+                [digitalOut outputEvent:kStimulusOffCode withData:stimCounter];
 				if (++stimIndices[index] >= [[stimLists objectAtIndex:index] count]) {	// no more entries in list
 					listDone = YES;
 				}
@@ -342,10 +369,11 @@ by mapStimTable.
 				[[task dataDoc] putEvent:@"stimulusOnTime"]; 
 				[[task dataDoc] putEvent:@"stimulusOn" withData:&index]; 
 				[[task dataDoc] putEvent:@"stimulus" withData:pSD];
-                [digitalOut outputEvent:0x00Fe withData:stimCounter++];
+                [digitalOut outputEvent:kStimulusOnCode withData:stimCounter++];
 				if (pSD->stimType == kTargetStim) {
 					targetPresented = YES;
 					targetOnFrame = trialFrame;
+                    [digitalOut outputEvent:kTargetOnCode withData:stimCounter-1];
 				}
 				stimOffFrames[index] = stimDescs[index].stimOffFrame;		// previous done by now, save time for this one
 			}

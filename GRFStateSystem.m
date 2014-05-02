@@ -60,7 +60,7 @@ TrialDesc			trial;
 		[self addState:[[[GRFStopState alloc] init] autorelease]];
 		[self setStartState:[self stateNamed:@"GRFIdle"] andStopState:[self stateNamed:@"GRFStop"]];
 
-		[controller setLogging:NO];
+		[controller setLogging:YES];
 	
 		fixWindow = [[LLEyeWindow alloc] init];
 		[fixWindow setWidthAndHeightDeg:[[task defaults] floatForKey:GRFFixWindowWidthDegKey]];

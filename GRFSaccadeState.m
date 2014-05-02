@@ -6,6 +6,7 @@
 //
 
 #import "GRFSaccadeState.h"
+#import "GRFUtilities.h"
 
 
 @implementation GRFSaccadeState
@@ -13,6 +14,7 @@
 - (void)stateAction {
 
 	[[task dataDoc] putEvent:@"saccade"];
+    [digitalOut outputEvent:kSaccadeCode withData:0x0];
 	expireTime = [LLSystemUtil timeFromNow:[[task defaults] integerForKey:GRFSaccadeTimeMSKey]];
 }
 
@@ -28,7 +30,7 @@
 		return [[task stateSystem] stateNamed:@"Endtrial"];;
 	}
 	if (eotCode == kMyEOTBroke) {				// got here by leaving fixWindow early (from stimulate)
-		if ([respWindow inWindowDeg:[task currentEyeDeg]])  {
+		if ([GRFUtilities inWindow:respWindow])  {
 			eotCode = kMyEOTEarlyToValid;
 			return [[task stateSystem] stateNamed:@"Endtrial"];
 		}
@@ -39,7 +41,7 @@
 		}
 	}
 	else {
-		if ([respWindow inWindowDeg:[task currentEyeDeg]])  {
+		if ([GRFUtilities inWindow:respWindow])  {
 			eotCode = kMyEOTCorrect;
 			return [[task stateSystem] stateNamed:@"Endtrial"];
 		}

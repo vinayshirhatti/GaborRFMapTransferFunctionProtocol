@@ -91,6 +91,7 @@
 	}	
 	[[task dataDoc] putEvent:@"trialCertify" withData:(void *)&trialCertify];
 	[[task dataDoc] putEvent:@"trialEnd" withData:(void *)&eotCode];
+    [digitalOut outputEvent:kTrialEndCode withData:0x0];
 	[[task synthDataDevice] setSpikeRateHz:spikeRateFromStimValue(0.0) atTime:[LLSystemUtil getTimeS]];
     [[task synthDataDevice] setEyeTargetOff];
     [[task synthDataDevice] doLeverUp];

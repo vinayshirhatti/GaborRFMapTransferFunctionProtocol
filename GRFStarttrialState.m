@@ -9,6 +9,7 @@
 #import "UtilityFunctions.h"
 #import "GRFDigitalOut.h"
 #import "GRF.h"
+#import "GRFUtilities.h"
 
 @implementation GRFStarttrialState
 
@@ -43,7 +44,7 @@
 	[[task collectorTimer] fire];
 	[[task dataDoc] putEvent:@"trialStart" withData:&trial.targetIndex];
 	[[task dataDoc] putEvent:@"trialSync" withData:&startCounter];
-	[digitalOut outputEvent:0x00FF withData:startCounter++];
+    [digitalOut outputEvent:kTrialStartCode withData:startCounter++];
 	[[task dataDoc] putEvent:@"trial" withData:&trial];
 	lValue = 0;
 	[[task dataDoc] putEvent:@"sampleZero" withData:&lValue];	// for now, it has no practical functions
@@ -52,7 +53,10 @@
 // Restart data collection immediately after declaring the zerotimes
 
     [[task dataController] setDataEnabled:[NSNumber numberWithBool:YES]];
-	[[task dataDoc] putEvent:@"eyeCalibration" withData:[[task eyeCalibrator] calibrationData]];
+	//[[task dataDoc] putEvent:@"eyeCalibration" withData:[[task eyeCalibrator] calibrationData]];
+    [[task dataDoc] putEvent:@"eyeLeftCalibration" withData:[[task eyeCalibrator] calibrationDataForEye:kLeftEye]];
+	[[task dataDoc] putEvent:@"eyeRightCalibration" withData:[[task eyeCalibrator] calibrationDataForEye:kRightEye]];
+
 	[[task dataDoc] putEvent:@"eyeWindow" withData:&fixWindowData];
 	[[task dataDoc] putEvent:@"responseWindow" withData:&respWindowData];
 }
@@ -68,7 +72,7 @@
 		eotCode = kMyEOTQuit;
 		return  [[task stateSystem] stateNamed:@"Endtrial"];;
 	}
-	if ([[task defaults] boolForKey:GRFFixateKey] && [fixWindow inWindowDeg:[task currentEyeDeg]]) {
+	if ([[task defaults] boolForKey:GRFFixateKey] && [GRFUtilities inWindow:fixWindow]) {
 		return [[task stateSystem] stateNamed:@"GRFBlocked"];
 	}
 	else {

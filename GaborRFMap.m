@@ -20,6 +20,7 @@
 // Behavioral parameters
 
 NSString *GRFAcquireMSKey = @"GRFAcquireMS";
+NSString *GRFAlphaTargetDetectionTaskKey = @"GRFAlphaTargetDetectionTask";
 NSString *GRFBlockLimitKey = @"GRFBlockLimit";
 NSString *GRFBreakPunishMSKey = @"GRFBreakPunishMS";
 NSString *GRFChangeScaleKey = @"GRFChangeScale";
@@ -70,6 +71,8 @@ NSString *GRFStimTablesKey = @"GRFStimTables";
 NSString *GRFStimTableCountsKey = @"GRFStimTableCounts";
 NSString *GRFMapStimContrastPCKey = @"GRFMapStimContrastPC";
 NSString *GRFMapStimRadiusSigmaRatioKey = @"GRFMapStimRadiusSigmaRatio";
+NSString *GRFTargetAlphaKey = @"GRFTargetAlpha";
+NSString *GRFTargetRadiusKey = @"GRFTargetRadius";
 
 // Visual Stimulus Parameters 
 
@@ -206,11 +209,20 @@ LLDataDef mapSettingsDef[] = {
 	{@"struct",	@"contrastPC", 1, offsetof(MapSettings, contrastPC), sizeof(MapParams), mapParamsDef},
 	{nil}};
 	
-DataAssignment eyeXDataAssignment = {@"eyeXData",	@"Synthetic", 0, 5.0};	
-DataAssignment eyeYDataAssignment = {@"eyeYData",	@"Synthetic", 1, 5.0};	
+//DataAssignment eyeXDataAssignment = {@"eyeXData",	@"Synthetic", 0, 5.0};	
+//DataAssignment eyeYDataAssignment = {@"eyeYData",	@"Synthetic", 1, 5.0};
+
+DataAssignment eyeRXDataAssignment = {@"eyeRXData",     @"Synthetic", 2, 5.0};
+DataAssignment eyeRYDataAssignment = {@"eyeRYData",     @"Synthetic", 3, 5.0};
+DataAssignment eyeRPDataAssignment = {@"eyeRPData",     @"Synthetic", 4, 5.0};
+DataAssignment eyeLXDataAssignment = {@"eyeLXData",     @"Synthetic", 5, 5.0};
+DataAssignment eyeLYDataAssignment = {@"eyeLYData",     @"Synthetic", 6, 5.0};
+DataAssignment eyeLPDataAssignment = {@"eyeLPData",     @"Synthetic", 7, 5.0};
+
 DataAssignment spike0Assignment =   {@"spike0",     @"Synthetic", 2, 1};
 DataAssignment spike1Assignment =   {@"spike1",     @"Synthetic", 3, 1};
 DataAssignment VBLDataAssignment =  {@"VBLData",	@"Synthetic", 1, 1};
+
 	
 EventDefinition GRFEvents[] = {
     // recorded at start of file, these need to be announced using announceEvents() in UtilityFunctions.m
@@ -333,14 +345,24 @@ LLTaskPlugIn		*task = nil;
 
 // Set up the data collector to handle our data types
 
-	[dataController assignSampleData:eyeXDataAssignment];
-	[dataController assignSampleData:eyeYDataAssignment];
+//	[dataController assignSampleData:eyeXDataAssignment];
+//	[dataController assignSampleData:eyeYDataAssignment];
+    
+    [dataController assignSampleData:eyeRXDataAssignment];
+	[dataController assignSampleData:eyeRYDataAssignment];
+	[dataController assignSampleData:eyeRPDataAssignment];
+	[dataController assignSampleData:eyeLXDataAssignment];
+	[dataController assignSampleData:eyeLYDataAssignment];
+	[dataController assignSampleData:eyeLPDataAssignment];
+    
 	[dataController assignTimestampData:spike0Assignment];
 	[dataController assignTimestampData:spike1Assignment];
 	[dataController assignTimestampData:VBLDataAssignment];
 	[dataController assignDigitalInputDevice:@"Synthetic"];
 	[dataController assignDigitalOutputDevice:@"Synthetic"];
-	collectorTimer = [NSTimer scheduledTimerWithTimeInterval:0.025 target:self 
+    
+    
+	collectorTimer = [NSTimer scheduledTimerWithTimeInterval:0.004 target:self
 			selector:@selector(dataCollect:) userInfo:nil repeats:YES];
 	[dataDoc addObserver:stateSystem];
     [stateSystem startWithCheckIntervalMS:5];				// Start the experiment state system
@@ -374,15 +396,43 @@ LLTaskPlugIn		*task = nil;
 	NSData *data;
     TimestampData spikeData;
 
-	if ((data = [dataController dataOfType:@"eyeXData"]) != nil) {
-		[dataDoc putEvent:@"eyeXData" withData:(Ptr)[data bytes] lengthBytes:[data length]];
-		currentEyeUnits.x = *(short *)([data bytes] + [data length] - sizeof(short));
+//	if ((data = [dataController dataOfType:@"eyeXData"]) != nil) {
+//		[dataDoc putEvent:@"eyeXData" withData:(Ptr)[data bytes] lengthBytes:[data length]];
+//		currentEyeUnits.x = *(short *)([data bytes] + [data length] - sizeof(short));
+//	}
+//	if ((data = [dataController dataOfType:@"eyeYData"]) != nil) {
+//		[dataDoc putEvent:@"eyeYData" withData:(Ptr)[data bytes] lengthBytes:[data length]];
+//		currentEyeUnits.y = *(short *)([data bytes] + [data length] - sizeof(short));
+//		currentEyeDeg = [eyeCalibrator degPointFromUnitPoint:currentEyeUnits];
+//	}
+    
+    if ((data = [dataController dataOfType:@"eyeLXData"]) != nil) {
+		[dataDoc putEvent:@"eyeLXData" withData:(Ptr)[data bytes] lengthBytes:[data length]];
+		currentEyesUnits[kLeftEye].x = *(short *)([data bytes] + [data length] - sizeof(short));
 	}
-	if ((data = [dataController dataOfType:@"eyeYData"]) != nil) {
-		[dataDoc putEvent:@"eyeYData" withData:(Ptr)[data bytes] lengthBytes:[data length]];
-		currentEyeUnits.y = *(short *)([data bytes] + [data length] - sizeof(short));
-		currentEyeDeg = [eyeCalibrator degPointFromUnitPoint:currentEyeUnits];
+    
+	if ((data = [dataController dataOfType:@"eyeLYData"]) != nil) {
+        [dataDoc putEvent:@"eyeLYData" withData:(Ptr)[data bytes] lengthBytes:[data length]];
+		currentEyesUnits[kLeftEye].y = *(short *)([data bytes] + [data length] - sizeof(short));
+        currentEyesDeg[kLeftEye] = [eyeCalibrator degPointFromUnitPoint: currentEyesUnits[kLeftEye] forEye:kLeftEye];
+        }
+	if ((data = [dataController dataOfType:@"eyeLPData"]) != nil) {
+		[dataDoc putEvent:@"eyeLPData" withData:(Ptr)[data bytes] lengthBytes:[data length]];
 	}
+	if ((data = [dataController dataOfType:@"eyeRXData"]) != nil) {
+		[dataDoc putEvent:@"eyeRXData" withData:(Ptr)[data bytes] lengthBytes:[data length]];
+		currentEyesUnits[kRightEye].x = *(short *)([data bytes] + [data length] - sizeof(short));
+	}
+	if ((data = [dataController dataOfType:@"eyeRYData"]) != nil) {
+		[dataDoc putEvent:@"eyeRYData" withData:(Ptr)[data bytes] lengthBytes:[data length]];
+		currentEyesUnits[kRightEye].y = *(short *)([data bytes] + [data length] - sizeof(short));
+		currentEyesDeg[kRightEye] = [eyeCalibrator degPointFromUnitPoint: currentEyesUnits[kRightEye] forEye:kRightEye];	}
+	if ((data = [dataController dataOfType:@"eyeRPData"]) != nil) {
+		[dataDoc putEvent:@"eyeRPData" withData:(Ptr)[data bytes] lengthBytes:[data length]];
+	}
+
+    
+    
 	if ((data = [dataController dataOfType:@"VBLData"]) != nil) {
 		[dataDoc putEvent:@"VBLData" withData:(Ptr)[data bytes] lengthBytes:[data length]];
 	}
@@ -768,10 +818,10 @@ LLTaskPlugIn		*task = nil;
 
 - (DisplayModeParam)requestedDisplayMode;
 {
-	displayMode.widthPix = 1360; //1024;
+	displayMode.widthPix = 1024;
 	displayMode.heightPix = 768;
 	displayMode.pixelBits = 32;
-	displayMode.frameRateHz = 60; //100;
+	displayMode.frameRateHz = 100;
 	return displayMode;
 }
 
