@@ -7,6 +7,7 @@
 
 #import "GRFTooFastState.h"
 #import "UtilityFunctions.h"
+#import "GRFUtilities.h"
 
 #define alpha		2.5
 #define kBeta		2.0
@@ -48,7 +49,7 @@
 		return [[task stateSystem] stateNamed:@"Endtrial"];;
 	}
 	else {
-		if (![fixWindow inWindowDeg:[task currentEyeDeg]]) {   // too fast reaction
+		if (![GRFUtilities inWindow:fixWindow]) {   // too fast reaction
 			eotCode = kMyEOTBroke;
 			return [[task stateSystem] stateNamed:@"GRFSaccade"];;
 		}

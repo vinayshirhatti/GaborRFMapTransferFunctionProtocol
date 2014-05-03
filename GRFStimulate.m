@@ -6,6 +6,7 @@
 //
 
 #import "GRFStimulate.h" 
+#import "GRFUtilities.h"
 
 @implementation GRFStimulate
 
@@ -32,7 +33,7 @@
 		}
 		return [[task stateSystem] stateNamed:@"GRFTooFast"];
 	}
-	if ([[task defaults] boolForKey:GRFFixateKey] && ![fixWindow inWindowDeg:[task currentEyeDeg]]) {
+	if ([[task defaults] boolForKey:GRFFixateKey] && ![GRFUtilities inWindow:fixWindow]) {
 		eotCode = kMyEOTBroke;
 		return [[task stateSystem] stateNamed:@"GRFSaccade"];;
 	}

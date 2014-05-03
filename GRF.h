@@ -24,6 +24,9 @@ enum {kRewardFixed = 0, kRewardVariable};
 enum {kNullStim = 0, kValidStim, kTargetStim, kFrontPadding, kBackPadding};
 enum {kMyEOTCorrect = 0, kMyEOTMissed, kMyEOTEarlyToValid, kMyEOTEarlyToInvalid, kMyEOTBroke, 
 				kMyEOTIgnored, kMyEOTQuit, kMyEOTTypes};
+typedef enum {kTrialStartCode = 1, kFixateCode, kCueOnCode, kCueOffCode, kStimulusOnCode, kStimulusOffCode,
+    kTargetOnCode, kSaccadeCode, kTrialEndCode} BlackRockCodes;
+
 
 #define	kMaxOriChanges	12
 #define kMaxMapValues   6
@@ -156,6 +159,7 @@ typedef struct StimSetting {
 // Behavior settings dialog
 
 extern NSString *GRFAcquireMSKey;
+extern NSString *GRFAlphaTargetDetectionTaskKey;
 extern NSString *GRFBlockLimitKey;
 extern NSString *GRFBreakPunishMSKey;
 extern NSString *GRFCatchTrialPCKey;
@@ -203,6 +207,8 @@ extern NSString *GRFMaxDirChangeDegKey;
 extern NSString *GRFMinDirChangeDegKey;
 extern NSString *GRFChangeRemainKey;
 extern NSString *GRFChangeArrayKey;
+extern NSString *GRFTargetAlphaKey;
+extern NSString *GRFTargetRadiusKey;
 
 //extern NSString *GRFMapStimContrastPCKey;
 extern NSString *GRFMapStimRadiusSigmaRatioKey;

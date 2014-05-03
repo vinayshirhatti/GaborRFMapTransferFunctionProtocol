@@ -10,6 +10,7 @@
 //
 
 #import "GRFFixateState.h"
+#import "GRFUtilities.h"
 
 
 @implementation GRFFixateState
@@ -48,7 +49,7 @@
 		eotCode = kMyEOTQuit;
 		return [[task stateSystem] stateNamed:@"Endtrial"];;
 	}
-	if ([[task defaults] boolForKey:GRFFixateKey] && ![fixWindow inWindowDeg:[task currentEyeDeg]]) {
+	if ([[task defaults] boolForKey:GRFFixateKey] && ![GRFUtilities inWindow:fixWindow]) {
 		eotCode = kMyEOTBroke;
 		return [[task stateSystem] stateNamed:@"Endtrial"];;
 	}
@@ -60,8 +61,8 @@
 
 - (void)updateCalibration;
 {
-	if ([fixWindow inWindowDeg:[task currentEyeDeg]]) {
-		[[task eyeCalibrator] updateCalibration:[task currentEyeDeg]];
+	if ([GRFUtilities inWindow:fixWindow]) {
+		[[task eyeCalibrator] updateCalibration:([task currentEyesDeg])[kLeftEye]];
 	}
 }
 

@@ -1070,7 +1070,7 @@
 							<int key="NSvFlags">256</int>
 							<string key="NSFrame">{{443, 58}, {78, 22}}</string>
 							<reference key="NSSuperview" ref="314615551"/>
-							<reference key="NSNextKeyView" ref="499897406"/>
+							<reference key="NSNextKeyView" ref="858567185"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="1067901980">
 								<int key="NSCellFlags">-1804468671</int>
@@ -1436,6 +1436,32 @@
 								<reference key="NSControlView" ref="384578494"/>
 								<reference key="NSBackgroundColor" ref="545538240"/>
 								<reference key="NSTextColor" ref="600287789"/>
+							</object>
+						</object>
+						<object class="NSButton" id="858567185">
+							<reference key="NSNextResponder" ref="314615551"/>
+							<int key="NSvFlags">268</int>
+							<string key="NSFrame">{{48, 40}, {205, 18}}</string>
+							<reference key="NSSuperview" ref="314615551"/>
+							<reference key="NSNextKeyView" ref="499897406"/>
+							<bool key="NSEnabled">YES</bool>
+							<object class="NSButtonCell" key="NSCell" id="308986956">
+								<int key="NSCellFlags">-2080374784</int>
+								<int key="NSCellFlags2">268435456</int>
+								<string key="NSContents">Alpha-Target-Detection task</string>
+								<reference key="NSSupport" ref="866555656"/>
+								<reference key="NSControlView" ref="858567185"/>
+								<int key="NSButtonFlags">1211912448</int>
+								<int key="NSButtonFlags2">2</int>
+								<object class="NSCustomResource" key="NSNormalImage" id="102477356">
+									<string key="NSClassName">NSImage</string>
+									<string key="NSResourceName">NSSwitch</string>
+								</object>
+								<reference key="NSAlternateImage" ref="457976390"/>
+								<string key="NSAlternateContents"/>
+								<string key="NSKeyEquivalent"/>
+								<int key="NSPeriodicDelay">200</int>
+								<int key="NSPeriodicInterval">25</int>
 							</object>
 						</object>
 					</array>
@@ -8876,6 +8902,54 @@
 					</object>
 					<int key="connectionID">2904</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: values.GRFAlphaTargetDetectionTask</string>
+						<reference key="source" ref="858567185"/>
+						<reference key="destination" ref="655638991"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="858567185"/>
+							<reference key="NSDestination" ref="655638991"/>
+							<string key="NSLabel">value: values.GRFAlphaTargetDetectionTask</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">values.GRFAlphaTargetDetectionTask</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">2647</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: values.GRFTargetAlpha</string>
+						<reference key="source" ref="867624297"/>
+						<reference key="destination" ref="655638991"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="867624297"/>
+							<reference key="NSDestination" ref="655638991"/>
+							<string key="NSLabel">value: values.GRFTargetAlpha</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">values.GRFTargetAlpha</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">2659</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: values.GRFTargetRadius</string>
+						<reference key="source" ref="422940973"/>
+						<reference key="destination" ref="655638991"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="422940973"/>
+							<reference key="NSDestination" ref="655638991"/>
+							<string key="NSLabel">value: values.GRFTargetRadius</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">values.GRFTargetRadius</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">2661</int>
+				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<array key="orderedObjects">
@@ -8951,6 +9025,7 @@
 							<reference ref="178437031"/>
 							<reference ref="586133721"/>
 							<reference ref="384578494"/>
+							<reference ref="858567185"/>
 						</array>
 						<reference key="parent" ref="415383134"/>
 					</object>

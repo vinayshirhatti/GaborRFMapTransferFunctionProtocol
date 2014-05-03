@@ -17,7 +17,7 @@
 	NSMenuItem				*actionsMenuItem;
     NSWindowController 		*behaviorController;
 	LLControlPanel			*controlPanel;
-	NSPoint					currentEyeUnits;
+	NSPoint					currentEyesUnits[kEyes];
     GRFEyeXYController		*eyeXYController;				// Eye position display
 	NSMenuItem				*settingsMenuItem;
     NSWindowController 		*spikeController;

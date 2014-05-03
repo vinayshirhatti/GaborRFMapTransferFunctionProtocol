@@ -34,6 +34,7 @@ NSString *stimulusMonitorID = @"GaborRFMap Stimulus";
 	[mapStimList0 release];
 	[mapStimList1 release];
 	[fixSpot release];
+    [targetSpot release];
     [gabors release];
 
     [super dealloc];
@@ -97,6 +98,9 @@ NSString *stimulusMonitorID = @"GaborRFMap Stimulus";
 	[[gabors objectAtIndex:kMapGabor1] setAchromatic:YES];
 	fixSpot = [[LLFixTarget alloc] init];
 	[fixSpot bindValuesToKeysWithPrefix:@"GRFFix"];
+    targetSpot = [[LLFixTarget alloc] init];
+	//[targetSpot bindValuesToKeysWithPrefix:@"GRFFix"];
+
 
 	return self;
 }
@@ -142,6 +146,7 @@ by mapStimTable.
 	StimDesc stimDesc;
 	LLGabor *taskGabor = [self taskGabor];
 	
+    trial = *pTrial;
 	[taskStimList removeAllObjects];
 	targetIndex = MIN(pTrial->targetIndex, pTrial->numStim);
 	
@@ -178,14 +183,16 @@ by mapStimTable.
         stimDesc.temporalModulation = [taskGabor temporalModulation];
 	
 // If it's not a catch trial and we're in a target spot, set the target 
-
+        
 		if (!pTrial->catchTrial) {
 			if ((stimDesc.sequenceIndex == targetIndex) ||
-							(stimDesc.sequenceIndex > targetIndex &&
-							[[task defaults] boolForKey:GRFChangeRemainKey])) {
-				stimDesc.stimType = kTargetStim;
-				stimDesc.directionDeg += pTrial->orientationChangeDeg;
-			}
+                (stimDesc.sequenceIndex > targetIndex &&
+                 [[task defaults] boolForKey:GRFChangeRemainKey])) {
+                    stimDesc.stimType = kTargetStim;
+                    if (![[task defaults] boolForKey:GRFAlphaTargetDetectionTaskKey]) {
+                        stimDesc.directionDeg += pTrial->orientationChangeDeg;
+                    }
+                }
 		}
 
 // Load the information about the on and off frames
@@ -302,6 +309,17 @@ by mapStimTable.
 		[self loadGabor:[gabors objectAtIndex:index] withStimDesc:&stimDescs[index]];
 		stimOffFrames[index] = stimDescs[index].stimOffFrame;
 	}
+    
+    // Set up the targetSpot if needed
+    
+    if ([[task defaults] boolForKey:GRFAlphaTargetDetectionTaskKey]) {
+        [targetSpot setState:YES];
+        NSColor *targetColor = [[fixSpot foreColor]retain];
+        [targetSpot setForeColor:[targetColor colorWithAlphaComponent:[[task defaults] floatForKey:GRFTargetAlphaKey]]];
+        [targetSpot setOuterRadiusDeg:[[task defaults]floatForKey:GRFTargetRadiusKey]];
+        [targetSpot setShape:kLLCircle];
+        [targetColor release];
+    }
 	
 	targetOnFrame = -1;
 
@@ -397,6 +415,7 @@ by mapStimTable.
 				if (pSD->stimType == kTargetStim) {
 					targetPresented = YES;
 					targetOnFrame = trialFrame;
+                    [digitalOut outputEvent:kTargetOnCode withData:stimCounter-1];
 				}
 				stimOffFrames[index] = stimDescs[index].stimOffFrame;		// previous done by now, save time for this one
 			}
