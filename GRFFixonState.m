@@ -6,6 +6,7 @@
 //
 
 #import "GRFFixonState.h"
+#import "GRFUtilities.h"
 #import "GRFDigitalOut.h"
 
 @implementation GRFFixonState

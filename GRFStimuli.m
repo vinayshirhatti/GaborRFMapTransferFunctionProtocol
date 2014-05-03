@@ -92,8 +92,8 @@ NSString *stimulusMonitorID = @"GaborRFMap Stimulus";
 	
 // Create and initialize the visual stimuli
 
-	gabors = [[NSArray arrayWithObjects:[self initGabor],
-                            [self initGabor], [self initGabor], nil] retain];
+	gabors = [[NSArray arrayWithObjects:[self initGabor:YES],
+                            [self initGabor:NO], [self initGabor:NO], nil] retain];
 	[[gabors objectAtIndex:kMapGabor0] setAchromatic:YES];
 	[[gabors objectAtIndex:kMapGabor1] setAchromatic:YES];
 	fixSpot = [[LLFixTarget alloc] init];
@@ -105,17 +105,21 @@ NSString *stimulusMonitorID = @"GaborRFMap Stimulus";
 	return self;
 }
 
-- (LLGabor *)initGabor;
+- (LLGabor *)initGabor:(BOOL)bindTemporalFreq;
 {
 	static long counter = 0;
 	LLGabor *gabor;
 	
 	gabor = [[LLGabor alloc] init];				// Create a gabor stimulus
 	[gabor setDisplays:[[task stimWindow] displays] displayIndex:[[task stimWindow] displayIndex]];
-
-    [gabor removeKeysFromBinding:[NSArray arrayWithObjects:LLGaborDirectionDegKey,
-                    LLGaborTemporalPhaseDegKey, LLGaborSpatialPhaseDegKey, nil]];
-
+    if (bindTemporalFreq) {
+        [gabor removeKeysFromBinding:[NSArray arrayWithObjects:LLGaborDirectionDegKey, 
+                    LLGaborTemporalPhaseDegKey, LLGaborContrastKey, LLGaborSpatialPhaseDegKey, nil]];
+    }
+    else {
+        [gabor removeKeysFromBinding:[NSArray arrayWithObjects:LLGaborDirectionDegKey, LLGaborTemporalPhaseDegKey,
+                    LLGaborContrastKey, LLGaborSpatialPhaseDegKey, LLGaborTemporalFreqHzKey, nil]];
+    }
 	[gabor bindValuesToKeysWithPrefix:[NSString stringWithFormat:@"GRF%ld", counter++]];
 	return gabor;
 }
@@ -186,17 +190,14 @@ by mapStimTable.
         
 		if (!pTrial->catchTrial) {
 			if ((stimDesc.sequenceIndex == targetIndex) ||
-                (stimDesc.sequenceIndex > targetIndex &&
-                 [[task defaults] boolForKey:GRFChangeRemainKey])) {
-                    stimDesc.stimType = kTargetStim;
-                    if (![[task defaults] boolForKey:GRFAlphaTargetDetectionTaskKey]) {
-                        stimDesc.directionDeg += pTrial->orientationChangeDeg;
-                    }
-                }
-		}
+                (stimDesc.sequenceIndex > targetIndex && [[task defaults] boolForKey:GRFChangeRemainKey])) {
+				stimDesc.stimType = kTargetStim;
+				stimDesc.directionDeg += pTrial->orientationChangeDeg;
+			}
+        }
 
 // Load the information about the on and off frames
-	
+        
 		stimDesc.stimOnFrame = nextStimOnFrame;
 		if (stimJitterFrames > 0) {
 			stimDesc.stimOffFrame = stimDesc.stimOnFrame + 
@@ -311,7 +312,7 @@ by mapStimTable.
 	}
     
     // Set up the targetSpot if needed
-    
+/*
     if ([[task defaults] boolForKey:GRFAlphaTargetDetectionTaskKey]) {
         [targetSpot setState:YES];
         NSColor *targetColor = [[fixSpot foreColor]retain];
@@ -320,7 +321,7 @@ by mapStimTable.
         [targetSpot setShape:kLLCircle];
         [targetColor release];
     }
-	
+*/	
 	targetOnFrame = -1;
 
     for (trialFrame = taskGaborFrame = 0; !listDone && !abortStimuli; trialFrame++) {
@@ -331,8 +332,14 @@ by mapStimTable.
                     theGabor = [gabors objectAtIndex:index];
                     [theGabor directSetFrame:[NSNumber numberWithLong:gaborFrames[index]]];	// advance for temporal modulation
                     [theGabor draw];
+/*
+                    if (!trial.catchTrial && index == kTaskGabor && stimDescs[index].stimType == kTargetStim) {
+                        [targetSpot setAzimuthDeg:stimDescs[index].azimuthDeg elevationDeg:stimDescs[index].elevationDeg];
+                        [targetSpot draw];
+                    }
+*/
+                    gaborFrames[index]++;
                 }
-				gaborFrames[index]++;
 			}
 		}
 		[fixSpot draw];
@@ -356,10 +363,10 @@ by mapStimTable.
 			if (trialFrame == stimOffFrames[index]) {
 				[[task dataDoc] putEvent:@"stimulusOffTime"]; 
 				[[task dataDoc] putEvent:@"stimulusOff" withData:&index];
-                [digitalOut outputEventName:@"stimulusOff" withData:0x0000];
+                [digitalOut outputEvent:kStimulusOffCode withData:stimCounter];
 				if (++stimIndices[index] >= [[stimLists objectAtIndex:index] count]) {	// no more entries in list
 					listDone = YES;
-				}
+                }
 			}
 			
 // If this is the first frame of a Gabor, post an event describing it
@@ -371,9 +378,8 @@ by mapStimTable.
 
                 useSingleITC18 = [[task defaults] boolForKey:GRFUseSingleITC18Key];
                 if (!useSingleITC18) {
-                    [digitalOut outputEvent:0x00Fe withData:stimCounter++];
+                    [digitalOut outputEvent:kStimulusOnCode withData:stimCounter++];
                 }
-                
 				// put the digital events
 				if (index == kTaskGabor) {
 					[digitalOut outputEventName:@"taskGabor" withData:(long)(pSD->stimType)];
@@ -412,7 +418,7 @@ by mapStimTable.
 					[digitalOut outputEventName:@"sigma" withData:(long)(100*(pSD->sigmaDeg))];
 				}
                 
-				if (pSD->stimType == kTargetStim) {
+                if (pSD->stimType == kTargetStim) {
 					targetPresented = YES;
 					targetOnFrame = trialFrame;
                     [digitalOut outputEvent:kTargetOnCode withData:stimCounter-1];

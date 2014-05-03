@@ -6,6 +6,7 @@
 //
 
 #import "GRFSaccadeState.h"
+#import "GRFUtilities.h"
 #import "GRFDigitalOut.h"
 
 @implementation GRFSaccadeState
@@ -13,7 +14,7 @@
 - (void)stateAction {
 
 	[[task dataDoc] putEvent:@"saccade"];
-    [digitalOut outputEventName:@"saccade" withData:0x0000];
+    [digitalOut outputEvent:kSaccadeCode withData:0x0];
 	expireTime = [LLSystemUtil timeFromNow:[[task defaults] integerForKey:GRFSaccadeTimeMSKey]];
 }
 

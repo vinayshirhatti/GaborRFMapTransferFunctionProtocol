@@ -26,7 +26,7 @@ NSString *GRFBreakPunishMSKey = @"GRFBreakPunishMS";
 NSString *GRFChangeScaleKey = @"GRFChangeScale";
 NSString *GRFCatchTrialPCKey = @"GRFCatchTrialPC";
 NSString *GRFCatchTrialMaxPCKey = @"GRFCatchTrialMaxPC";
-//NSString *GRFCueMSKey = @"GRFCueMS";
+NSString *GRFCueMSKey = @"GRFCueMS";
 NSString *GRFDoSoundsKey = @"GRFDoSounds";
 NSString *GRFFixateKey = @"GRFFixate";
 NSString *GRFFixateMSKey = @"GRFFixateMS";
@@ -40,8 +40,8 @@ NSString *GRFInvalidRewardFactorKey = @"GRFInvalidRewardFactor";
 NSString *GRFMinTargetMSKey = @"GRFMinTargetMS";
 NSString *GRFMaxTargetMSKey = @"GRFMaxTargetMS";
 NSString *GRFMeanTargetMSKey = @"GRFMeanTargetMS";
-//NSString *GRFNontargetContrastPCKey = @"GRFNontargetContrastPC";
-//NSString *GRFRespSpotSizeDegKey = @"GRFRespSpotSizeDeg";
+NSString *GRFNontargetContrastPCKey = @"GRFNontargetContrastPC";
+NSString *GRFRespSpotSizeDegKey = @"GRFRespSpotSizeDeg";
 NSString *GRFRespTimeMSKey = @"GRFRespTimeMS";
 NSString *GRFRespWindowWidthDegKey = @"GRFRespWindowWidthDeg";
 NSString *GRFRewardMSKey = @"GRFRewardMS";
@@ -69,7 +69,7 @@ NSString *GRFChangeRemainKey = @"GRFChangeRemain";
 NSString *GRFChangeArrayKey = @"GRFChangeArray";
 NSString *GRFStimTablesKey = @"GRFStimTables";
 NSString *GRFStimTableCountsKey = @"GRFStimTableCounts";
-//NSString *GRFMapStimContrastPCKey = @"GRFMapStimContrastPC";
+NSString *GRFMapStimContrastPCKey = @"GRFMapStimContrastPC";
 NSString *GRFMapStimRadiusSigmaRatioKey = @"GRFMapStimRadiusSigmaRatio";
 NSString *GRFTargetAlphaKey = @"GRFTargetAlpha";
 NSString *GRFTargetRadiusKey = @"GRFTargetRadius";
@@ -87,8 +87,8 @@ NSString *GRFMapTemporalModulationKey = @"GRFMapTemporalModulation";
 
 // Visual Stimulus Parameters 
 
-//NSString *GRFSpatialPhaseDegKey = @"GRFSpatialPhaseDeg";
-//NSString *GRFTemporalFreqHzKey = @"GRFTemporalFreqHz";
+NSString *GRFSpatialPhaseDegKey = @"GRFSpatialPhaseDeg";
+NSString *GRFTemporalFreqHzKey = @"GRFTemporalFreqHz";
 
 // Keys for change array
 
@@ -843,6 +843,10 @@ LLTaskPlugIn		*task = nil;
 		longValue = [defaults integerForKey:GRFOrientationChangesKey];
 		[dataDoc putEvent:@"stimRepsPerBlock" withData:&longValue];
 	}
+    else if ([key isEqualTo:GRFMapStimContrastPCKey])	{
+		[stimuli clearStimLists:&trial];
+		//[stimuli makeStimLists:&trial];
+	}
     else if ([key isEqualTo:GRFHideTaskGaborKey]) {
         [[task defaults] setBool:YES forKey:GRFIncludeCatchTrialsinDoneListKey];
         [[task defaults] setInteger:100 forKey:GRFCatchTrialPCKey];
@@ -853,11 +857,6 @@ LLTaskPlugIn		*task = nil;
     else if ([key isEqualTo:GRFHideRightKey]) {
         [[task defaults] setBool:YES forKey:GRFHideRightDigitalKey];
     }
-	/*
-    else if ([key isEqualTo:GRFMapStimContrastPCKey])	{
-		[stimuli clearStimLists:&trial];
-		//[stimuli makeStimLists:&trial];
-	}*/
 }
 
 - (DisplayModeParam)requestedDisplayMode;
