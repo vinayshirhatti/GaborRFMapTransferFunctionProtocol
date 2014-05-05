@@ -861,8 +861,8 @@ LLTaskPlugIn		*task = nil;
 
 - (DisplayModeParam)requestedDisplayMode;
 {
-	displayMode.widthPix = 1024;
-	displayMode.heightPix = 768;
+	displayMode.widthPix = 1280; //1024;
+	displayMode.heightPix = 720; //768;
 	displayMode.pixelBits = 32;
 	displayMode.frameRateHz = 100;
 	return displayMode;

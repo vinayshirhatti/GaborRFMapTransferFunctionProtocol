@@ -338,8 +338,8 @@ by mapStimTable.
                         [targetSpot draw];
                     }
 */
-                    gaborFrames[index]++;
                 }
+                gaborFrames[index]++;
 			}
 		}
 		[fixSpot draw];
@@ -366,7 +366,7 @@ by mapStimTable.
                 [digitalOut outputEvent:kStimulusOffCode withData:stimCounter];
 				if (++stimIndices[index] >= [[stimLists objectAtIndex:index] count]) {	// no more entries in list
 					listDone = YES;
-                }
+				}
 			}
 			
 // If this is the first frame of a Gabor, post an event describing it
