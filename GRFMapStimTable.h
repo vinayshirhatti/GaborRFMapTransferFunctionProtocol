@@ -21,6 +21,7 @@
 
 - (long)blocksDone;
 - (void)dumpStimList:(NSMutableArray *)list listIndex:(long)listIndex;
+- (id)initWithIndex:(long)index;
 - (float)linearValueWithIndex:(long)index count:(long)count min:(float)min max:(float)max;
 - (float)logValueWithIndex:(long)index count:(long)count min:(float)min max:(float)max;
 - (void)makeMapStimList:(NSMutableArray *)list index:(long)index lastFrame:(long)lastFrame;

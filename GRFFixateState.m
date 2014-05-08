@@ -21,6 +21,7 @@
 	long fixJitterPC = [[task defaults] integerForKey:GRFFixJitterPCKey];
 		
 	if ([[task defaults] boolForKey:GRFFixateKey]) {				// fixation required && fixated
+        [digitalOut outputEvent:kFixateDigitOutCode withData:(kFixateDigitOutCode+1)]; // Thomas 2014 Feb 25
 		[[task dataDoc] putEvent:@"fixate"];
 		[scheduler schedule:@selector(updateCalibration) toTarget:self withObject:nil
 				delayMS:fixateMS * 0.8];

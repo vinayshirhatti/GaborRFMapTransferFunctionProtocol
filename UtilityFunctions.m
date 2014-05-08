@@ -20,6 +20,8 @@ void announceEvents(void) {
     long lValue;
     MapSettings settings;
 	char *idString = "GaborRFMap Version 1.0";
+    
+    reset();
 	
  	[[task dataDoc] putEvent:@"text" withData:idString lengthBytes:strlen(idString)];
 

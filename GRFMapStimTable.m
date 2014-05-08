@@ -34,13 +34,27 @@ static long GRFMapStimTableCounter = 0;
 	NSLog(@"\n");
 }
 
-- (id) init
+- (id)initWithIndex:(long)index;
+{
+	if (!(self = [super init])) {
+		return nil;
+	}
+    mapIndex = index;
+	[self updateBlockParameters];	
+	[self newBlock];
+	return self;
+}
+
+// No one should init without using [initWithIndex:], but if they do, we automatically increment the index counter;
+
+- (id)init;
 {
 	if (!(self = [super init])) {
 		return nil;
 	}
     mapIndex = GRFMapStimTableCounter++;
-	[self updateBlockParameters];	
+    NSLog(@"GRFMapStimTable: initializing with index %ld", mapIndex);
+	[self updateBlockParameters];
 	[self newBlock];
 	return self;
 }
@@ -131,6 +145,31 @@ maxTargetS and a long stimLeadMS).
 	memcpy(&localList, &doneList, sizeof(doneList));
 	localFreshCount = stimRemainingInBlock;
 	frameRateHz = [[task stimWindow] frameRateHz];
+    
+    // debugging start
+    short a, e, sig, sf, dir, c, debugLocalListCount = 0, debugDoneListCount = 0;
+    NSDictionary *countsDict = (NSDictionary *)[[[task defaults] arrayForKey:@"GRFStimTableCounts"] objectAtIndex:0];
+    
+    for (a = 0;  a < [[countsDict objectForKey:@"azimuthCount"] intValue]; a++) {
+        for (e = 0;  e < [[countsDict objectForKey:@"elevationCount"] intValue]; e++) {
+            for (sig = 0;  sig < [[countsDict objectForKey:@"sigmaCount"] intValue]; sig++) {
+                for (sf = 0;  sf < [[countsDict objectForKey:@"spatialFreqCount"] intValue]; sf++) {
+                    for (dir = 0;  dir < [[countsDict objectForKey:@"orientationCount"] intValue]; dir++) {
+                        for (c = 0;  c < [[countsDict objectForKey:@"contrastCount"] intValue]; c++) {
+                            if (localList[a][e][sig][sf][dir][c]) {
+                                debugLocalListCount++;
+                                debugDoneListCount++;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    NSLog(@"debugLocalListCount is %d", debugLocalListCount);
+    NSLog(@"debugDoneListCount is %d", debugDoneListCount);
+    // debugging end
 	
 	mapDurFrames = MAX(1, ceil([[task defaults] integerForKey:GRFMapStimDurationMSKey] / 1000.0 * frameRateHz));
 	interDurFrames = ceil([[task defaults] integerForKey:GRFMapInterstimDurationMSKey] / 1000.0 * frameRateHz);
@@ -151,16 +190,40 @@ maxTargetS and a long stimLeadMS).
 		spatialFreqCount = [[countsDict objectForKey:@"spatialFreqCount"] intValue];
 		directionDegCount = [[countsDict objectForKey:@"orientationCount"] intValue];
 		contrastCount = [[countsDict objectForKey:@"contrastCount"] intValue];
-                
+        
 		startAzimuthIndex = azimuthIndex = rand() % azimuthCount;
 		startElevationIndex = elevationIndex = rand() % elevationCount;
 		startSigmaIndex = sigmaIndex = rand() % sigmaCount;
 		startSpatialFreqIndex = spatialFreqIndex = rand() % spatialFreqCount;
 		startDirectionDegIndex = directionDegIndex = rand() % directionDegCount;
 		startContrastIndex = contrastIndex = rand() % contrastCount;
-		
+        
+        //
+//        NSLog(@"stim is %ld", stim);
+//        NSLog(@"GaborRFMap starting: aziIndex: %d, eleIndex %d, sigIndex %d, SFIndex %d, dirIndex %d, contrastIndex %d",
+//              startAzimuthIndex, startElevationIndex, startSigmaIndex, startSpatialFreqIndex, startDirectionDegIndex, startContrastIndex);
+//        debugLocalListCount = 0;
+//        for (a = 0;  a < [[countsDict objectForKey:@"azimuthCount"] intValue]; a++) {
+//            for (e = 0;  e < [[countsDict objectForKey:@"elevationCount"] intValue]; e++) {
+//                for (sig = 0;  sig < [[countsDict objectForKey:@"sigmaCount"] intValue]; sig++) {
+//                    for (sf = 0;  sf < [[countsDict objectForKey:@"spatialFreqCount"] intValue]; sf++) {
+//                        for (dir = 0;  dir < [[countsDict objectForKey:@"orientationCount"] intValue]; dir++) {
+//                            for (c = 0;  c < [[countsDict objectForKey:@"contrastCount"] intValue]; c++) {
+//                                stimDone = localList[a][e][sig][sf][dir][c];
+//                                if (stimDone) {
+//                                    debugLocalListCount++;
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//        NSLog(@"debugLocalListCount is %d", debugLocalListCount);
+        //
+        
 		for (;;) {
-			stimDone=localList[azimuthIndex][elevationIndex][sigmaIndex][spatialFreqIndex][directionDegIndex][contrastIndex];
+            stimDone=localList[azimuthIndex][elevationIndex][sigmaIndex][spatialFreqIndex][directionDegIndex][contrastIndex];
 			if (!stimDone) {
 				break;
 			}
@@ -203,8 +266,12 @@ maxTargetS and a long stimLeadMS).
 		stimDesc.spatialFreqCPD = [self logValueWithIndex:spatialFreqIndex count:spatialFreqCount min:spatialFreqCPDMin max:spatialFreqCPDMax];
 		stimDesc.directionDeg = [self linearValueWithIndex:directionDegIndex count:directionDegCount min:directionDegMin max:directionDegMax];
 		
-		stimDesc.contrastPC = contrastPCMin + ((contrastPCMax - contrastPCMin) / (contrastCount-1)) * contrastIndex;
-		
+        if (contrastCount > 1) {
+            stimDesc.contrastPC = contrastPCMin + ((contrastPCMax - contrastPCMin) / (contrastCount-1)) * contrastIndex;
+        } else {
+            stimDesc.contrastPC = (contrastPCMin + contrastPCMax) / 2;
+        }
+        
 		//[[task defaults] floatForKey:@"GRFMapStimContrastPC"];
 		
 		// Unused field

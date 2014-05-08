@@ -17,9 +17,9 @@
 {
 	long lValue;
 	FixWindowData fixWindowData, respWindowData;
-	static long startCounter = 0;
 	
 	eotCode = -1;
+    trialCounter++;
 	
 // Prepare structures describing the fixation and response windows;
 	
@@ -42,9 +42,8 @@
     [[task dataController] setDataEnabled:[NSNumber numberWithBool:NO]];
 	[[task dataController] readDataFromDevices];		// flush data buffers
 	[[task collectorTimer] fire];
-	[[task dataDoc] putEvent:@"trialStart" withData:&trial.targetIndex];
-	[[task dataDoc] putEvent:@"trialSync" withData:&startCounter];
-    [digitalOut outputEvent:kTrialStartCode withData:startCounter++];
+	[[task dataDoc] putEvent:@"trialStart" withData:&trialCounter];
+    [digitalOut outputEvent:kTrialStartDigitOutCode withData:trialCounter];
 	[[task dataDoc] putEvent:@"trial" withData:&trial];
 	lValue = 0;
 	[[task dataDoc] putEvent:@"sampleZero" withData:&lValue];	// for now, it has no practical functions

@@ -21,12 +21,10 @@
 - (void)stateAction {
 
 	long trialCertify;
-	long longValue = 0;
-	long codeTranslation[kMyEOTTypes] = {kEOTCorrect, kEOTFailed, kEOTWrong, kEOTWrong, kEOTBroke, 
+	long codeTranslation[kMyEOTTypes] = {kEOTCorrect, kEOTFailed, kEOTWrong, kEOTWrong, kEOTBroke,
 					kEOTIgnored, kEOTQuit};
 	
 	[stimuli stopAllStimuli];
-	[[task dataDoc] putEvent:@"stimulusOff" withData:&longValue];
 
 // Put our trial end code, then tranlate it into something that everyone else will understand.
 
@@ -91,7 +89,7 @@
 	}	
 	[[task dataDoc] putEvent:@"trialCertify" withData:(void *)&trialCertify];
 	[[task dataDoc] putEvent:@"trialEnd" withData:(void *)&eotCode];
-    [digitalOut outputEvent:kTrialEndCode withData:0x0];
+    [digitalOut outputEvent:kTrialEndDigitOutCode withData:eotCode];
 	[[task synthDataDevice] setSpikeRateHz:spikeRateFromStimValue(0.0) atTime:[LLSystemUtil getTimeS]];
     [[task synthDataDevice] setEyeTargetOff];
     [[task synthDataDevice] doLeverUp];
@@ -99,7 +97,7 @@
 		reset();
         resetFlag = NO;
 	}
-    if ([task mode] == kTaskStopping) {						// Requested to stop
+    if ([task mode] == kTaskStopping || [task mode] == kTaskEnding) {	 // Requested to stop or quit
         [task setMode:kTaskIdle];
 	}
 }

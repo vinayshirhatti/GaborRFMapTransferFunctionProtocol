@@ -46,6 +46,7 @@ NSString *GRFRespTimeMSKey = @"GRFRespTimeMS";
 NSString *GRFRespWindowWidthDegKey = @"GRFRespWindowWidthDeg";
 NSString *GRFRewardMSKey = @"GRFRewardMS";
 NSString *GRFMinRewardMSKey = @"GRFMinRewardMS";
+NSString *GRFRandTaskGaborDirectionKey = @"GRFRandTaskGaborDirection";
 NSString *GRFRewardScheduleKey = @"GRFRewardSchedule";
 NSString *GRFSaccadeTimeMSKey = @"GRFSaccadeTimeMS";
 NSString *GRFStimRepsPerBlockKey = @"GRFStimRepsPerBlock";
@@ -253,13 +254,12 @@ EventDefinition GRFEvents[] = {
 
     // declared at start of each trial	
 	{@"trial",				sizeof(TrialDesc),		{@"struct", @"trial", 1, 0, sizeof(TrialDesc), trialDescDef}},
-	{@"trialSync",          sizeof(long),			{@"long"}},
 	{@"responseWindow",		sizeof(FixWindowData),	{@"struct", @"responseWindowData", 1, 0, sizeof(FixWindowData), fixWindowStructDef}},
 
     // marking the course of each trial
 	{@"preStimuli",			0,						{@"no data"}},
 	{@"stimulus",			sizeof(StimDesc),		{@"struct", @"stimDesc", 1, 0, sizeof(StimDesc), stimDescDef}},
-	{@"stimulusOffTime",	0,						{@"no data"}},
+    {@"stimulusOffTime",	0,						{@"no data"}},
 	{@"stimulusOnTime",		0,						{@"no data"}},
 	{@"postStimuli",		0,						{@"no data"}},
 	{@"saccade",			0,						{@"no data"}},
@@ -276,11 +276,12 @@ BlockStatus			blockStatus;
 MappingBlockStatus	mappingBlockStatus;
 BOOL				brokeDuringStim;
 LLTaskPlugIn		*task = nil;
+long                trialCounter;
 
 
 @implementation GaborRFMap
 
-+ (int)version;
++ (NSInteger)version;
 {
 	return kLLPluginVersion;
 }
@@ -311,8 +312,8 @@ LLTaskPlugIn		*task = nil;
 
 	[stimuli erase];
 	
-	mapStimTable0 = [[GRFMapStimTable alloc] init];
-	mapStimTable1 = [[GRFMapStimTable alloc] init];
+	mapStimTable0 = [[GRFMapStimTable alloc] initWithIndex:0];
+	mapStimTable1 = [[GRFMapStimTable alloc] initWithIndex:1];
 	
 // Create on-line display windows
 
@@ -345,9 +346,6 @@ LLTaskPlugIn		*task = nil;
 
 // Set up the data collector to handle our data types
 
-//	[dataController assignSampleData:eyeXDataAssignment];
-//	[dataController assignSampleData:eyeYDataAssignment];
-    
     [dataController assignSampleData:eyeRXDataAssignment];
 	[dataController assignSampleData:eyeRYDataAssignment];
 	[dataController assignSampleData:eyeRPDataAssignment];
@@ -518,7 +516,8 @@ LLTaskPlugIn		*task = nil;
 	[mapStimTable1 release];
 	[digitalOut release];
 	[controlPanel release];
-	[taskStatus dealloc];
+	[taskStatus release];
+    [topLevelObjects release];
 	[super dealloc];
 }
 
@@ -670,7 +669,8 @@ LLTaskPlugIn		*task = nil;
 
 // Load the items in the nib
 
-	[NSBundle loadNibNamed:@"GaborRFMap" owner:self];
+	[[NSBundle bundleForClass:[self class]] loadNibNamed:@"GaborRFMap" owner:self topLevelObjects:&topLevelObjects];
+	[topLevelObjects retain];
 	
 // Initialize other task objects
 
@@ -900,7 +900,7 @@ LLTaskPlugIn		*task = nil;
 		[changeArray removeObjectsInRange:NSMakeRange(changes, oldChanges - changes)];
 	}
 	else if (changes > oldChanges) {
-		changeEntry = [NSDictionary dictionaryWithObjectsAndKeys:
+		changeEntry = [NSMutableDictionary dictionaryWithObjectsAndKeys:
 				[NSNumber numberWithFloat:10.0], GRFChangeKey,
 				[NSNumber numberWithLong:1], GRFValidRepsKey,
 				[NSNumber numberWithLong:0], GRFInvalidRepsKey,
@@ -909,150 +909,6 @@ LLTaskPlugIn		*task = nil;
 			[changeArray addObject:changeEntry];
 		}
 	}
-/*
-	changeSign = 0;
-	minChange = [defaults floatForKey:GRFMinDirChangeDegKey];
-	maxChange = [defaults floatForKey:GRFMaxDirChangeDegKey];
-	
-	changeScale = [defaults integerForKey:GRFChangeScaleKey];
-	
-	if ((minChange > 0) & (maxChange > 0)) {
-		changeSign = 1;
-		logMinChange = log(minChange);
-		logMaxChange = log(maxChange);
-		logGuessThreshold = log(guessThreshold);
-	}
-	else if ((minChange < 0) & (maxChange < 0)) {
-		changeSign = -1;
-		logMinChange = log((-1*minChange));
-		logMaxChange = log((-1*maxChange));
-		logGuessThreshold = log(-1*guessThreshold);
-	} 
-
-	switch (changes) {
-		case 1:
-			changeEntry = [NSDictionary dictionaryWithObjectsAndKeys:
-					[NSNumber numberWithFloat:maxChange], GRFChangeKey,
-					[NSNumber numberWithLong:1], GRFValidRepsKey,
-					nil];
-			[changeArray replaceObjectAtIndex:0 withObject:changeEntry];
-			break;
-
-		case 2:
-			changeEntry = [NSDictionary dictionaryWithObjectsAndKeys:
-					[NSNumber numberWithFloat:minChange], GRFChangeKey,
-					[NSNumber numberWithLong:1], GRFValidRepsKey,
-					nil];
-			[changeArray replaceObjectAtIndex:0 withObject:changeEntry];
-		
-			changeEntry = [NSDictionary dictionaryWithObjectsAndKeys:
-					[NSNumber numberWithFloat:maxChange], GRFChangeKey,
-					[NSNumber numberWithLong:1], GRFValidRepsKey,
-					nil];
-			[changeArray replaceObjectAtIndex:1 withObject:changeEntry];
-			break;
-		
-		case 3:
-			changeEntry = [NSDictionary dictionaryWithObjectsAndKeys:
-					[NSNumber numberWithFloat:minChange], GRFChangeKey,
-					[NSNumber numberWithLong:1], GRFValidRepsKey,
-					nil];
-			[changeArray replaceObjectAtIndex:0 withObject:changeEntry];
-		
-			changeEntry = [NSDictionary dictionaryWithObjectsAndKeys:
-					[NSNumber numberWithFloat:guessThreshold], GRFChangeKey,
-					[NSNumber numberWithLong:1], GRFValidRepsKey,
-					nil];
-			[changeArray replaceObjectAtIndex:1 withObject:changeEntry];
-
-			changeEntry = [NSDictionary dictionaryWithObjectsAndKeys:
-					[NSNumber numberWithFloat:maxChange], GRFChangeKey,
-					[NSNumber numberWithLong:1], GRFValidRepsKey,
-					nil];
-			[changeArray replaceObjectAtIndex:2 withObject:changeEntry];
-			break;
-
-		case 4:
-			changeEntry = [NSDictionary dictionaryWithObjectsAndKeys:
-					[NSNumber numberWithFloat:minChange], GRFChangeKey,
-					[NSNumber numberWithLong:1], GRFValidRepsKey,
-					nil];
-			[changeArray replaceObjectAtIndex:0 withObject:changeEntry];
-		
-			changeEntry = [NSDictionary dictionaryWithObjectsAndKeys:
-					[NSNumber numberWithFloat:guessThreshold], GRFChangeKey,
-					[NSNumber numberWithLong:1], GRFValidRepsKey,
-					nil];
-			[changeArray replaceObjectAtIndex:1 withObject:changeEntry];
-
-			changeEntry = [NSDictionary dictionaryWithObjectsAndKeys:
-					[NSNumber numberWithFloat:maxChange], GRFChangeKey,
-					[NSNumber numberWithLong:1], GRFValidRepsKey,
-					nil];
-			[changeArray replaceObjectAtIndex:2 withObject:changeEntry];
-
-			changeEntry = [NSDictionary dictionaryWithObjectsAndKeys:
-					[NSNumber numberWithFloat:maxChange * 1.5], GRFChangeKey,
-					[NSNumber numberWithLong:1], GRFValidRepsKey,
-					nil];
-			[changeArray replaceObjectAtIndex:3 withObject:changeEntry];
-			break;
-
-		default:
-			netChanges = changes -1;
-			halfIndex = changes / 2;
-			for (index = 0; index < changes/2; index++) {
-				if (changeScale == kLinear) {
-					newValue = minChange + (index) * (guessThreshold - minChange) / (changes / 2 - 1);
-				}
-				else if (changeScale == kLogarithmic) {
-				newValue = exp(logMinChange + (index) * (logGuessThreshold - logMinChange) / (changes / 2 - 1));
-				newValue = changeSign * newValue;
-				}
-//				newValue = 0.1;
-				changeEntry = [NSDictionary dictionaryWithObjectsAndKeys:
-					[NSNumber numberWithFloat:newValue], GRFChangeKey,
-					[NSNumber numberWithLong:1], GRFValidRepsKey,
-					nil];
-				[changeArray replaceObjectAtIndex:index withObject:changeEntry];
-			}
-			halfIndex = index;
-			for (index = halfIndex; index < changes - 1; index++) {
-				if (changeScale == kLinear) {
-					newValue = guessThreshold + (index - halfIndex + 1) * 
-								(maxChange - guessThreshold) / ((changes + 1) / 2 - 1);
-				}
-				else if (changeScale == kLogarithmic) {
-				newValue = exp(logGuessThreshold + (index - halfIndex + 1) * 
-								(logMaxChange - logGuessThreshold) / ((changes + 1) / 2 - 1));
-				newValue = changeSign * newValue;
-				}
-//				newValue = 0.1;
-				changeEntry = [NSDictionary dictionaryWithObjectsAndKeys:
-					[NSNumber numberWithFloat:newValue], GRFChangeKey,
-					[NSNumber numberWithLong:1], GRFValidRepsKey,
-					nil];
-				[changeArray replaceObjectAtIndex:index withObject:changeEntry];
-			}
-			
-			changeEntry = [NSDictionary dictionaryWithObjectsAndKeys:
-				[NSNumber numberWithFloat:maxChange*1.5], GRFChangeKey,
-				[NSNumber numberWithLong:1], GRFValidRepsKey,
-				nil];
-
-			[changeArray replaceObjectAtIndex:changes-1 withObject:changeEntry];
-			break;
-	}
-
-
-
-	changeEntry = [NSDictionary dictionaryWithObjectsAndKeys:
-			[NSNumber numberWithFloat:1.0*changeSign], GRFChangeKey,
-			[NSNumber numberWithLong:1], GRFValidRepsKey,
-			nil];
-
-	[changeArray replaceObjectAtIndex:0 withObject:changeEntry];
-*/
 	changeScale = [defaults integerForKey:GRFChangeScaleKey];
 	minChange = [defaults floatForKey:GRFMinDirChangeDegKey];
 	maxChange = [defaults floatForKey:GRFMaxDirChangeDegKey];

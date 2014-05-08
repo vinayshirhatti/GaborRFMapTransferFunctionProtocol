@@ -287,6 +287,8 @@
 	<integer>2</integer>
 	<key>GRFPrecueMS</key>
 	<integer>250</integer>
+	<key>GRFRandTaskGaborDirection</key>
+	<false/>
 	<key>GRFReactMS</key>
 	<integer>750</integer>
 	<key>GRFRelDistractorProb</key>

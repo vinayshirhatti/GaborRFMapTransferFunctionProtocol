@@ -24,8 +24,13 @@ enum {kRewardFixed = 0, kRewardVariable};
 enum {kNullStim = 0, kValidStim, kTargetStim, kFrontPadding, kBackPadding};
 enum {kMyEOTCorrect = 0, kMyEOTMissed, kMyEOTEarlyToValid, kMyEOTEarlyToInvalid, kMyEOTBroke, 
 				kMyEOTIgnored, kMyEOTQuit, kMyEOTTypes};
-typedef enum {kTrialStartCode = 1, kFixateCode, kCueOnCode, kCueOffCode, kStimulusOnCode, kStimulusOffCode,
-    kTargetOnCode, kSaccadeCode, kTrialEndCode} BlackRockCodes;
+enum {  kTrialStartDigitOutCode = 0x0010,
+        kFixateDigitOutCode = 0x0020,
+        kStimulusOnDigitOutCode = 0x0030,
+        kStimulusOffDigitOutCode = 0x0040,
+        kTargetOnDigitOutCode = 0x0050,
+        kSaccadeDigitOutCode = 0x0060,
+        kTrialEndDigitOutCode = 0x0070};
 
 
 #define	kMaxOriChanges	12
@@ -177,6 +182,7 @@ extern NSString *GRFMinTargetMSKey;
 extern NSString *GRFMeanTargetMSKey;
 extern NSString *GRFNontargetContrastPCKey;
 //extern NSString *GRFNumInstructTrialsKey;
+extern NSString *GRFRandTaskGaborDirectionKey;
 extern NSString *GRFRespSpotSizeDegKey;
 extern NSString *GRFRespTimeMSKey;
 extern NSString *GRFRespWindowWidthDegKey;
@@ -232,6 +238,7 @@ BOOL							resetFlag;
 LLScheduleController			*scheduler;
 GRFStimuli						*stimuli;
 GRFDigitalOut					*digitalOut;
+long                            trialCounter;
 
 #endif
 
