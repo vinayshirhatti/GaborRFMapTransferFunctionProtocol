@@ -22,12 +22,10 @@
 - (void)stateAction {
 
 	long trialCertify;
-	long longValue = 0;
-	long codeTranslation[kMyEOTTypes] = {kEOTCorrect, kEOTFailed, kEOTWrong, kEOTWrong, kEOTBroke, 
+	long codeTranslation[kMyEOTTypes] = {kEOTCorrect, kEOTFailed, kEOTWrong, kEOTWrong, kEOTBroke,
 					kEOTIgnored, kEOTQuit};
 	
 	[stimuli stopAllStimuli];
-	[[task dataDoc] putEvent:@"stimulusOff" withData:&longValue];
 
 // Put our trial end code, then tranlate it into something that everyone else will understand.
 
@@ -107,7 +105,7 @@
 		reset();
         resetFlag = NO;
 	}
-    if ([task mode] == kTaskStopping) {						// Requested to stop
+    if ([task mode] == kTaskStopping || [task mode] == kTaskEnding) {	 // Requested to stop or quit
         [task setMode:kTaskIdle];
 	}
 }

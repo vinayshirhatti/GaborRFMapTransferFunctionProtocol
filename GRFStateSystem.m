@@ -103,6 +103,7 @@ TrialDesc			trial;
 	[[(GaborRFMap *)task mapStimTable0] reset];
 	[[(GaborRFMap *)task mapStimTable1] reset];
 	mappingBlockStatus = [[(GaborRFMap *)task mapStimTable0] mappingBlockStatus];
+    trialCounter = 0;
 }
 
 #define kMaxRate        100.0

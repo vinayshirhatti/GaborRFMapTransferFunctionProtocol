@@ -21,6 +21,7 @@
 	BOOL useSingleITC18;
 	
 	eotCode = -1;
+    trialCounter++;
 	
 // Prepare structures describing the fixation and response windows;
 	

@@ -14,7 +14,7 @@
 - (void)stateAction {
 
 	[[task dataDoc] putEvent:@"saccade"];
-    [digitalOut outputEvent:kSaccadeCode withData:0x0];
+    [digitalOut outputEvent:kSaccadeDigitOutCode withData:(kSaccadeDigitOutCode+1)];
 	expireTime = [LLSystemUtil timeFromNow:[[task defaults] integerForKey:GRFSaccadeTimeMSKey]];
 }
 

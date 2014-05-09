@@ -168,7 +168,13 @@ by mapStimTable.
 	stimDurBase = stimDurFrames - stimJitterFrames;
 	interDurBase = interDurFrames - interJitterFrames;
 
+    // randomize
+    if ([[task defaults] boolForKey:GRFRandTaskGaborDirectionKey]) {
+        [taskGabor setDirectionDeg:rand() % 180];
+    }
+    
 	pTrial->targetOnTimeMS = 0;
+    
  	for (stim = nextStimOnFrame = 0; stim < pTrial->numStim; stim++) {
 
 // Set the default values
@@ -182,7 +188,7 @@ by mapStimTable.
 		stimDesc.elevationDeg = [taskGabor elevationDeg];
 		stimDesc.sigmaDeg = [taskGabor sigmaDeg];
 		stimDesc.spatialFreqCPD = [taskGabor spatialFreqCPD];
-		stimDesc.directionDeg = [taskGabor directionDeg];
+        stimDesc.directionDeg = [taskGabor directionDeg];
 		stimDesc.radiusDeg = [taskGabor radiusDeg];
         stimDesc.temporalModulation = [taskGabor temporalModulation];
 	
@@ -361,9 +367,9 @@ by mapStimTable.
  // because the off of one stimulus may occur on the same frame as the on of the next
 
 			if (trialFrame == stimOffFrames[index]) {
-				[[task dataDoc] putEvent:@"stimulusOffTime"]; 
-				[[task dataDoc] putEvent:@"stimulusOff" withData:&index];
-                [digitalOut outputEvent:kStimulusOffCode withData:stimCounter];
+                [[task dataDoc] putEvent:@"stimulusOff" withData:&index];
+                [[task dataDoc] putEvent:@"stimulusOffTime"];
+                [digitalOut outputEvent:kStimulusOffDigitOutCode withData:index];
 				if (++stimIndices[index] >= [[stimLists objectAtIndex:index] count]) {	// no more entries in list
 					listDone = YES;
 				}
@@ -372,8 +378,8 @@ by mapStimTable.
 // If this is the first frame of a Gabor, post an event describing it
 
 			if (trialFrame == pSD->stimOnFrame) {
-				[[task dataDoc] putEvent:@"stimulusOnTime"]; 
-				[[task dataDoc] putEvent:@"stimulusOn" withData:&index]; 
+				[[task dataDoc] putEvent:@"stimulusOn" withData:&index];
+                [[task dataDoc] putEvent:@"stimulusOnTime"];
 				[[task dataDoc] putEvent:@"stimulus" withData:pSD];
 
                 useSingleITC18 = [[task defaults] boolForKey:GRFUseSingleITC18Key];
@@ -421,7 +427,7 @@ by mapStimTable.
                 if (pSD->stimType == kTargetStim) {
 					targetPresented = YES;
 					targetOnFrame = trialFrame;
-                    [digitalOut outputEvent:kTargetOnCode withData:stimCounter-1];
+                    [digitalOut outputEvent:kTargetOnDigitOutCode withData:(kTargetOnDigitOutCode+1)];
 				}
 				stimOffFrames[index] = stimDescs[index].stimOffFrame;		// previous done by now, save time for this one
 			}

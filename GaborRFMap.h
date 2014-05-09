@@ -23,6 +23,7 @@
     NSWindowController 		*spikeController;
     NSWindowController 		*summaryController;
 	LLTaskStatus			*taskStatus;
+    NSArray                 *topLevelObjects;
     NSWindowController 		*xtController;
 	
 	GRFMapStimTable			*mapStimTable0; 
