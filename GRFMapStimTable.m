@@ -45,6 +45,20 @@ static long GRFMapStimTableCounter = 0;
 	return self;
 }
 
+// No one should init without using [initWithIndex:], but if they do, we automatically increment the index counter;
+
+- (id)init;
+{
+	if (!(self = [super init])) {
+		return nil;
+	}
+    mapIndex = GRFMapStimTableCounter++;
+    NSLog(@"GRFMapStimTable: initializing with index %ld", mapIndex);
+	[self updateBlockParameters];
+	[self newBlock];
+	return self;
+}
+
 - (float)contrastValueFromIndex:(long)index count:(long)count min:(float)min max:(float)max;
 {
 	short c, stimLevels;
@@ -171,7 +185,7 @@ maxTargetS and a long stimLeadMS).
 	memcpy(&localList, &doneList, sizeof(doneList));
 	localFreshCount = stimRemainingInBlock;
 	frameRateHz = [[task stimWindow] frameRateHz];
-    
+/*
     // debugging start
     short a, e, sig, sf, dir, c, debugLocalListCount = 0, debugDoneListCount = 0;
     NSDictionary *countsDict = (NSDictionary *)[[[task defaults] arrayForKey:@"GRFStimTableCounts"] objectAtIndex:0];
@@ -196,7 +210,7 @@ maxTargetS and a long stimLeadMS).
     NSLog(@"debugLocalListCount is %d", debugLocalListCount);
     NSLog(@"debugDoneListCount is %d", debugDoneListCount);
     // debugging end
-	
+*/
 	mapDurFrames = MAX(1, ceil([[task defaults] integerForKey:GRFMapStimDurationMSKey] / 1000.0 * frameRateHz));
 	interDurFrames = ceil([[task defaults] integerForKey:GRFMapInterstimDurationMSKey] / 1000.0 * frameRateHz);
 	

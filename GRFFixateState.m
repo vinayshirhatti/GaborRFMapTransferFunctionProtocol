@@ -11,7 +11,7 @@
 
 #import "GRFFixateState.h"
 #import "GRFUtilities.h"
-
+#import "GRFDigitalOut.h"
 
 @implementation GRFFixateState
 
@@ -21,7 +21,8 @@
 	long fixJitterPC = [[task defaults] integerForKey:GRFFixJitterPCKey];
 		
 	if ([[task defaults] boolForKey:GRFFixateKey]) {				// fixation required && fixated
-        [digitalOut outputEvent:kFixateDigitOutCode withData:(kFixateDigitOutCode+1)]; // Thomas 2014 Feb 25
+//        [digitalOut outputEvent:kFixateDigitOutCode withData:(kFixateDigitOutCode+1)]; // Thomas 2014 Feb 25
+        [digitalOut outputEventName:@"fixate" withData:(long)(fixateMS)];
 		[[task dataDoc] putEvent:@"fixate"];
 		[scheduler schedule:@selector(updateCalibration) toTarget:self withObject:nil
 				delayMS:fixateMS * 0.8];

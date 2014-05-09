@@ -187,6 +187,7 @@
         [digitalOutDevice digitalOutputBits:(data & 0x7fff)];
     }
 	[lock unlock];
+//	NSLog(@"Digital out %ld %ld", (event | 0x8000), (data & 0x7fff));
 	return YES;
 }
 

@@ -167,12 +167,12 @@ by mapStimTable.
 	interJitterFrames = round(interDurFrames / 100.0 * interJitterPC);
 	stimDurBase = stimDurFrames - stimJitterFrames;
 	interDurBase = interDurFrames - interJitterFrames;
-
+/*
     // randomize
     if ([[task defaults] boolForKey:GRFRandTaskGaborDirectionKey]) {
         [taskGabor setDirectionDeg:rand() % 180];
     }
-    
+*/
 	pTrial->targetOnTimeMS = 0;
     
  	for (stim = nextStimOnFrame = 0; stim < pTrial->numStim; stim++) {
@@ -203,7 +203,7 @@ by mapStimTable.
         }
 
 // Load the information about the on and off frames
-        
+	
 		stimDesc.stimOnFrame = nextStimOnFrame;
 		if (stimJitterFrames > 0) {
 			stimDesc.stimOffFrame = stimDesc.stimOnFrame + 
@@ -292,7 +292,7 @@ by mapStimTable.
 	LLGabor *theGabor;
 	NSAutoreleasePool *threadPool;
 	BOOL listDone = NO;
-	long stimCounter = 0;
+//	long stimCounter = 0;
     BOOL useSingleITC18;
 	
     threadPool = [[NSAutoreleasePool alloc] init];		// create a threadPool for this thread
@@ -344,8 +344,8 @@ by mapStimTable.
                         [targetSpot draw];
                     }
 */
+                    gaborFrames[index]++;
                 }
-                gaborFrames[index]++;
 			}
 		}
 		[fixSpot draw];
@@ -366,10 +366,14 @@ by mapStimTable.
  // If this is the frame after the last draw of a stimulus, post an event declaring it off.  We have to do this first,
  // because the off of one stimulus may occur on the same frame as the on of the next
 
+            useSingleITC18 = [[task defaults] boolForKey:GRFUseSingleITC18Key];
+            
 			if (trialFrame == stimOffFrames[index]) {
                 [[task dataDoc] putEvent:@"stimulusOff" withData:&index];
                 [[task dataDoc] putEvent:@"stimulusOffTime"];
-                [digitalOut outputEvent:kStimulusOffDigitOutCode withData:index];
+                if (!useSingleITC18) {
+                    [digitalOut outputEvent:kStimulusOffDigitOutCode withData:index];
+                }
 				if (++stimIndices[index] >= [[stimLists objectAtIndex:index] count]) {	// no more entries in list
 					listDone = YES;
 				}
@@ -380,11 +384,10 @@ by mapStimTable.
 			if (trialFrame == pSD->stimOnFrame) {
 				[[task dataDoc] putEvent:@"stimulusOn" withData:&index];
                 [[task dataDoc] putEvent:@"stimulusOnTime"];
-				[[task dataDoc] putEvent:@"stimulus" withData:pSD];
+                [[task dataDoc] putEvent:@"stimulus" withData:pSD];
 
-                useSingleITC18 = [[task defaults] boolForKey:GRFUseSingleITC18Key];
                 if (!useSingleITC18) {
-                    [digitalOut outputEvent:kStimulusOnCode withData:stimCounter++];
+                    [digitalOut outputEvent:kStimulusOnDigitOutCode withData:index];
                 }
 				// put the digital events
 				if (index == kTaskGabor) {
@@ -427,7 +430,9 @@ by mapStimTable.
                 if (pSD->stimType == kTargetStim) {
 					targetPresented = YES;
 					targetOnFrame = trialFrame;
-                    [digitalOut outputEvent:kTargetOnDigitOutCode withData:(kTargetOnDigitOutCode+1)];
+                    if (!useSingleITC18) {
+                        [digitalOut outputEvent:kTargetOnDigitOutCode withData:(kTargetOnDigitOutCode+1)];
+                    }
 				}
 				stimOffFrames[index] = stimDescs[index].stimOffFrame;		// previous done by now, save time for this one
 			}
