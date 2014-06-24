@@ -407,5 +407,7 @@
 	<integer>16</integer>
 	<key>GRFTries</key>
 	<integer>1</integer>
+	<key>GRFTFProtocol</key>
+	<false/>
 </dict>
 </plist>

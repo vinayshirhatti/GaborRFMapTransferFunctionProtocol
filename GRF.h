@@ -32,6 +32,9 @@ enum {  kTrialStartDigitOutCode = 0x0010,
         kSaccadeDigitOutCode = 0x0060,
         kTrialEndDigitOutCode = 0x0070};
 
+enum {kOpenTask = 0, kCloseTask}; // [Vinay] - added this for the Transfer Function Protocol
+long taskSelectTFP; // [Vinay] - added this for the Transfer Function Protocol
+BOOL eyesClosed;
 
 #define	kMaxOriChanges	12
 #define kMaxMapValues   6
@@ -131,6 +134,7 @@ typedef struct BehaviorSetting {
 	long	rewardMS;
 	float	fixWinWidthDeg;
 	float	respWinWidthDeg;
+    BOOL    tfuncProtocol; // [Vinay] - added for the transfer function protocol
 } BehaviorSetting;
 
 // put parameters set in the Stimulus controller
@@ -198,6 +202,8 @@ extern NSString *GRFStimDistributionKey;
 extern NSString *GRFStimRepsPerBlockKey;
 extern NSString *GRFTaskStatus;
 extern NSString *GRFTooFastMSKey;
+
+extern NSString *GRFTFProtocolKey; // [Vinay] - for the transfer function protocol
 
 // Stimulus settings dialog
 

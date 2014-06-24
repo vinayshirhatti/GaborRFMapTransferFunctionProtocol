@@ -90,6 +90,23 @@
         NSLog(@"select trial stopping because blocksDone is %ld and blocklimit is %ld", pBS->blocksDone, pBS->blockLimit);
 		return NO;
 	}
+    
+// [Vinay] - check whether it is a tfunc protocol running and if so decide the trial type i.e. eyes open or closed trial
+    //[Vinay] - adding lines for the Transfer Function Protocol
+    long taskSelectorRand;
+    eyesClosed = NO;
+    if ([[task defaults] boolForKey:GRFTFProtocolKey]) {
+        taskSelectorRand = arc4random_uniform(2);
+        if (taskSelectorRand == 0) {
+            taskSelectTFP = kOpenTask;
+            eyesClosed = NO;
+        }
+        else if (taskSelectorRand == 1) {
+            taskSelectTFP = kCloseTask;
+            eyesClosed = YES;
+        }
+    }
+// [Vinay] - till here
 
 // determin target onset time and whether it is a catch trial
 

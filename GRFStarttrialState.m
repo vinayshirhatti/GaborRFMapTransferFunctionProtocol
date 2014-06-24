@@ -48,6 +48,7 @@
     [[task dataDoc] putEvent:@"trial" withData:&trial];
     [digitalOut outputEventName:@"instructTrial" withData:(long)trial.instructTrial];
 	[digitalOut outputEventName:@"catchTrial" withData:(long)trial.catchTrial];
+    [digitalOut outputEventName:@"eyesClosed" withData:(long)eyesClosed]; // [Vinay] - sending the eyes closed information, useful to get the task mode for the tfunc protocol
 	lValue = 0;
 	[[task dataDoc] putEvent:@"sampleZero" withData:&lValue];	// for now, it has no practical functions
 	[[task dataDoc] putEvent:@"spikeZero" withData:&lValue];

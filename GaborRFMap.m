@@ -54,6 +54,8 @@ NSString *GRFStimDistributionKey = @"GRFStimDistribution";
 NSString *GRFTaskStatusKey = @"GRFTaskStatus";
 NSString *GRFTooFastMSKey = @"GRFTooFastMS";
 
+NSString *GRFTFProtocolKey = @"GRFTFProtocol"; // [Vinay] - for the Transfer Function protocol
+
 // Stimulus Parameters
 
 NSString *GRFInterstimJitterPCKey = @"GRFInterstimJitterPC";
@@ -184,6 +186,7 @@ LLDataDef behaviorSettingDef[] = {
 	{@"long",	@"rewardMS", 1, offsetof(BehaviorSetting, rewardMS)},
 	{@"float",	@"fixWinWidthDeg", 1, offsetof(BehaviorSetting, fixWinWidthDeg)},
 	{@"float",	@"respWinWidthDeg", 1, offsetof(BehaviorSetting, respWinWidthDeg)},
+    {@"boolean",@"tfuncProtocol", 1, offsetof(BehaviorSetting, tfuncProtocol)}, // [Vinay] - added this line for the transfer function protocol
 	{nil}};
 
 LLDataDef stimSettingDef[] = {

@@ -88,6 +88,38 @@ static long GRFMapStimTableCounter = 0;
 	return(stimValue);
 }
 
+//[Vinay] - to map tf values the same way as for contrast. However the max limit is (frame refresh rate)/2 set as per the refresh rate of the monitor
+- (float)tfValueFromIndex:(long)index count:(long)count min:(float)min max:(float)max;
+{
+	short c, stimLevels;
+	float stimValue, level, stimFactor, maxLimit;
+	
+    maxLimit = [[task stimWindow] frameRateHz]/2;
+    
+	stimLevels = count;
+	stimFactor = 0.5;
+	switch (stimLevels) {
+		case 1:								// Just the min stimulus
+			stimValue = min;
+			break;
+		case 2:								// Just 100% and 0% stimuli
+			stimValue = (index == 0) ? min : max;
+			break;
+		default:							// Other values as well
+			if (index == 0) {
+				stimValue = min;
+			}
+			else {
+				level = max;
+				for (c = stimLevels - 1; c > index; c--) {
+					level *= stimFactor;
+				}
+				stimValue = level;
+			}
+	}
+    stimValue = (stimValue > maxLimit) ? maxLimit : stimValue; // [Vinay] - adjust the stimValue if it exceeds the maximum allowed limit
+	return(stimValue);
+}
 
 - (float)linearValueWithIndex:(long)index count:(long)count min:(float)min max:(float)max;
 {
@@ -305,7 +337,8 @@ maxTargetS and a long stimLeadMS).
 		stimDesc.directionDeg = [self linearValueWithIndex:directionDegIndex count:directionDegCount min:directionDegMin max:directionDegMax];
 		
 		stimDesc.contrastPC = [self contrastValueFromIndex:contrastIndex count:contrastCount min:contrastPCMin max:contrastPCMax];
-		stimDesc.temporalFreqHz = [self logValueWithIndex:temporalFreqIndex count:temporalFreqCount min:temporalFreqHzMin max:temporalFreqHzMax];
+        //stimDesc.temporalFreqHz = [self logValueWithIndex:temporalFreqIndex count:temporalFreqCount min:temporalFreqHzMin max:temporalFreqHzMax];
+        stimDesc.temporalFreqHz = [self tfValueFromIndex:temporalFreqIndex count:temporalFreqCount min:temporalFreqHzMin max:temporalFreqHzMax]; // [Vinay] - commented the above line and added this to temprarily map tf values differently, for monitor calibration
         
         stimDesc.temporalModulation = [[task defaults] integerForKey:@"GRFMapTemporalModulation"];
 		

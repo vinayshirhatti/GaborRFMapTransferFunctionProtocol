@@ -167,6 +167,8 @@
 		thisEventName = @"T0";
 	else if ([eventName isEqualTo:@"type1"] || [eventName isEqualTo:@"T1"] )
 		thisEventName = @"T1";
+    else if ([eventName isEqualTo:@"eyesClosed"] || [eventName isEqualTo:@"IC"] ) // [Vinay] - added this to send the eyes closed status i.e. the task status for the tfunc protocol
+		thisEventName = @"IC"; // [Vinay] - till here
 	else
 		NSRunAlertPanel(@"GRFDigitalOut",  @"Can't find digital event named \"%@\".",
 						@"OK", nil, nil, eventName);

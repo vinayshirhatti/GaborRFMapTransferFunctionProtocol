@@ -22,6 +22,7 @@
 #import "GRFStimulate.h"
 #import "GRFStopState.h"
 #import "GRFTooFastState.h"
+#import "GRFEyesClosedState.h" // [Vinay] - added for the tfunc protocol
 
 long 				eotCode;			// End Of Trial code
 BOOL 				fixated;
@@ -58,6 +59,7 @@ TrialDesc			trial;
 		[self addState:[[[GRFSaccadeState alloc] init] autorelease]];
 		[self addState:[[[GRFStarttrialState alloc] init] autorelease]];
 		[self addState:[[[GRFStopState alloc] init] autorelease]];
+        [self addState:[[[GRFEyesClosedState alloc] init] autorelease]]; // [Vinay] - added for tfunc protocol
 		[self setStartState:[self stateNamed:@"GRFIdle"] andStopState:[self stateNamed:@"GRFStop"]];
 
 		[controller setLogging:YES];

@@ -29,8 +29,17 @@
 		if ([[task defaults] boolForKey:GRFDoSoundsKey]) {
 			[[NSSound soundNamed:kFixateSound] play];
 		}
+        //[Vinay] - adding lines for the Transfer Function Protocol
+        if ([[task defaults] boolForKey:GRFTFProtocolKey]) {
+            if (taskSelectTFP == kOpenTask) {
+                [[NSSound soundNamed:kSoundOpen] play];
+            }
+            else if (taskSelectTFP == kCloseTask) {
+                [[NSSound soundNamed:kSoundClose] play];
+            }
+        }
 	}
-	
+	// [Vinay] - till here
 	if (fixJitterPC > 0){
 		fixJitterMS = round((fixateMS * fixJitterPC) / 100.0);
 		fixDurBase = fixateMS - fixJitterMS;
@@ -51,13 +60,25 @@
 		eotCode = kMyEOTQuit;
 		return [[task stateSystem] stateNamed:@"Endtrial"];;
 	}
-	if ([[task defaults] boolForKey:GRFFixateKey] && ![GRFUtilities inWindow:fixWindow]) {
-		eotCode = kMyEOTBroke;
-		return [[task stateSystem] stateNamed:@"Endtrial"];;
-	}
-	if ([LLSystemUtil timeIsPast:expireTime]) {
-		return [[task stateSystem] stateNamed:@"GRFStimulate"];
-	}
+    if (![[task defaults] boolForKey:GRFTFProtocolKey]) { // [Vinay] - put this loop for the tfunc protocol
+        if ([[task defaults] boolForKey:GRFFixateKey] && ![GRFUtilities inWindow:fixWindow]) {
+            eotCode = kMyEOTBroke;
+            return [[task stateSystem] stateNamed:@"Endtrial"];;
+        }
+        if ([LLSystemUtil timeIsPast:expireTime]) {
+            return [[task stateSystem] stateNamed:@"GRFStimulate"];
+        }
+    }
+	else if ([[task defaults] boolForKey:GRFTFProtocolKey]) {
+        if ([[task defaults] boolForKey:GRFFixateKey] && ![GRFUtilities inWindow:fixWindow] && !eyesClosed) {
+            eotCode = kMyEOTBroke;
+            return [[task stateSystem] stateNamed:@"Endtrial"];;
+        }
+        if ([LLSystemUtil timeIsPast:expireTime]) {
+            return [[task stateSystem] stateNamed:@"GRFStimulate"];
+        }
+    }
+    // [Vinay] - till here
 	return nil;
 }
 

@@ -123,7 +123,8 @@ BehaviorSetting *getBehaviorSetting(void) {
 	behaviorSetting.rewardMS = [[task defaults] integerForKey:GRFRewardMSKey];
 	behaviorSetting.fixWinWidthDeg = [[task defaults] floatForKey:GRFFixWindowWidthDegKey];
 	behaviorSetting.respWinWidthDeg = [[task defaults] floatForKey:GRFRespWindowWidthDegKey];
-	
+	behaviorSetting.tfuncProtocol = [[task defaults] boolForKey:GRFTFProtocolKey]; // [Vinay] - added for the transfer function protocol
+    
 	return &behaviorSetting;
 }
 

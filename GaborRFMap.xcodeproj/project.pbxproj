@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5DC1EA2B1959A552006E8E46 /* GRFEyesClosedState.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DC1EA2A1959A552006E8E46 /* GRFEyesClosedState.m */; };
 		692E5AAF0CDBECE300E0BCB8 /* GRFMapStimTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 692E5AAE0CDBECE300E0BCB8 /* GRFMapStimTable.m */; };
 		693BB74215C8005500390101 /* Lablib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 693BB74115C8005500390101 /* Lablib.framework */; };
 		695982D1080209EB0090B9A6 /* GRFFixGraceState.h in Resources */ = {isa = PBXBuildFile; fileRef = 695982CF080209EB0090B9A6 /* GRFFixGraceState.h */; };
@@ -79,6 +80,8 @@
 		29B97319FDCFA39411CA2CEA /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/GaborRFMap.nib; sourceTree = "<group>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		5DC1EA291959A552006E8E46 /* GRFEyesClosedState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GRFEyesClosedState.h; sourceTree = "<group>"; };
+		5DC1EA2A1959A552006E8E46 /* GRFEyesClosedState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GRFEyesClosedState.m; sourceTree = "<group>"; };
 		690B798D047ADA9F00A80164 /* GRFBehaviorController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GRFBehaviorController.h; sourceTree = "<group>"; };
 		690B798E047ADA9F00A80164 /* GRFBehaviorController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = GRFBehaviorController.m; sourceTree = "<group>"; };
 		690B7992047ADABA00A80164 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/GRFXTController.nib; sourceTree = "<group>"; };
@@ -279,6 +282,8 @@
 				69E8A0490486D97300FE06D7 /* GRFBlockedState.m */,
 				69E8A0400486D3B700FE06D7 /* GRFEndtrialState.h */,
 				69E8A0410486D3B700FE06D7 /* GRFEndtrialState.m */,
+				5DC1EA291959A552006E8E46 /* GRFEyesClosedState.h */,
+				5DC1EA2A1959A552006E8E46 /* GRFEyesClosedState.m */,
 				695982CF080209EB0090B9A6 /* GRFFixGraceState.h */,
 				695982D0080209EB0090B9A6 /* GRFFixGraceState.m */,
 				69E8A04C0486DB1300FE06D7 /* GRFFixonState.h */,
@@ -443,6 +448,7 @@
 				69E24E3407A5C29D00DDC096 /* GRFFixonState.m in Sources */,
 				69E24E3807A5C2A000DDC096 /* GRFIdleState.m in Sources */,
 				69E24E3A07A5C2A100DDC096 /* GRFIntertrialState.m in Sources */,
+				5DC1EA2B1959A552006E8E46 /* GRFEyesClosedState.m in Sources */,
 				69E24E3C07A5C2A300DDC096 /* GRFStimulate.m in Sources */,
 				69E24E4407A5C2AC00DDC096 /* GRFReactState.m in Sources */,
 				69E24E4607A5C2AE00DDC096 /* GRFSaccadeState.m in Sources */,
@@ -535,7 +541,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
-				CONFIGURATION_BUILD_DIR = "/Library/Application Support/Knot/Plugins/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				CONFIGURATION_BUILD_DIR = "~/Library/Application Support/Knot/Plugins/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
 				CONFIGURATION_TEMP_DIR = "$(PROJECT_DIR)/$(BUILD_DIR)";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -570,7 +576,7 @@
 				PRODUCT_NAME = GaborRFMap;
 				SECTORDER_FLAGS = "";
 				SKIP_INSTALL = NO;
-				SYMROOT = "$(PROJECT_DIR)/$(BUILD_DIR)";
+				SYMROOT = build;
 				UNSTRIPPED_PRODUCT = YES;
 				WARNING_CFLAGS = (
 					"-Wmost",
@@ -586,7 +592,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
-				CONFIGURATION_BUILD_DIR = "/Library/Application Support/Knot/Plugins/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				CONFIGURATION_BUILD_DIR = "~/Library/Application Support/Knot/Plugins/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
 				CONFIGURATION_TEMP_DIR = "$(PROJECT_DIR)/$(BUILD_DIR)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"/Documents/Lablib/Frameworks/Lablib/build/**",
@@ -608,7 +614,7 @@
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = GaborRFMap;
 				SECTORDER_FLAGS = "";
-				SYMROOT = "$(PROJECT_DIR)/$(BUILD_DIR)";
+				SYMROOT = build;
 				WARNING_CFLAGS = (
 					"-Wmost",
 					"-Wno-four-char-constants",
@@ -622,7 +628,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
-				CONFIGURATION_BUILD_DIR = "/Library/Application Support/Knot/Plugins/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				CONFIGURATION_BUILD_DIR = "~/Library/Application Support/Knot/Plugins/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
 				CONFIGURATION_TEMP_DIR = "$(PROJECT_DIR)/$(BUILD_DIR)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"/Documents/Lablib/Frameworks/Lablib/build/**",
@@ -643,7 +649,7 @@
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = GaborRFMap;
 				SECTORDER_FLAGS = "";
-				SYMROOT = "$(PROJECT_DIR)/$(BUILD_DIR)";
+				SYMROOT = build;
 				WARNING_CFLAGS = (
 					"-Wmost",
 					"-Wno-four-char-constants",
