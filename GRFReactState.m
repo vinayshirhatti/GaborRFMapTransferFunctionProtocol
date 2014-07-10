@@ -32,11 +32,11 @@
 
 	if ([task mode] == kTaskIdle) {							// switched to idle
 		eotCode = kMyEOTQuit;
-		return [[task stateSystem] stateNamed:@"Endtrial"];;
+		return [[task stateSystem] stateNamed:@"Endtrial"];
 	}
 	if (![[task defaults] boolForKey:GRFFixateKey]) {
 		eotCode = kMyEOTCorrect;
-		return [[task stateSystem] stateNamed:@"Endtrial"];;
+		return [[task stateSystem] stateNamed:@"Endtrial"];
 	}
 	else {
 		if (![GRFUtilities inWindow:fixWindow]) {   // started a saccade
@@ -46,7 +46,7 @@
 	}
 	if ([LLSystemUtil timeIsPast:expireTime]) {
 		eotCode = kMyEOTMissed;
-		return [[task stateSystem] stateNamed:@"Endtrial"];;
+		return [[task stateSystem] stateNamed:@"Endtrial"];
 	}
     return nil;
 }

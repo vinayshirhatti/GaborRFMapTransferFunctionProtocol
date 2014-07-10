@@ -29,7 +29,7 @@
 {
 	if ([task mode] == kTaskIdle) {
 		eotCode = kMyEOTQuit;
-		return [[task stateSystem] stateNamed:@"Endtrial"];;
+		return [[task stateSystem] stateNamed:@"Endtrial"];
 	}
 	if ([LLSystemUtil timeIsPast:expireTime]) {
 		if ([GRFUtilities inWindow:fixWindow])  {

@@ -42,16 +42,16 @@
 
 	if ([task mode] == kTaskIdle) {							// switched to idle
 		eotCode = kMyEOTQuit;
-		return [[task stateSystem] stateNamed:@"Endtrial"];;
+		return [[task stateSystem] stateNamed:@"Endtrial"];
 	}
 	if (![[task defaults] boolForKey:GRFFixateKey]) {
 		eotCode = kMyEOTCorrect;
-		return [[task stateSystem] stateNamed:@"Endtrial"];;
+		return [[task stateSystem] stateNamed:@"Endtrial"];
 	}
 	else {
 		if (![GRFUtilities inWindow:fixWindow]) {   // too fast reaction
 			eotCode = kMyEOTBroke;
-			return [[task stateSystem] stateNamed:@"GRFSaccade"];;
+			return [[task stateSystem] stateNamed:@"GRFSaccade"];
 		}
 	}
 	if ([LLSystemUtil timeIsPast:expireTime]) {

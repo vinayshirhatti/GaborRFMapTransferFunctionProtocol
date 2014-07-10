@@ -58,24 +58,36 @@
 
 	if ([task mode] == kTaskIdle) {
 		eotCode = kMyEOTQuit;
-		return [[task stateSystem] stateNamed:@"Endtrial"];;
+		return [[task stateSystem] stateNamed:@"Endtrial"];
 	}
     if (![[task defaults] boolForKey:GRFTFProtocolKey]) { // [Vinay] - put this loop for the tfunc protocol
         if ([[task defaults] boolForKey:GRFFixateKey] && ![GRFUtilities inWindow:fixWindow]) {
             eotCode = kMyEOTBroke;
-            return [[task stateSystem] stateNamed:@"Endtrial"];;
+            return [[task stateSystem] stateNamed:@"Endtrial"];
         }
         if ([LLSystemUtil timeIsPast:expireTime]) {
             return [[task stateSystem] stateNamed:@"GRFStimulate"];
         }
     }
 	else if ([[task defaults] boolForKey:GRFTFProtocolKey]) {
-        if ([[task defaults] boolForKey:GRFFixateKey] && ![GRFUtilities inWindow:fixWindow] && !eyesClosed) {
-            eotCode = kMyEOTBroke;
-            return [[task stateSystem] stateNamed:@"Endtrial"];;
+        if (!eyesClosed) {
+            if ([[task defaults] boolForKey:GRFFixateKey] && ![GRFUtilities inWindow:fixWindow]) {
+                eotCode = kMyEOTBroke;
+                return [[task stateSystem] stateNamed:@"Endtrial"];
+            }
+            if ([LLSystemUtil timeIsPast:expireTime]) {
+                return [[task stateSystem] stateNamed:@"GRFStimulate"];
+            }
+
         }
-        if ([LLSystemUtil timeIsPast:expireTime]) {
-            return [[task stateSystem] stateNamed:@"GRFStimulate"];
+        else if (eyesClosed) {
+            if ([LLSystemUtil timeIsPast:expireTime] && [GRFUtilities inWindow:bigWindow]) {
+                eotCode = kMyEOTBroke;
+                return [[task stateSystem] stateNamed:@"Endtrial"];
+            }
+            if ([LLSystemUtil timeIsPast:expireTime] && ![GRFUtilities inWindow:bigWindow]) {
+                return [[task stateSystem] stateNamed:@"GRFEyesClosed"];
+            }
         }
     }
     // [Vinay] - till here

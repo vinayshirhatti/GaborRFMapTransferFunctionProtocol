@@ -73,7 +73,7 @@
 
 	if ([task mode] == kTaskIdle) {
 		eotCode = kMyEOTQuit;
-		return  [[task stateSystem] stateNamed:@"Endtrial"];;
+		return  [[task stateSystem] stateNamed:@"Endtrial"];
 	}
 	if ([[task defaults] boolForKey:GRFFixateKey] && [GRFUtilities inWindow:fixWindow]) {
 		return [[task stateSystem] stateNamed:@"GRFBlocked"];

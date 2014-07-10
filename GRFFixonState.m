@@ -32,7 +32,7 @@
 
 	if ([task mode] == kTaskIdle) {
 		eotCode = kMyEOTQuit;
-		return [[task stateSystem] stateNamed:@"Endtrial"];;
+		return [[task stateSystem] stateNamed:@"Endtrial"];
 	}
 	if (![[task defaults] boolForKey:GRFFixateKey]) { 
 		return [[task stateSystem] stateNamed:@"GRFFixate"];
@@ -42,7 +42,7 @@
     }
 	if ([LLSystemUtil timeIsPast:expireTime]) {
 		eotCode = kMyEOTIgnored;
-		return [[task stateSystem] stateNamed:@"Endtrial"];;
+		return [[task stateSystem] stateNamed:@"Endtrial"];
 	}
 	else {
 		return nil;

@@ -413,12 +413,12 @@
                     <popUpButton verticalHuggingPriority="750" id="1479">
                         <rect key="frame" x="400" y="185" width="124" height="26"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <popUpButtonCell key="cell" type="push" title="Fixed" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" id="2547">
+                        <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" id="2547">
                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="system"/>
+                            <font key="font" metaFont="menu"/>
                             <menu key="menu" title="OtherViews" id="1480">
                                 <items>
-                                    <menuItem title="Fixed" state="on" id="1482"/>
+                                    <menuItem title="Fixed" id="1482"/>
                                     <menuItem title="Variable" id="1481"/>
                                 </items>
                             </menu>
@@ -456,8 +456,8 @@
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                         <connections>
-                            <binding destination="498" name="enabled" keyPath="values.GRFRewardSchedule" id="2163"/>
                             <binding destination="498" name="value" keyPath="values.GRFMinRewardMS" id="1817"/>
+                            <binding destination="498" name="enabled" keyPath="values.GRFRewardSchedule" id="2163"/>
                         </connections>
                     </textField>
                     <textField verticalHuggingPriority="750" id="1655">
@@ -538,12 +538,12 @@
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                         <connections>
+                            <binding destination="498" name="value" keyPath="values.GRFStimDurationMS" id="1790"/>
                             <binding destination="498" name="enabled" keyPath="values.GRFTaskStatus" id="2175">
                                 <dictionary key="options">
                                     <string key="NSValueTransformerName">TaskStatusIdleAndNoFileTransformer</string>
                                 </dictionary>
                             </binding>
-                            <binding destination="498" name="value" keyPath="values.GRFStimDurationMS" id="1790"/>
                             <outlet property="nextKeyView" destination="1243" id="1252"/>
                         </connections>
                     </textField>
@@ -572,12 +572,12 @@
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                         <connections>
+                            <binding destination="498" name="value" keyPath="values.GRFStimJitterPC" id="1791"/>
                             <binding destination="498" name="enabled" keyPath="values.GRFTaskStatus" id="2177">
                                 <dictionary key="options">
                                     <string key="NSValueTransformerName">TaskStatusIdleAndNoFileTransformer</string>
                                 </dictionary>
                             </binding>
-                            <binding destination="498" name="value" keyPath="values.GRFStimJitterPC" id="1791"/>
                             <outlet property="nextKeyView" destination="1291" id="1295"/>
                         </connections>
                     </textField>
@@ -604,23 +604,23 @@
                     <popUpButton verticalHuggingPriority="750" id="1431">
                         <rect key="frame" x="113" y="285" width="130" height="26"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <popUpButtonCell key="cell" type="push" title="Uniform" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" id="2564">
+                        <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" id="2564">
                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="system"/>
+                            <font key="font" metaFont="menu"/>
                             <menu key="menu" title="OtherViews" id="1432">
                                 <items>
-                                    <menuItem title="Uniform" state="on" id="1434"/>
+                                    <menuItem title="Uniform" id="1434"/>
                                     <menuItem title="Exponential" id="1433"/>
                                 </items>
                             </menu>
                         </popUpButtonCell>
                         <connections>
+                            <binding destination="498" name="selectedIndex" keyPath="values.GRFStimDistribution" id="1804"/>
                             <binding destination="498" name="enabled" keyPath="values.GRFTaskStatus" id="2191">
                                 <dictionary key="options">
                                     <string key="NSValueTransformerName">TaskStatusIdleAndNoFileTransformer</string>
                                 </dictionary>
                             </binding>
-                            <binding destination="498" name="selectedIndex" keyPath="values.GRFStimDistribution" id="1804"/>
                         </connections>
                     </popUpButton>
                     <textField verticalHuggingPriority="750" id="1436">
@@ -675,12 +675,12 @@
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                         <connections>
+                            <binding destination="498" name="value" keyPath="values.GRFMeanTargetMS" id="1802"/>
                             <binding destination="498" name="enabled" keyPath="values.GRFTaskStatus" id="2195">
                                 <dictionary key="options">
                                     <string key="NSValueTransformerName">TaskStatusIdleAndNoFileTransformer</string>
                                 </dictionary>
                             </binding>
-                            <binding destination="498" name="value" keyPath="values.GRFMeanTargetMS" id="1802"/>
                         </connections>
                     </textField>
                     <textField verticalHuggingPriority="750" id="1449">
@@ -708,14 +708,14 @@
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                         <connections>
-                            <binding destination="498" name="enabled" keyPath="values.GRFTaskStatus" id="2197">
-                                <dictionary key="options">
-                                    <string key="NSValueTransformerName">TaskStatusIdleAndNoFileTransformer</string>
-                                </dictionary>
-                            </binding>
                             <binding destination="498" name="value" keyPath="values.GRFMaxTargetMS" id="1801">
                                 <dictionary key="options">
                                     <string key="NSValueTransformerName">RoundToStimCycle</string>
+                                </dictionary>
+                            </binding>
+                            <binding destination="498" name="enabled" keyPath="values.GRFTaskStatus" id="2197">
+                                <dictionary key="options">
+                                    <string key="NSValueTransformerName">TaskStatusIdleAndNoFileTransformer</string>
                                 </dictionary>
                             </binding>
                         </connections>
@@ -745,14 +745,14 @@
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                         <connections>
-                            <binding destination="498" name="enabled" keyPath="values.GRFTaskStatus" id="2193">
-                                <dictionary key="options">
-                                    <string key="NSValueTransformerName">TaskStatusIdleAndNoFileTransformer</string>
-                                </dictionary>
-                            </binding>
                             <binding destination="498" name="value" keyPath="values.GRFMinTargetMS" id="1803">
                                 <dictionary key="options">
                                     <string key="NSValueTransformerName">RoundToStimCycle</string>
+                                </dictionary>
+                            </binding>
+                            <binding destination="498" name="enabled" keyPath="values.GRFTaskStatus" id="2193">
+                                <dictionary key="options">
+                                    <string key="NSValueTransformerName">TaskStatusIdleAndNoFileTransformer</string>
                                 </dictionary>
                             </binding>
                         </connections>
@@ -766,14 +766,14 @@
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                         <connections>
-                            <binding destination="498" name="enabled" keyPath="values.GRFTaskStatus" id="2179">
-                                <dictionary key="options">
-                                    <string key="NSValueTransformerName">TaskStatusIdleAndNoFileTransformer</string>
-                                </dictionary>
-                            </binding>
                             <binding destination="498" name="value" keyPath="values.GRFInterstimMS" id="1792">
                                 <dictionary key="options">
                                     <bool key="NSConditionallySetsEnabled" value="YES"/>
+                                </dictionary>
+                            </binding>
+                            <binding destination="498" name="enabled" keyPath="values.GRFTaskStatus" id="2179">
+                                <dictionary key="options">
+                                    <string key="NSValueTransformerName">TaskStatusIdleAndNoFileTransformer</string>
                                 </dictionary>
                             </binding>
                         </connections>
@@ -813,12 +813,12 @@
                             <font key="font" metaFont="system"/>
                         </buttonCell>
                         <connections>
+                            <binding destination="498" name="value" keyPath="values.GRFChangeRemain" id="1798"/>
                             <binding destination="498" name="enabled" keyPath="values.GRFTaskStatus" id="2189">
                                 <dictionary key="options">
                                     <string key="NSValueTransformerName">TaskStatusIdleAndNoFileTransformer</string>
                                 </dictionary>
                             </binding>
-                            <binding destination="498" name="value" keyPath="values.GRFChangeRemain" id="1798"/>
                         </connections>
                     </button>
                     <textField toolTip="Duration of each of the two intervals" verticalHuggingPriority="750" id="1291">
@@ -837,12 +837,12 @@
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                         <connections>
+                            <binding destination="498" name="value" keyPath="values.GRFInterstimJitterPC" id="1793"/>
                             <binding destination="498" name="enabled" keyPath="values.GRFTaskStatus" id="2181">
                                 <dictionary key="options">
                                     <string key="NSValueTransformerName">TaskStatusIdleAndNoFileTransformer</string>
                                 </dictionary>
                             </binding>
-                            <binding destination="498" name="value" keyPath="values.GRFInterstimJitterPC" id="1793"/>
                         </connections>
                     </textField>
                     <textField toolTip="Time between fixation and first interval" verticalHuggingPriority="750" id="1311">
@@ -861,12 +861,12 @@
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                         <connections>
+                            <binding destination="498" name="value" keyPath="values.GRFMaxDirChangeDeg" id="1789"/>
                             <binding destination="498" name="enabled" keyPath="values.GRFTaskStatus" id="2185">
                                 <dictionary key="options">
                                     <string key="NSValueTransformerName">TaskStatusIdleAndNoFileTransformer</string>
                                 </dictionary>
                             </binding>
-                            <binding destination="498" name="value" keyPath="values.GRFMaxDirChangeDeg" id="1789"/>
                         </connections>
                     </textField>
                     <textField verticalHuggingPriority="750" id="1484">
@@ -894,23 +894,23 @@
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                         <connections>
+                            <binding destination="498" name="value" keyPath="values.GRFOrientationChanges" id="1788"/>
                             <binding destination="498" name="enabled" keyPath="values.GRFTaskStatus" id="2183">
                                 <dictionary key="options">
                                     <string key="NSValueTransformerName">TaskStatusIdleAndNoFileTransformer</string>
                                 </dictionary>
                             </binding>
-                            <binding destination="498" name="value" keyPath="values.GRFOrientationChanges" id="1788"/>
                         </connections>
                     </textField>
                     <popUpButton verticalHuggingPriority="750" id="1513">
                         <rect key="frame" x="373" y="289" width="130" height="26"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <popUpButtonCell key="cell" type="push" title="Linear" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" id="2579">
+                        <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" id="2579">
                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="system"/>
+                            <font key="font" metaFont="menu"/>
                             <menu key="menu" title="OtherViews" id="1514">
                                 <items>
-                                    <menuItem title="Linear" state="on" id="1516"/>
+                                    <menuItem title="Linear" id="1516"/>
                                     <menuItem title="Logarithmic" id="1517"/>
                                 </items>
                             </menu>
@@ -935,13 +935,13 @@
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                         <connections>
+                            <binding destination="498" name="value" keyPath="values.GRFCatchTrialPC" previousBinding="1696" id="1796"/>
                             <binding destination="498" name="enabled" keyPath="values.GRFHideTaskGabor" id="2682">
                                 <dictionary key="options">
                                     <string key="NSValueTransformerName">NSNegateBoolean</string>
                                 </dictionary>
                             </binding>
                             <binding destination="498" name="maxValue" keyPath="values.OCCatchTrialMaxPC" id="1696"/>
-                            <binding destination="498" name="value" keyPath="values.GRFCatchTrialPC" previousBinding="1696" id="1796"/>
                         </connections>
                     </textField>
                     <scrollView horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" id="1495">
@@ -949,7 +949,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <clipView key="contentView" id="slN-Vx-D6D">
                             <rect key="frame" x="1" y="17" width="268" height="220"/>
-                            <autoresizingMask key="autoresizingMask"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" multipleSelection="NO" autosaveName="GRFChangeArrayTable" headerView="2616" id="1496">
                                     <rect key="frame" x="0.0" y="0.0" width="268" height="220"/>
@@ -1064,12 +1064,12 @@
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                         <connections>
+                            <binding destination="498" name="value" keyPath="values.GRFMinDirChangeDeg" id="1797"/>
                             <binding destination="498" name="enabled" keyPath="values.GRFTaskStatus" id="2187">
                                 <dictionary key="options">
                                     <string key="NSValueTransformerName">TaskStatusIdleAndNoFileTransformer</string>
                                 </dictionary>
                             </binding>
-                            <binding destination="498" name="value" keyPath="values.GRFMinDirChangeDeg" id="1797"/>
                         </connections>
                     </textField>
                     <textField verticalHuggingPriority="750" id="1486">
@@ -1144,12 +1144,12 @@
                             <font key="font" metaFont="system"/>
                         </buttonCell>
                         <connections>
+                            <binding destination="498" name="value" keyPath="values.GRFHideTaskGabor" id="2671"/>
                             <binding destination="498" name="enabled" keyPath="values.GRFTaskStatus" id="2669">
                                 <dictionary key="options">
                                     <string key="NSValueTransformerName">TaskStatusIdleAndNoFileTransformer</string>
                                 </dictionary>
                             </binding>
-                            <binding destination="498" name="value" keyPath="values.GRFHideTaskGabor" id="2671"/>
                         </connections>
                     </button>
                     <button id="2672">
@@ -1288,12 +1288,12 @@
                                     <font key="font" metaFont="system"/>
                                     <font key="titleFont" metaFont="system"/>
                                     <connections>
+                                        <binding destination="498" name="value" keyPath="values.GRFMapStimDurationMS" id="2331"/>
                                         <binding destination="498" name="enabled" keyPath="values.GRFTaskStatus" id="2165">
                                             <dictionary key="options">
                                                 <string key="NSValueTransformerName">TaskStatusIdleAndNoFileTransformer</string>
                                             </dictionary>
                                         </binding>
-                                        <binding destination="498" name="value" keyPath="values.GRFMapStimDurationMS" id="2331"/>
                                     </connections>
                                 </formCell>
                                 <formCell scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" alignment="justified" tag="1" title="Interstim (ms):" id="2151">
@@ -1307,12 +1307,12 @@
                                     <font key="font" metaFont="system"/>
                                     <font key="titleFont" metaFont="system"/>
                                     <connections>
+                                        <binding destination="498" name="value" keyPath="values.GRFMapInterstimDurationMS" id="2332"/>
                                         <binding destination="498" name="enabled" keyPath="values.GRFTaskStatus" id="2167">
                                             <dictionary key="options">
                                                 <string key="NSValueTransformerName">TaskStatusIdleAndNoFileTransformer</string>
                                             </dictionary>
                                         </binding>
-                                        <binding destination="498" name="value" keyPath="values.GRFMapInterstimDurationMS" id="2332"/>
                                     </connections>
                                 </formCell>
                                 <formCell scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" alignment="justified" tag="2" title="Radius to Sigma Ratio:" id="2152">
@@ -1326,12 +1326,12 @@
                                     <font key="font" metaFont="system"/>
                                     <font key="titleFont" metaFont="system"/>
                                     <connections>
+                                        <binding destination="498" name="value" keyPath="values.GRFMapStimRadiusSigmaRatio" id="2475"/>
                                         <binding destination="498" name="enabled" keyPath="values.GRFTaskStatus" id="2171">
                                             <dictionary key="options">
                                                 <string key="NSValueTransformerName">TaskStatusIdleAndNoFileTransformer</string>
                                             </dictionary>
                                         </binding>
-                                        <binding destination="498" name="value" keyPath="values.GRFMapStimRadiusSigmaRatio" id="2475"/>
                                     </connections>
                                 </formCell>
                             </column>
@@ -1345,14 +1345,14 @@
                             <tabViewItem label="Left" identifier="" id="1838">
                                 <view key="view" id="1839">
                                     <rect key="frame" x="10" y="33" width="620" height="104"/>
-                                    <autoresizingMask key="autoresizingMask"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <scrollView horizontalLineScroll="20" horizontalPageScroll="10" verticalLineScroll="20" verticalPageScroll="10" hasHorizontalScroller="NO" hasVerticalScroller="NO" usesPredominantAxisScrolling="NO" id="1840">
                                             <rect key="frame" x="10" y="10" width="600" height="40"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <clipView key="contentView" id="WzL-sp-c5E">
                                                 <rect key="frame" x="1" y="1" width="598" height="38"/>
-                                                <autoresizingMask key="autoresizingMask"/>
+                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnReordering="NO" columnSelection="YES" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" rowHeight="18" id="1841">
                                                         <rect key="frame" x="0.0" y="0.0" width="598" height="38"/>
@@ -1396,6 +1396,12 @@
                                                                 </textFieldCell>
                                                                 <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                                 <connections>
+                                                                    <binding destination="1851" name="value" keyPath="arrangedObjects.azimuthDeg0" id="2077">
+                                                                        <dictionary key="options">
+                                                                            <bool key="NSAllowsEditingMultipleValuesSelection" value="NO"/>
+                                                                            <bool key="NSConditionallySetsEditable" value="NO"/>
+                                                                        </dictionary>
+                                                                    </binding>
                                                                     <binding destination="498" name="editable" keyPath="values.GRFTaskStatus" id="2269">
                                                                         <dictionary key="options">
                                                                             <string key="NSValueTransformerName">TaskStatusIdleAndNoFileTransformer</string>
@@ -1404,12 +1410,6 @@
                                                                     <binding destination="498" name="enabled" keyPath="values.GRFTaskStatus" previousBinding="2269" id="2270">
                                                                         <dictionary key="options">
                                                                             <string key="NSValueTransformerName">TaskStatusNoFileTransformer</string>
-                                                                        </dictionary>
-                                                                    </binding>
-                                                                    <binding destination="1851" name="value" keyPath="arrangedObjects.azimuthDeg0" id="2077">
-                                                                        <dictionary key="options">
-                                                                            <bool key="NSAllowsEditingMultipleValuesSelection" value="NO"/>
-                                                                            <bool key="NSConditionallySetsEditable" value="NO"/>
                                                                         </dictionary>
                                                                     </binding>
                                                                 </connections>
@@ -1427,6 +1427,12 @@
                                                                 </textFieldCell>
                                                                 <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                                 <connections>
+                                                                    <binding destination="1851" name="value" keyPath="arrangedObjects.elevationDeg0" id="2078">
+                                                                        <dictionary key="options">
+                                                                            <bool key="NSAllowsEditingMultipleValuesSelection" value="NO"/>
+                                                                            <bool key="NSConditionallySetsEditable" value="NO"/>
+                                                                        </dictionary>
+                                                                    </binding>
                                                                     <binding destination="498" name="editable" keyPath="values.GRFTaskStatus" id="2263">
                                                                         <dictionary key="options">
                                                                             <string key="NSValueTransformerName">TaskStatusIdleAndNoFileTransformer</string>
@@ -1435,12 +1441,6 @@
                                                                     <binding destination="498" name="enabled" keyPath="values.GRFTaskStatus" previousBinding="2263" id="2264">
                                                                         <dictionary key="options">
                                                                             <string key="NSValueTransformerName">TaskStatusNoFileTransformer</string>
-                                                                        </dictionary>
-                                                                    </binding>
-                                                                    <binding destination="1851" name="value" keyPath="arrangedObjects.elevationDeg0" id="2078">
-                                                                        <dictionary key="options">
-                                                                            <bool key="NSAllowsEditingMultipleValuesSelection" value="NO"/>
-                                                                            <bool key="NSConditionallySetsEditable" value="NO"/>
                                                                         </dictionary>
                                                                     </binding>
                                                                 </connections>
@@ -1458,6 +1458,12 @@
                                                                 </textFieldCell>
                                                                 <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                                 <connections>
+                                                                    <binding destination="1851" name="value" keyPath="arrangedObjects.sigmaDeg0" id="2080">
+                                                                        <dictionary key="options">
+                                                                            <bool key="NSAllowsEditingMultipleValuesSelection" value="NO"/>
+                                                                            <bool key="NSConditionallySetsEditable" value="NO"/>
+                                                                        </dictionary>
+                                                                    </binding>
                                                                     <binding destination="498" name="editable" keyPath="values.GRFTaskStatus" id="2257">
                                                                         <dictionary key="options">
                                                                             <string key="NSValueTransformerName">TaskStatusIdleAndNoFileTransformer</string>
@@ -1466,12 +1472,6 @@
                                                                     <binding destination="498" name="enabled" keyPath="values.GRFTaskStatus" previousBinding="2257" id="2258">
                                                                         <dictionary key="options">
                                                                             <string key="NSValueTransformerName">TaskStatusNoFileTransformer</string>
-                                                                        </dictionary>
-                                                                    </binding>
-                                                                    <binding destination="1851" name="value" keyPath="arrangedObjects.sigmaDeg0" id="2080">
-                                                                        <dictionary key="options">
-                                                                            <bool key="NSAllowsEditingMultipleValuesSelection" value="NO"/>
-                                                                            <bool key="NSConditionallySetsEditable" value="NO"/>
                                                                         </dictionary>
                                                                     </binding>
                                                                 </connections>
@@ -1489,6 +1489,12 @@
                                                                 </textFieldCell>
                                                                 <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                                 <connections>
+                                                                    <binding destination="1851" name="value" keyPath="arrangedObjects.spatialFreqCPD0" id="2079">
+                                                                        <dictionary key="options">
+                                                                            <bool key="NSAllowsEditingMultipleValuesSelection" value="NO"/>
+                                                                            <bool key="NSConditionallySetsEditable" value="NO"/>
+                                                                        </dictionary>
+                                                                    </binding>
                                                                     <binding destination="498" name="editable" keyPath="values.GRFTaskStatus" id="2251">
                                                                         <dictionary key="options">
                                                                             <string key="NSValueTransformerName">TaskStatusIdleAndNoFileTransformer</string>
@@ -1497,12 +1503,6 @@
                                                                     <binding destination="498" name="enabled" keyPath="values.GRFTaskStatus" previousBinding="2251" id="2252">
                                                                         <dictionary key="options">
                                                                             <string key="NSValueTransformerName">TaskStatusNoFileTransformer</string>
-                                                                        </dictionary>
-                                                                    </binding>
-                                                                    <binding destination="1851" name="value" keyPath="arrangedObjects.spatialFreqCPD0" id="2079">
-                                                                        <dictionary key="options">
-                                                                            <bool key="NSAllowsEditingMultipleValuesSelection" value="NO"/>
-                                                                            <bool key="NSConditionallySetsEditable" value="NO"/>
                                                                         </dictionary>
                                                                     </binding>
                                                                 </connections>
@@ -1527,6 +1527,12 @@
                                                                 </textFieldCell>
                                                                 <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                                 <connections>
+                                                                    <binding destination="1851" name="value" keyPath="arrangedObjects.orientationDeg0" id="2081">
+                                                                        <dictionary key="options">
+                                                                            <bool key="NSAllowsEditingMultipleValuesSelection" value="NO"/>
+                                                                            <bool key="NSConditionallySetsEditable" value="NO"/>
+                                                                        </dictionary>
+                                                                    </binding>
                                                                     <binding destination="498" name="editable" keyPath="values.GRFTaskStatus" id="2245">
                                                                         <dictionary key="options">
                                                                             <string key="NSValueTransformerName">TaskStatusIdleAndNoFileTransformer</string>
@@ -1535,12 +1541,6 @@
                                                                     <binding destination="498" name="enabled" keyPath="values.GRFTaskStatus" previousBinding="2245" id="2246">
                                                                         <dictionary key="options">
                                                                             <string key="NSValueTransformerName">TaskStatusNoFileTransformer</string>
-                                                                        </dictionary>
-                                                                    </binding>
-                                                                    <binding destination="1851" name="value" keyPath="arrangedObjects.orientationDeg0" id="2081">
-                                                                        <dictionary key="options">
-                                                                            <bool key="NSAllowsEditingMultipleValuesSelection" value="NO"/>
-                                                                            <bool key="NSConditionallySetsEditable" value="NO"/>
                                                                         </dictionary>
                                                                     </binding>
                                                                 </connections>
@@ -1565,6 +1565,12 @@
                                                                 </textFieldCell>
                                                                 <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                                 <connections>
+                                                                    <binding destination="1851" name="value" keyPath="arrangedObjects.contrastPC0" id="2701">
+                                                                        <dictionary key="options">
+                                                                            <bool key="NSAllowsEditingMultipleValuesSelection" value="NO"/>
+                                                                            <bool key="NSConditionallySetsEditable" value="NO"/>
+                                                                        </dictionary>
+                                                                    </binding>
                                                                     <binding destination="498" name="editable" keyPath="values.GRFTaskStatus" id="2712">
                                                                         <dictionary key="options">
                                                                             <string key="NSValueTransformerName">TaskStatusIdleAndNoFileTransformer</string>
@@ -1573,12 +1579,6 @@
                                                                     <binding destination="498" name="enabled" keyPath="values.GRFTaskStatus" previousBinding="2712" id="2713">
                                                                         <dictionary key="options">
                                                                             <string key="NSValueTransformerName">TaskStatusNoFileTransformer</string>
-                                                                        </dictionary>
-                                                                    </binding>
-                                                                    <binding destination="1851" name="value" keyPath="arrangedObjects.contrastPC0" id="2701">
-                                                                        <dictionary key="options">
-                                                                            <bool key="NSAllowsEditingMultipleValuesSelection" value="NO"/>
-                                                                            <bool key="NSConditionallySetsEditable" value="NO"/>
                                                                         </dictionary>
                                                                     </binding>
                                                                 </connections>
@@ -1596,6 +1596,12 @@
                                                                 </textFieldCell>
                                                                 <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                                 <connections>
+                                                                    <binding destination="1851" name="value" keyPath="arrangedObjects.temporalFreqHz0" id="2741">
+                                                                        <dictionary key="options">
+                                                                            <bool key="NSAllowsEditingMultipleValuesSelection" value="NO"/>
+                                                                            <bool key="NSConditionallySetsEditable" value="NO"/>
+                                                                        </dictionary>
+                                                                    </binding>
                                                                     <binding destination="498" name="editable" keyPath="values.GRFTaskStatus" id="2865">
                                                                         <dictionary key="options">
                                                                             <string key="NSValueTransformerName">TaskStatusIdleAndNoFileTransformer</string>
@@ -1604,12 +1610,6 @@
                                                                     <binding destination="498" name="enabled" keyPath="values.GRFTaskStatus" previousBinding="2865" id="2869">
                                                                         <dictionary key="options">
                                                                             <string key="NSValueTransformerName">TaskStatusNoFileTransformer</string>
-                                                                        </dictionary>
-                                                                    </binding>
-                                                                    <binding destination="1851" name="value" keyPath="arrangedObjects.temporalFreqHz0" id="2741">
-                                                                        <dictionary key="options">
-                                                                            <bool key="NSAllowsEditingMultipleValuesSelection" value="NO"/>
-                                                                            <bool key="NSConditionallySetsEditable" value="NO"/>
                                                                         </dictionary>
                                                                     </binding>
                                                                 </connections>
@@ -1640,10 +1640,10 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <clipView key="contentView" id="7fF-wV-HfS">
                                                 <rect key="frame" x="1" y="17" width="598" height="22"/>
-                                                <autoresizingMask key="autoresizingMask"/>
+                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnReordering="NO" columnSelection="YES" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" headerView="2626" id="2049">
-                                                        <rect key="frame" x="0.0" y="0.0" width="599" height="22"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="598" height="22"/>
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <size key="intercellSpacing" width="3" height="2"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -1688,6 +1688,7 @@
                                                                 </textFieldCell>
                                                                 <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                                 <connections>
+                                                                    <binding destination="2030" name="value" keyPath="arrangedObjects.azimuthCount" id="2064"/>
                                                                     <binding destination="498" name="editable" keyPath="values.GRFTaskStatus" id="2213">
                                                                         <dictionary key="options">
                                                                             <string key="NSValueTransformerName">TaskStatusIdleAndNoFileTransformer</string>
@@ -1698,10 +1699,9 @@
                                                                             <string key="NSValueTransformerName">TaskStatusNoFileTransformer</string>
                                                                         </dictionary>
                                                                     </binding>
-                                                                    <binding destination="2030" name="value" keyPath="arrangedObjects.azimuthCount" id="2064"/>
                                                                 </connections>
                                                             </tableColumn>
-                                                            <tableColumn width="75" minWidth="10" maxWidth="1000" id="2052">
+                                                            <tableColumn width="74" minWidth="10" maxWidth="1000" id="2052">
                                                                 <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="center" title="Elevation">
                                                                     <font key="font" metaFont="smallSystem"/>
                                                                     <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -1718,6 +1718,7 @@
                                                                 </textFieldCell>
                                                                 <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                                 <connections>
+                                                                    <binding destination="2030" name="value" keyPath="arrangedObjects.elevationCount" id="2065"/>
                                                                     <binding destination="498" name="editable" keyPath="values.GRFTaskStatus" id="2219">
                                                                         <dictionary key="options">
                                                                             <string key="NSValueTransformerName">TaskStatusIdleAndNoFileTransformer</string>
@@ -1728,7 +1729,6 @@
                                                                             <string key="NSValueTransformerName">TaskStatusNoFileTransformer</string>
                                                                         </dictionary>
                                                                     </binding>
-                                                                    <binding destination="2030" name="value" keyPath="arrangedObjects.elevationCount" id="2065"/>
                                                                 </connections>
                                                             </tableColumn>
                                                             <tableColumn width="75" minWidth="4" maxWidth="1000" id="2053">
@@ -1748,6 +1748,7 @@
                                                                 </textFieldCell>
                                                                 <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                                 <connections>
+                                                                    <binding destination="2030" name="value" keyPath="arrangedObjects.sigmaCount" id="2067"/>
                                                                     <binding destination="498" name="editable" keyPath="values.GRFTaskStatus" id="2225">
                                                                         <dictionary key="options">
                                                                             <string key="NSValueTransformerName">TaskStatusIdleAndNoFileTransformer</string>
@@ -1758,7 +1759,6 @@
                                                                             <string key="NSValueTransformerName">TaskStatusNoFileTransformer</string>
                                                                         </dictionary>
                                                                     </binding>
-                                                                    <binding destination="2030" name="value" keyPath="arrangedObjects.sigmaCount" id="2067"/>
                                                                 </connections>
                                                             </tableColumn>
                                                             <tableColumn width="75" minWidth="10" maxWidth="1000" id="2054">
@@ -1778,6 +1778,7 @@
                                                                 </textFieldCell>
                                                                 <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                                 <connections>
+                                                                    <binding destination="2030" name="value" keyPath="arrangedObjects.spatialFreqCount" id="2066"/>
                                                                     <binding destination="498" name="editable" keyPath="values.GRFTaskStatus" id="2233">
                                                                         <dictionary key="options">
                                                                             <string key="NSValueTransformerName">TaskStatusIdleAndNoFileTransformer</string>
@@ -1788,7 +1789,6 @@
                                                                             <string key="NSValueTransformerName">TaskStatusNoFileTransformer</string>
                                                                         </dictionary>
                                                                     </binding>
-                                                                    <binding destination="2030" name="value" keyPath="arrangedObjects.spatialFreqCount" id="2066"/>
                                                                 </connections>
                                                             </tableColumn>
                                                             <tableColumn width="75" minWidth="56.56005859375" maxWidth="1000" id="2055">
@@ -1808,6 +1808,7 @@
                                                                 </textFieldCell>
                                                                 <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                                 <connections>
+                                                                    <binding destination="2030" name="value" keyPath="arrangedObjects.orientationCount" id="2068"/>
                                                                     <binding destination="498" name="editable" keyPath="values.GRFTaskStatus" id="2239">
                                                                         <dictionary key="options">
                                                                             <string key="NSValueTransformerName">TaskStatusIdleAndNoFileTransformer</string>
@@ -1818,7 +1819,6 @@
                                                                             <string key="NSValueTransformerName">TaskStatusNoFileTransformer</string>
                                                                         </dictionary>
                                                                     </binding>
-                                                                    <binding destination="2030" name="value" keyPath="arrangedObjects.orientationCount" id="2068"/>
                                                                 </connections>
                                                             </tableColumn>
                                                             <tableColumn width="75" minWidth="10" maxWidth="100" id="2454">
@@ -1838,6 +1838,7 @@
                                                                 </textFieldCell>
                                                                 <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                                 <connections>
+                                                                    <binding destination="2030" name="value" keyPath="arrangedObjects.contrastCount" id="2458"/>
                                                                     <binding destination="498" name="editable" keyPath="values.GRFTaskStatus" id="2717">
                                                                         <dictionary key="options">
                                                                             <string key="NSValueTransformerName">TaskStatusIdleAndNoFileTransformer</string>
@@ -1848,7 +1849,6 @@
                                                                             <string key="NSValueTransformerName">TaskStatusNoFileTransformer</string>
                                                                         </dictionary>
                                                                     </binding>
-                                                                    <binding destination="2030" name="value" keyPath="arrangedObjects.contrastCount" id="2458"/>
                                                                 </connections>
                                                             </tableColumn>
                                                             <tableColumn width="75" minWidth="10" maxWidth="100" id="2731">
@@ -1868,6 +1868,7 @@
                                                                 </textFieldCell>
                                                                 <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                                 <connections>
+                                                                    <binding destination="2030" name="value" keyPath="arrangedObjects.temporalFreqCount" id="2745"/>
                                                                     <binding destination="498" name="editable" keyPath="values.GRFTaskStatus" id="2872">
                                                                         <dictionary key="options">
                                                                             <string key="NSValueTransformerName">TaskStatusIdleAndNoFileTransformer</string>
@@ -1878,7 +1879,6 @@
                                                                             <string key="NSValueTransformerName">TaskStatusNoFileTransformer</string>
                                                                         </dictionary>
                                                                     </binding>
-                                                                    <binding destination="2030" name="value" keyPath="arrangedObjects.temporalFreqCount" id="2745"/>
                                                                 </connections>
                                                             </tableColumn>
                                                         </tableColumns>
@@ -1902,7 +1902,7 @@
                                                 <autoresizingMask key="autoresizingMask"/>
                                             </scroller>
                                             <tableHeaderView key="headerView" id="2626">
-                                                <rect key="frame" x="0.0" y="0.0" width="599" height="17"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="598" height="17"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                             </tableHeaderView>
                                         </scrollView>
@@ -1922,7 +1922,7 @@
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <subviews>
                                                     <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowHeight="18" id="1831">
-                                                        <rect key="frame" x="0.0" y="0.0" width="599" height="38"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="598" height="38"/>
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <size key="intercellSpacing" width="3" height="2"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -1962,6 +1962,7 @@
                                                                 </textFieldCell>
                                                                 <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                                 <connections>
+                                                                    <binding destination="1851" name="value" keyPath="arrangedObjects.azimuthDeg1" id="2021"/>
                                                                     <binding destination="498" name="editable" keyPath="values.GRFTaskStatus" id="2305">
                                                                         <dictionary key="options">
                                                                             <string key="NSValueTransformerName">TaskStatusIdleAndNoFileTransformer</string>
@@ -1972,10 +1973,9 @@
                                                                             <string key="NSValueTransformerName">TaskStatusNoFileTransformer</string>
                                                                         </dictionary>
                                                                     </binding>
-                                                                    <binding destination="1851" name="value" keyPath="arrangedObjects.azimuthDeg1" id="2021"/>
                                                                 </connections>
                                                             </tableColumn>
-                                                            <tableColumn width="75" minWidth="10" maxWidth="1000" id="1837">
+                                                            <tableColumn width="74" minWidth="10" maxWidth="1000" id="1837">
                                                                 <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="center" title="Elevation">
                                                                     <font key="font" metaFont="smallSystem"/>
                                                                     <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -1988,6 +1988,7 @@
                                                                 </textFieldCell>
                                                                 <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                                 <connections>
+                                                                    <binding destination="1851" name="value" keyPath="arrangedObjects.elevationDeg1" id="1913"/>
                                                                     <binding destination="498" name="editable" keyPath="values.GRFTaskStatus" id="2311">
                                                                         <dictionary key="options">
                                                                             <string key="NSValueTransformerName">TaskStatusIdleAndNoFileTransformer</string>
@@ -1998,7 +1999,6 @@
                                                                             <string key="NSValueTransformerName">TaskStatusNoFileTransformer</string>
                                                                         </dictionary>
                                                                     </binding>
-                                                                    <binding destination="1851" name="value" keyPath="arrangedObjects.elevationDeg1" id="1913"/>
                                                                 </connections>
                                                             </tableColumn>
                                                             <tableColumn width="75" minWidth="4" maxWidth="1000" id="1834">
@@ -2014,6 +2014,7 @@
                                                                 </textFieldCell>
                                                                 <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                                 <connections>
+                                                                    <binding destination="1851" name="value" keyPath="arrangedObjects.sigmaDeg1" id="2162"/>
                                                                     <binding destination="498" name="editable" keyPath="values.GRFTaskStatus" id="2317">
                                                                         <dictionary key="options">
                                                                             <string key="NSValueTransformerName">TaskStatusIdleAndNoFileTransformer</string>
@@ -2024,7 +2025,6 @@
                                                                             <string key="NSValueTransformerName">TaskStatusNoFileTransformer</string>
                                                                         </dictionary>
                                                                     </binding>
-                                                                    <binding destination="1851" name="value" keyPath="arrangedObjects.sigmaDeg1" id="2162"/>
                                                                 </connections>
                                                             </tableColumn>
                                                             <tableColumn width="75" minWidth="10" maxWidth="1000" id="1832">
@@ -2040,6 +2040,7 @@
                                                                 </textFieldCell>
                                                                 <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                                 <connections>
+                                                                    <binding destination="1851" name="value" keyPath="arrangedObjects.spatialFreqCPD1" id="1914"/>
                                                                     <binding destination="498" name="editable" keyPath="values.GRFTaskStatus" id="2323">
                                                                         <dictionary key="options">
                                                                             <string key="NSValueTransformerName">TaskStatusIdleAndNoFileTransformer</string>
@@ -2050,7 +2051,6 @@
                                                                             <string key="NSValueTransformerName">TaskStatusNoFileTransformer</string>
                                                                         </dictionary>
                                                                     </binding>
-                                                                    <binding destination="1851" name="value" keyPath="arrangedObjects.spatialFreqCPD1" id="1914"/>
                                                                 </connections>
                                                             </tableColumn>
                                                             <tableColumn width="75" minWidth="56.56005859375" maxWidth="1000" id="1836">
@@ -2073,6 +2073,7 @@
                                                                 </textFieldCell>
                                                                 <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                                 <connections>
+                                                                    <binding destination="1851" name="value" keyPath="arrangedObjects.orientationDeg1" id="1916"/>
                                                                     <binding destination="498" name="editable" keyPath="values.GRFTaskStatus" id="2329">
                                                                         <dictionary key="options">
                                                                             <string key="NSValueTransformerName">TaskStatusIdleAndNoFileTransformer</string>
@@ -2083,7 +2084,6 @@
                                                                             <string key="NSValueTransformerName">TaskStatusNoFileTransformer</string>
                                                                         </dictionary>
                                                                     </binding>
-                                                                    <binding destination="1851" name="value" keyPath="arrangedObjects.orientationDeg1" id="1916"/>
                                                                 </connections>
                                                             </tableColumn>
                                                             <tableColumn width="75" minWidth="10" maxWidth="1000" id="2452">
@@ -2106,6 +2106,7 @@
                                                                 </textFieldCell>
                                                                 <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                                 <connections>
+                                                                    <binding destination="1851" name="value" keyPath="arrangedObjects.contrastPC1" id="2465"/>
                                                                     <binding destination="498" name="editable" keyPath="values.GRFTaskStatus" id="2695">
                                                                         <dictionary key="options">
                                                                             <string key="NSValueTransformerName">TaskStatusIdleAndNoFileTransformer</string>
@@ -2116,7 +2117,6 @@
                                                                             <string key="NSValueTransformerName">TaskStatusNoFileTransformer</string>
                                                                         </dictionary>
                                                                     </binding>
-                                                                    <binding destination="1851" name="value" keyPath="arrangedObjects.contrastPC1" id="2465"/>
                                                                 </connections>
                                                             </tableColumn>
                                                             <tableColumn width="75" minWidth="10" maxWidth="1000" id="2729">
@@ -2132,6 +2132,7 @@
                                                                 </textFieldCell>
                                                                 <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                                 <connections>
+                                                                    <binding destination="1851" name="value" keyPath="arrangedObjects.temporalFreqHz1" id="2841"/>
                                                                     <binding destination="498" name="editable" keyPath="values.GRFTaskStatus" id="2857">
                                                                         <dictionary key="options">
                                                                             <string key="NSValueTransformerName">TaskStatusIdleAndNoFileTransformer</string>
@@ -2142,7 +2143,6 @@
                                                                             <string key="NSValueTransformerName">TaskStatusNoFileTransformer</string>
                                                                         </dictionary>
                                                                     </binding>
-                                                                    <binding destination="1851" name="value" keyPath="arrangedObjects.temporalFreqHz1" id="2841"/>
                                                                 </connections>
                                                             </tableColumn>
                                                         </tableColumns>
@@ -2167,7 +2167,7 @@
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <subviews>
                                                     <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowHeight="18" headerView="2621" id="2023">
-                                                        <rect key="frame" x="0.0" y="0.0" width="599" height="22"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="598" height="22"/>
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <size key="intercellSpacing" width="3" height="2"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -2213,6 +2213,7 @@
                                                                 </textFieldCell>
                                                                 <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                                 <connections>
+                                                                    <binding destination="2030" name="value" keyPath="arrangedObjects.azimuthCount" id="2042"/>
                                                                     <binding destination="498" name="editable" keyPath="values.GRFTaskStatus" id="2628">
                                                                         <dictionary key="options">
                                                                             <string key="NSValueTransformerName">TaskStatusIdleAndNoFileTransformer</string>
@@ -2223,10 +2224,9 @@
                                                                             <string key="NSValueTransformerName">TaskStatusNoFileTransformer</string>
                                                                         </dictionary>
                                                                     </binding>
-                                                                    <binding destination="2030" name="value" keyPath="arrangedObjects.azimuthCount" id="2042"/>
                                                                 </connections>
                                                             </tableColumn>
-                                                            <tableColumn width="75" minWidth="10" maxWidth="1000" id="2027">
+                                                            <tableColumn width="74" minWidth="10" maxWidth="1000" id="2027">
                                                                 <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="center" title="Elevation">
                                                                     <font key="font" metaFont="smallSystem"/>
                                                                     <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -2243,6 +2243,7 @@
                                                                 </textFieldCell>
                                                                 <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                                 <connections>
+                                                                    <binding destination="2030" name="value" keyPath="arrangedObjects.elevationCount" id="2045"/>
                                                                     <binding destination="498" name="editable" keyPath="values.GRFTaskStatus" id="2281">
                                                                         <dictionary key="options">
                                                                             <string key="NSValueTransformerName">TaskStatusIdleAndNoFileTransformer</string>
@@ -2253,7 +2254,6 @@
                                                                             <string key="NSValueTransformerName">TaskStatusNoFileTransformer</string>
                                                                         </dictionary>
                                                                     </binding>
-                                                                    <binding destination="2030" name="value" keyPath="arrangedObjects.elevationCount" id="2045"/>
                                                                 </connections>
                                                             </tableColumn>
                                                             <tableColumn width="75" minWidth="4" maxWidth="1000" id="2024">
@@ -2273,6 +2273,7 @@
                                                                 </textFieldCell>
                                                                 <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                                 <connections>
+                                                                    <binding destination="2030" name="value" keyPath="arrangedObjects.sigmaCount" id="2046"/>
                                                                     <binding destination="498" name="editable" keyPath="values.GRFTaskStatus" id="2287">
                                                                         <dictionary key="options">
                                                                             <string key="NSValueTransformerName">TaskStatusIdleAndNoFileTransformer</string>
@@ -2283,7 +2284,6 @@
                                                                             <string key="NSValueTransformerName">TaskStatusNoFileTransformer</string>
                                                                         </dictionary>
                                                                     </binding>
-                                                                    <binding destination="2030" name="value" keyPath="arrangedObjects.sigmaCount" id="2046"/>
                                                                 </connections>
                                                             </tableColumn>
                                                             <tableColumn width="75" minWidth="10" maxWidth="1000" id="2028">
@@ -2303,6 +2303,7 @@
                                                                 </textFieldCell>
                                                                 <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                                 <connections>
+                                                                    <binding destination="2030" name="value" keyPath="arrangedObjects.spatialFreqCount" id="2044"/>
                                                                     <binding destination="498" name="editable" keyPath="values.GRFTaskStatus" id="2293">
                                                                         <dictionary key="options">
                                                                             <string key="NSValueTransformerName">TaskStatusIdleAndNoFileTransformer</string>
@@ -2313,7 +2314,6 @@
                                                                             <string key="NSValueTransformerName">TaskStatusNoFileTransformer</string>
                                                                         </dictionary>
                                                                     </binding>
-                                                                    <binding destination="2030" name="value" keyPath="arrangedObjects.spatialFreqCount" id="2044"/>
                                                                 </connections>
                                                             </tableColumn>
                                                             <tableColumn width="75" minWidth="56.56005859375" maxWidth="1000" id="2026">
@@ -2333,6 +2333,7 @@
                                                                 </textFieldCell>
                                                                 <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                                 <connections>
+                                                                    <binding destination="2030" name="value" keyPath="arrangedObjects.orientationCount" id="2047"/>
                                                                     <binding destination="498" name="editable" keyPath="values.GRFTaskStatus" id="2299">
                                                                         <dictionary key="options">
                                                                             <string key="NSValueTransformerName">TaskStatusIdleAndNoFileTransformer</string>
@@ -2343,7 +2344,6 @@
                                                                             <string key="NSValueTransformerName">TaskStatusNoFileTransformer</string>
                                                                         </dictionary>
                                                                     </binding>
-                                                                    <binding destination="2030" name="value" keyPath="arrangedObjects.orientationCount" id="2047"/>
                                                                 </connections>
                                                             </tableColumn>
                                                             <tableColumn width="75" minWidth="10" maxWidth="1000" id="2450">
@@ -2363,6 +2363,7 @@
                                                                 </textFieldCell>
                                                                 <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                                 <connections>
+                                                                    <binding destination="2030" name="value" keyPath="arrangedObjects.contrastCount" id="2463"/>
                                                                     <binding destination="498" name="editable" keyPath="values.GRFTaskStatus" id="2723">
                                                                         <dictionary key="options">
                                                                             <string key="NSValueTransformerName">TaskStatusIdleAndNoFileTransformer</string>
@@ -2373,7 +2374,6 @@
                                                                             <string key="NSValueTransformerName">TaskStatusNoFileTransformer</string>
                                                                         </dictionary>
                                                                     </binding>
-                                                                    <binding destination="2030" name="value" keyPath="arrangedObjects.contrastCount" id="2463"/>
                                                                 </connections>
                                                             </tableColumn>
                                                             <tableColumn width="75" minWidth="10" maxWidth="1000" id="2727">
@@ -2390,6 +2390,7 @@
                                                                 </textFieldCell>
                                                                 <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                                 <connections>
+                                                                    <binding destination="2030" name="value" keyPath="arrangedObjects.temporalFreqCount" id="2844"/>
                                                                     <binding destination="498" name="editable" keyPath="values.GRFTaskStatus" id="2848">
                                                                         <dictionary key="options">
                                                                             <string key="NSValueTransformerName">TaskStatusIdleAndNoFileTransformer</string>
@@ -2400,7 +2401,6 @@
                                                                             <string key="NSValueTransformerName">TaskStatusNoFileTransformer</string>
                                                                         </dictionary>
                                                                     </binding>
-                                                                    <binding destination="2030" name="value" keyPath="arrangedObjects.temporalFreqCount" id="2844"/>
                                                                 </connections>
                                                             </tableColumn>
                                                         </tableColumns>
@@ -2517,7 +2517,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <popUpButtonCell key="cell" type="push" title="Counterphase" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="2883" id="2879">
                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="system"/>
+                            <font key="font" metaFont="menu"/>
                             <menu key="menu" title="OtherViews" id="2880">
                                 <items>
                                     <menuItem title="Counterphase" state="on" id="2883"/>
@@ -2527,12 +2527,12 @@
                             </menu>
                         </popUpButtonCell>
                         <connections>
+                            <binding destination="498" name="selectedIndex" keyPath="values.GRFMapTemporalModulation" id="2888"/>
                             <binding destination="498" name="enabled" keyPath="values.GRFTaskStatus" id="2893">
                                 <dictionary key="options">
                                     <string key="NSValueTransformerName">TaskStatusIdleAndNoFileTransformer</string>
                                 </dictionary>
                             </binding>
-                            <binding destination="498" name="selectedIndex" keyPath="values.GRFMapTemporalModulation" id="2888"/>
                         </connections>
                     </popUpButton>
                     <textField verticalHuggingPriority="750" id="2877">

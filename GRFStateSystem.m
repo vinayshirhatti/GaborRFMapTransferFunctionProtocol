@@ -28,6 +28,7 @@ long 				eotCode;			// End Of Trial code
 BOOL 				fixated;
 LLEyeWindow			*fixWindow;
 LLEyeWindow			*respWindow;
+LLEyeWindow         *bigWindow; // [Vinay] - added for tfunc protocol
 GRFStateSystem		*stateSystem;
 TrialDesc			trial;
 
@@ -69,6 +70,11 @@ TrialDesc			trial;
 			
 		respWindow = [[LLEyeWindow alloc] init];
 		[respWindow setWidthAndHeightDeg:[[task defaults] floatForKey:GRFRespWindowWidthDegKey]];
+        
+        // [Vinay] - now a big window to verify eyes closed condition. When eyes are closed the eye signal shouldn't be there in even a very big window
+        bigWindow = [[LLEyeWindow alloc] init];
+        [bigWindow setWidthAndHeightDeg:50.0]; // [Vinay] - using a 50 deg window here
+        // [Vinay] - till here
     }
     return self;
 }

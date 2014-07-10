@@ -28,7 +28,7 @@
 {
 	if ([task mode] == kTaskIdle) {
 		eotCode = kMyEOTQuit;
-		return [[task stateSystem] stateNamed:@"Endtrial"];;
+		return [[task stateSystem] stateNamed:@"Endtrial"];
 	}
 	if (eotCode == kMyEOTBroke) {				// got here by leaving fixWindow early (from stimulate)
 		if ([GRFUtilities inWindow:respWindow])  {

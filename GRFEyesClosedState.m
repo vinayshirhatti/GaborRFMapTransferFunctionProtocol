@@ -29,7 +29,7 @@
     
 	if ([task mode] == kTaskIdle) {
 		eotCode = kMyEOTQuit;
-		return [[task stateSystem] stateNamed:@"Endtrial"];;
+		return [[task stateSystem] stateNamed:@"Endtrial"];
 	}
 	if ([stimuli targetPresented]) {
         eotCode = kMyEOTCorrect;
@@ -37,8 +37,12 @@
 	}
     if (![stimuli stimulusOn]) {
 		eotCode = kMyEOTCorrect;
-		return [[task stateSystem] stateNamed:@"Endtrial"];;
+		return [[task stateSystem] stateNamed:@"Endtrial"];
 	}
+    if ([GRFUtilities inWindow:bigWindow]) {
+        eotCode = kMyEOTBroke;
+        return [[task stateSystem] stateNamed:@"Endtrial"];
+    }
     return nil;
 }
 

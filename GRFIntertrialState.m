@@ -44,7 +44,7 @@
 
     if ([task mode] == kTaskIdle) {
         eotCode = kMyEOTQuit;
-        return [[task stateSystem] stateNamed:@"Endtrial"];;
+        return [[task stateSystem] stateNamed:@"Endtrial"];
     }
     else if ([LLSystemUtil timeIsPast:expireTime]) {
         return [[task stateSystem] stateNamed:@"GRFStarttrial"];
@@ -93,19 +93,20 @@
     
 // [Vinay] - check whether it is a tfunc protocol running and if so decide the trial type i.e. eyes open or closed trial
     //[Vinay] - adding lines for the Transfer Function Protocol
-    long taskSelectorRand;
+    long taskSelectorRand = 4;
     eyesClosed = NO;
     if ([[task defaults] boolForKey:GRFTFProtocolKey]) {
         taskSelectorRand = arc4random_uniform(2);
-        if (taskSelectorRand == 0) {
+        if (taskSelectorRand != 0) {
             taskSelectTFP = kOpenTask;
             eyesClosed = NO;
         }
-        else if (taskSelectorRand == 1) {
+        else if (taskSelectorRand == 0) {
             taskSelectTFP = kCloseTask;
             eyesClosed = YES;
         }
     }
+    NSLog(@"This trial random number and eyes closed: %ld and %ld", taskSelectorRand, taskSelectTFP);
 // [Vinay] - till here
 
 // determin target onset time and whether it is a catch trial
